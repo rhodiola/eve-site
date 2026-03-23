@@ -5,482 +5,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>eve.npaso.com</title>
-    <meta name="description" content="銀髪と青い瞳のEveを静かに集めたギャラリーサイト" />
-    <style>
-        :root {
-            --bg: #0a0d12;
-            --bg-2: #11161d;
-            --panel: rgba(18, 24, 32, 0.84);
-            --panel-strong: rgba(14, 19, 27, 0.94);
-            --line: rgba(132, 149, 171, 0.18);
-            --line-strong: rgba(150, 168, 191, 0.26);
-            --text: #edf3fb;
-            --muted: #9aa8ba;
-            --accent: #8fb3e8;
-            --accent-soft: rgba(143, 179, 232, 0.14);
-            --shadow: 0 18px 40px rgba(0, 0, 0, 0.34);
-            --radius: 18px;
-            --max: 1240px;
-        }
-
-        * {
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            margin: 0;
-            font-family: Inter, "Noto Sans JP", system-ui, -apple-system, sans-serif;
-            color: var(--text);
-            background:
-                radial-gradient(circle at top left, rgba(120, 145, 190, 0.08) 0%, rgba(120, 145, 190, 0.02) 20%, transparent 42%),
-                radial-gradient(circle at top right, rgba(255, 255, 255, 0.04) 0%, transparent 26%),
-                linear-gradient(180deg, #0a0d12 0%, #0d1117 46%, #11161d 100%);
-            line-height: 1.65;
-        }
-
-        a {
-            color: inherit;
-            text-decoration: none;
-        }
-
-        img {
-            display: block;
-            max-width: 100%;
-        }
-
-        .container {
-            width: min(calc(100% - 32px), var(--max));
-            margin-inline: auto;
-        }
-
-        .site-header {
-            position: sticky;
-            top: 0;
-            z-index: 40;
-            backdrop-filter: blur(18px);
-            background: rgba(10, 13, 18, 0.72);
-            border-bottom: 1px solid var(--line);
-        }
-
-        .site-header__inner {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            min-height: 72px;
-            gap: 20px;
-        }
-
-        .brand {
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-        }
-
-        .brand__title {
-            font-size: 1.05rem;
-            font-weight: 700;
-            letter-spacing: 0.04em;
-        }
-
-        .brand__sub {
-            font-size: 0.78rem;
-            color: var(--muted);
-            letter-spacing: 0.06em;
-            text-transform: uppercase;
-        }
-
-        .nav {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            flex-wrap: wrap;
-        }
-
-        .nav a {
-            font-size: 0.92rem;
-            color: var(--muted);
-            transition: color .2s ease;
-        }
-
-        .nav a:hover,
-        .nav a.is-active {
-            color: var(--text);
-        }
-
-        .hero {
-            padding: 52px 0 28px;
-        }
-
-        .hero__card {
-            display: grid;
-            grid-template-columns: 1.25fr 0.9fr;
-            gap: 24px;
-            padding: 28px;
-            border: 1px solid var(--line);
-            border-radius: calc(var(--radius) + 6px);
-            background: linear-gradient(180deg, rgba(17, 22, 29, 0.92), rgba(12, 16, 22, 0.88));
-            box-shadow: var(--shadow);
-        }
-
-        .hero__eyebrow {
-            font-size: 0.76rem;
-            text-transform: uppercase;
-            letter-spacing: 0.14em;
-            color: var(--accent);
-            margin-bottom: 10px;
-            font-weight: 700;
-        }
-
-        .hero h1 {
-            margin: 0 0 12px;
-            font-size: clamp(2rem, 4vw, 3.25rem);
-            line-height: 1.15;
-            letter-spacing: -0.03em;
-        }
-
-        .hero p {
-            margin: 0;
-            color: #536172;
-            max-width: 44em;
-        }
-
-        .hero__meta {
-            display: grid;
-            gap: 12px;
-            align-content: start;
-        }
-
-        .meta-box {
-            padding: 16px 18px;
-            border: 1px solid var(--line);
-            border-radius: var(--radius);
-            background: linear-gradient(180deg, rgba(20, 27, 36, 0.88), rgba(15, 20, 28, 0.92));
-        }
-
-        .meta-box__label {
-            display: block;
-            font-size: 0.76rem;
-            color: var(--muted);
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            margin-bottom: 6px;
-        }
-
-        .meta-box__value {
-            font-size: 0.98rem;
-            font-weight: 600;
-        }
-
-        .toolbar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 14px;
-            flex-wrap: wrap;
-            margin: 18px 0 24px;
-        }
-
-        .chips {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .chip {
-            border: 1px solid var(--line);
-            background: rgba(18, 24, 32, 0.88);
-            color: var(--muted);
-            padding: 9px 14px;
-            border-radius: 999px;
-            font-size: 0.88rem;
-            cursor: pointer;
-            transition: all .18s ease;
-        }
-
-        .chip:hover,
-        .chip.is-active {
-            color: var(--text);
-            background: var(--accent-soft);
-            border-color: var(--line-strong);
-            box-shadow: 0 8px 22px rgba(0, 0, 0, 0.22);
-        }
-
-        .toolbar__right {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-
-        .search,
-        .sort {
-            height: 42px;
-            border-radius: 999px;
-            border: 1px solid var(--line);
-            background: rgba(18, 24, 32, 0.9);
-            color: var(--text);
-            padding: 0 16px;
-            font-size: 0.92rem;
-            outline: none;
-        }
-
-        .search {
-            min-width: min(320px, 75vw);
-        }
-
-        .gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 18px;
-            padding-bottom: 42px;
-        }
-
-        .card {
-            border: 1px solid var(--line);
-            border-radius: 22px;
-            overflow: hidden;
-            background: linear-gradient(180deg, rgba(17, 22, 29, 0.98), rgba(13, 17, 24, 0.98));
-            box-shadow: 0 14px 30px rgba(0, 0, 0, 0.24);
-            transition: transform .24s ease, box-shadow .24s ease, border-color .24s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 22px 40px rgba(0, 0, 0, 0.34);
-            border-color: var(--line-strong);
-        }
-
-        .card__thumb {
-            aspect-ratio: 2 / 3;
-            background: linear-gradient(180deg, #151b23 0%, #0f141b 100%);
-            overflow: hidden;
-        }
-
-        .card__thumb img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .card__body {
-            padding: 14px 14px 16px;
-        }
-
-        .card__title {
-            margin: 0 0 6px;
-            font-size: 0.96rem;
-            line-height: 1.4;
-        }
-
-        .card__date {
-            font-size: 0.8rem;
-            color: var(--muted);
-            margin-bottom: 10px;
-        }
-
-        .tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-
-        .tag {
-            font-size: 0.74rem;
-            color: #bdd0e6;
-            background: rgba(143, 179, 232, 0.08);
-            border: 1px solid rgba(143, 179, 232, 0.14);
-            border-radius: 999px;
-            padding: 5px 9px;
-        }
-
-        .ad-slot {
-            display: grid;
-            place-items: center;
-            min-height: 280px;
-            border: 1px dashed rgba(160, 177, 198, 0.26);
-            border-radius: 22px;
-            background: linear-gradient(180deg, rgba(17, 22, 29, 0.58), rgba(11, 15, 21, 0.9));
-            color: var(--muted);
-            text-align: center;
-            padding: 20px;
-        }
-
-        .ad-slot small {
-            display: block;
-            font-size: 0.72rem;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            margin-bottom: 8px;
-        }
-
-        .viewer {
-            padding: 30px 0 72px;
-            border-top: 1px solid var(--line);
-        }
-
-        .viewer__layout {
-            display: grid;
-            grid-template-columns: minmax(0, 1.05fr) minmax(280px, 360px);
-            gap: 26px;
-            align-items: start;
-        }
-
-        .viewer__image {
-            border: 1px solid var(--line);
-            border-radius: 26px;
-            overflow: hidden;
-            background: #0f141b;
-            box-shadow: var(--shadow);
-        }
-
-        .viewer__image img {
-            width: 100%;
-            height: auto;
-        }
-
-        .viewer__side {
-            display: grid;
-            gap: 16px;
-            position: sticky;
-            top: 92px;
-        }
-
-        .panel {
-            border: 1px solid var(--line);
-            border-radius: 22px;
-            background: linear-gradient(180deg, rgba(19, 25, 34, 0.94), rgba(14, 19, 27, 0.96));
-            padding: 18px;
-            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.2);
-        }
-
-        .panel h2,
-        .panel h3 {
-            margin: 0 0 12px;
-            font-size: 1rem;
-        }
-
-        .panel p {
-            margin: 0;
-            color: #a9b5c4;
-            font-size: 0.93rem;
-        }
-
-        .actions {
-            display: grid;
-            gap: 10px;
-            margin-top: 14px;
-        }
-
-        .button {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            min-height: 44px;
-            border-radius: 999px;
-            border: 1px solid var(--line);
-            background: rgba(18, 24, 32, 0.9);
-            color: var(--text);
-            padding: 0 16px;
-            font-size: 0.92rem;
-            transition: all .2s ease;
-        }
-
-        .button:hover {
-            transform: translateY(-1px);
-            border-color: var(--line-strong);
-            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.24);
-        }
-
-        .button--primary {
-            background: linear-gradient(180deg, rgba(143, 179, 232, 0.18), rgba(143, 179, 232, 0.08));
-        }
-
-        .license {
-            padding: 22px 0 80px;
-            border-top: 1px solid rgba(228, 232, 238, 0.75);
-        }
-
-        .license__box {
-            padding: 24px;
-            border-radius: 24px;
-            border: 1px solid var(--line);
-            background: rgba(255, 255, 255, 0.76);
-            box-shadow: var(--shadow);
-        }
-
-        .license__box h2 {
-            margin: 0 0 10px;
-            font-size: 1.2rem;
-        }
-
-        .license__box p {
-            margin: 0 0 10px;
-            color: #556273;
-        }
-
-        .license__box ul {
-            margin: 12px 0 0;
-            padding-left: 1.2em;
-            color: #556273;
-        }
-
-        .site-footer {
-            padding: 26px 0 54px;
-            color: var(--muted);
-            font-size: 0.88rem;
-        }
-
-        .site-footer__inner {
-            display: flex;
-            justify-content: space-between;
-            gap: 16px;
-            flex-wrap: wrap;
-            border-top: 1px solid rgba(228, 232, 238, 0.9);
-            padding-top: 18px;
-        }
-
-        @media (max-width: 960px) {
-
-            .hero__card,
-            .viewer__layout {
-                grid-template-columns: 1fr;
-            }
-
-            .viewer__side {
-                position: static;
-            }
-        }
-
-        @media (max-width: 640px) {
-
-            .site-header__inner,
-            .toolbar {
-                align-items: flex-start;
-            }
-
-            .hero {
-                padding-top: 34px;
-            }
-
-            .hero__card {
-                padding: 20px;
-            }
-
-            .gallery {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-                gap: 14px;
-            }
-
-            .search {
-                min-width: 100%;
-            }
-        }
-    </style>
+    <meta name="description" content="銀髪と青い瞳のEveのギャラリーサイト" />
+    <link rel="stylesheet" href="./css/style.css" />
 </head>
 
 <body>
@@ -506,15 +32,15 @@
                     <div>
                         <div class="hero__eyebrow">Eve image archive</div>
                         <h1>私の好きなイブ。</h1>
-                        <p>
-                            銀髪、青い瞳、全身像、表情の寄り。<br>
-                            ここは、ひとつの美意識で選び続けたイブの記録です。
+                        <p style="color:#d7d2f2;">
+                            銀髪、青い瞳、立ち姿、表情。<br>
+                            ここは選び続けたイブの記録です。
                         </p>
                     </div>
                     <div class="hero__meta">
                         <div class="meta-box">
                             <span class="meta-box__label">Current count</span>
-                            <span class="meta-box__value">3,482 images</span>
+                            <span class="meta-box__value" data-current-count>0 images</span>
                         </div>
                         <div class="meta-box">
                             <span class="meta-box__label">Format</span>
@@ -534,60 +60,26 @@
                 <div>
                     <h2 id="gallery-heading" style="margin:0 0 10px; font-size:1.15rem;">Gallery</h2>
                     <div class="chips" aria-label="タグ絞り込み">
-                        <button class="chip is-active" type="button">すべて</button>
-                        <button class="chip" type="button">全身</button>
-                        <button class="chip" type="button">顔アップ</button>
-                        <button class="chip" type="button">水着</button>
-                        <button class="chip" type="button">夏服</button>
-                        <button class="chip" type="button">銀髪</button>
+                        <button class="chip is-active" type="button" data-filter="すべて">すべて</button>
+                        <button class="chip" type="button" data-filter="全身">全身</button>
+                        <button class="chip" type="button" data-filter="顔アップ">顔アップ</button>
+                        <button class="chip" type="button" data-filter="水着">水着</button>
+                        <button class="chip" type="button" data-filter="夏服">夏服</button>
+                        <button class="chip" type="button" data-filter="銀髪">銀髪</button>
                     </div>
                 </div>
                 <div class="toolbar__right">
-                    <input class="search" type="search" placeholder="タグ・日付・雰囲気で検索" aria-label="検索" />
-                    <select class="sort" aria-label="並び替え">
-                        <option>新しい順</option>
-                        <option>古い順</option>
-                        <option>人気順</option>
+                    <input class="search" type="search" placeholder="タグ・日付・雰囲気で検索" aria-label="検索" data-search />
+                    <select class="sort" aria-label="並び替え" data-sort>
+                        <option value="new">新しい順</option>
+                        <option value="old">古い順</option>
+                        <option value="popular">人気順</option>
                     </select>
                 </div>
             </div>
 
-            <div class="gallery">
-                <article class="card">
-                    <a href="#viewer" aria-label="詳細を見る">
-                        <div class="card__thumb">
-                            <img src="https://placehold.co/600x900/e8edf5/73839a?text=Eve+01" alt="イブのサムネイル 01"
-                                loading="lazy" />
-                        </div>
-                        <div class="card__body">
-                            <h3 class="card__title">Eve 2026-03-23-0001</h3>
-                            <div class="card__date">2026.03.23</div>
-                            <div class="tags">
-                                <span class="tag">全身</span>
-                                <span class="tag">夏服</span>
-                                <span class="tag">青い瞳</span>
-                            </div>
-                        </div>
-                    </a>
-                </article>
-
-                <article class="card">
-                    <a href="#viewer" aria-label="詳細を見る">
-                        <div class="card__thumb">
-                            <img src="https://placehold.co/600x900/e8edf5/73839a?text=Eve+02" alt="イブのサムネイル 02"
-                                loading="lazy" />
-                        </div>
-                        <div class="card__body">
-                            <h3 class="card__title">Eve 2026-03-23-0002</h3>
-                            <div class="card__date">2026.03.23</div>
-                            <div class="tags">
-                                <span class="tag">顔アップ</span>
-                                <span class="tag">銀髪</span>
-                                <span class="tag">透明感</span>
-                            </div>
-                        </div>
-                    </a>
-                </article>
+            <div class="gallery" data-gallery>
+                <div class="gallery__items" data-gallery-before></div>
 
                 <div class="ad-slot" aria-label="広告予定エリア">
                     <div>
@@ -597,89 +89,36 @@
                     </div>
                 </div>
 
-                <article class="card">
-                    <a href="#viewer" aria-label="詳細を見る">
-                        <div class="card__thumb">
-                            <img src="https://placehold.co/600x900/e8edf5/73839a?text=Eve+03" alt="イブのサムネイル 03"
-                                loading="lazy" />
-                        </div>
-                        <div class="card__body">
-                            <h3 class="card__title">Eve 2026-03-23-0003</h3>
-                            <div class="card__date">2026.03.23</div>
-                            <div class="tags">
-                                <span class="tag">水着</span>
-                                <span class="tag">全身</span>
-                                <span class="tag">静けさ</span>
-                            </div>
-                        </div>
-                    </a>
-                </article>
-
-                <article class="card">
-                    <a href="#viewer" aria-label="詳細を見る">
-                        <div class="card__thumb">
-                            <img src="https://placehold.co/600x900/e8edf5/73839a?text=Eve+04" alt="イブのサムネイル 04"
-                                loading="lazy" />
-                        </div>
-                        <div class="card__body">
-                            <h3 class="card__title">Eve 2026-03-23-0004</h3>
-                            <div class="card__date">2026.03.23</div>
-                            <div class="tags">
-                                <span class="tag">顔アップ</span>
-                                <span class="tag">微笑み</span>
-                                <span class="tag">青い瞳</span>
-                            </div>
-                        </div>
-                    </a>
-                </article>
-
-                <article class="card">
-                    <a href="#viewer" aria-label="詳細を見る">
-                        <div class="card__thumb">
-                            <img src="https://placehold.co/600x900/e8edf5/73839a?text=Eve+05" alt="イブのサムネイル 05"
-                                loading="lazy" />
-                        </div>
-                        <div class="card__body">
-                            <h3 class="card__title">Eve 2026-03-23-0005</h3>
-                            <div class="card__date">2026.03.23</div>
-                            <div class="tags">
-                                <span class="tag">全身</span>
-                                <span class="tag">白背景</span>
-                                <span class="tag">ポートレート</span>
-                            </div>
-                        </div>
-                    </a>
-                </article>
+                <div class="gallery__items" data-gallery-after></div>
             </div>
+
+            <p class="gallery-empty" data-gallery-empty hidden>
+                条件に合う画像がありません。
+            </p>
         </section>
 
         <section id="viewer" class="viewer">
             <div class="container viewer__layout">
                 <div class="viewer__image">
-                    <img src="https://placehold.co/1024x1536/e7edf6/6f7e94?text=Medium+Image" alt="表示中のイブ画像" />
+                    <img src="" alt="表示中のイブ画像" data-viewer-image />
                 </div>
 
                 <aside class="viewer__side">
                     <section class="panel">
-                        <h2>Eve 2026-03-23-0003</h2>
-                        <p>
-                            全身構図のイブ。静かな微笑みと、淡い光の中での立ち姿。
+                        <h2 data-viewer-title>読み込み中...</h2>
+                        <p data-viewer-description>
+                            画像情報を読み込んでいます。
                         </p>
                         <div class="actions">
-                            <a class="button button--primary" href="#">高画質を開く</a>
+                            <a class="button button--primary" href="#" target="_blank" rel="noopener noreferrer"
+                                data-viewer-original>高画質を開く</a>
                             <a class="button" href="#gallery">一覧へ戻る</a>
                         </div>
                     </section>
 
                     <section class="panel">
                         <h3>Tags</h3>
-                        <div class="tags">
-                            <span class="tag">全身</span>
-                            <span class="tag">水着</span>
-                            <span class="tag">銀髪</span>
-                            <span class="tag">青い瞳</span>
-                            <span class="tag">夏</span>
-                        </div>
+                        <div class="tags" data-viewer-tags></div>
                     </section>
 
                     <section class="panel">
@@ -716,8 +155,7 @@
             <div class="panel">
                 <h2 style="margin:0 0 10px; font-size:1.15rem;">About</h2>
                 <p>
-                    このサイトは、イブという存在の美しさを静かに記録するための個人ギャラリーです。<br>
-                    サイト本体は軽く保ち、画像は外部ストレージから配信する構成を想定しています。
+                    このサイトは、イブという存在の美しさを記録するための個人ギャラリーです。
                 </p>
             </div>
         </section>
@@ -726,9 +164,11 @@
     <footer class="site-footer">
         <div class="container site-footer__inner">
             <div>© 2026 eve.npaso.com</div>
-            <div>quiet archive of eve</div>
+            <div>archive of eve</div>
         </div>
     </footer>
+
+    <script src="./js/app.js"></script>
 </body>
 
 </html>
