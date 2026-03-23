@@ -10,7 +10,8 @@
             "青い瞳"
         ],
         "description": "イブの最初の画像",
-        "popularity": 30
+        "popularity": 30,
+        "featured": true
     },
     {
         "id": "eve-20260313-0002",
