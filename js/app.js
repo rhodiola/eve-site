@@ -62,17 +62,25 @@ function getSearchTarget(image) {
 function sortImages(images) {
     const items = [...images];
 
-    if (state.sortOrder === "old") {
-        items.sort((a, b) => String(a.date).localeCompare(String(b.date)) || String(a.id).localeCompare(String(b.id)));
-        return items;
-    }
+    items.sort((a, b) => {
+        const aFeatured = a.featured ? 1 : 0;
+        const bFeatured = b.featured ? 1 : 0;
 
-    if (state.sortOrder === "popular") {
-        items.sort((a, b) => (b.popularity || 0) - (a.popularity || 0) || String(b.date).localeCompare(String(a.date)));
-        return items;
-    }
+        if (aFeatured !== bFeatured) {
+            return bFeatured - aFeatured;
+        }
 
-    items.sort((a, b) => String(b.date).localeCompare(String(a.date)) || String(b.id).localeCompare(String(a.id)));
+        if (state.sortOrder === "old") {
+            return String(a.date).localeCompare(String(b.date)) || String(a.id).localeCompare(String(b.id));
+        }
+
+        if (state.sortOrder === "popular") {
+            return (b.popularity || 0) - (a.popularity || 0) || String(b.date).localeCompare(String(a.date));
+        }
+
+        return String(b.date).localeCompare(String(a.date)) || String(b.id).localeCompare(String(a.id));
+    });
+
     return items;
 }
 
