@@ -10,14 +10,20 @@
 </head>
 
 <body>
-    <header class="site-header">
+    <header class="site-header" id="top">
         <div class="container site-header__inner">
             <a class="brand" href="#top">
                 <span class="brand__title">eve.npaso.com</span>
                 <span class="brand__sub">archive of eve</span>
             </a>
-            <nav class="nav" aria-label="メインメニュー">
-                <a class="is-active" href="#gallery">Gallery</a>
+            <nav class="site-nav" aria-label="Primary">
+                <a href="#top" class="site-nav__icon" aria-label="ページ上部へ戻る" title="TOPへ">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M12 5l-7 7m7-7l7 7m-7-7v14" />
+                    </svg>
+                </a>
+
+                <a href="#gallery">Gallery</a>
                 <a href="#viewer">Viewer</a>
                 <a href="#license">License</a>
                 <a href="#about">About</a>
