@@ -226,19 +226,43 @@ img {
 
 .gallery-heading-row {
     display: flex;
-    align-items: center;
-    gap: 16px;
+    align-items: baseline;
+    gap: 12px;
     flex-wrap: wrap;
+    position: relative;
+    top: -2px;
 }
 
 .gallery-heading-row h2 {
     margin: 0;
     font-size: 1.15rem;
+    line-height: 1.2;
 }
 
 .pagination--inline {
-    margin-top: 0;
-    justify-content: flex-start;
+    display: inline-flex;
+    align-items: baseline;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    transform: none;
+    position: static;
+}
+
+.pagination--inline .pagination__button {
+    min-width: 78px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    font-size: 0.95rem;
+    line-height: 1.2;
+    height: auto;
+}
+
+.pagination--inline .pagination__info {
+    min-width: 52px;
+    text-align: center;
+    font-size: 0.95rem;
+    line-height: 1.2;
 }
 
 .chips {
