@@ -424,6 +424,8 @@ img {
 }
 
 .viewer__image {
+    width: min(100%, 720px);
+    margin: 0 auto;
     border: 1px solid var(--line);
     border-radius: 26px;
     overflow: hidden;
@@ -432,6 +434,7 @@ img {
 }
 
 .viewer__image img {
+    display: block;
     width: 100%;
     height: auto;
 }
