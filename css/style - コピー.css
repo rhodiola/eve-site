@@ -218,6 +218,53 @@ img {
     margin: 18px 0 24px;
 }
 
+.toolbar__left {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.gallery-heading-row {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    flex-wrap: wrap;
+    position: relative;
+    top: -2px;
+}
+
+.gallery-heading-row h2 {
+    margin: 0;
+    font-size: 1.15rem;
+    line-height: 1.2;
+}
+
+.pagination--inline {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    transform: none;
+    position: static;
+}
+
+.pagination--inline .pagination__button {
+    min-width: 78px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    font-size: 0.95rem;
+    line-height: 1.2;
+    height: auto;
+}
+
+.pagination--inline .pagination__info {
+    min-width: 52px;
+    text-align: center;
+    font-size: 0.95rem;
+    line-height: 1.2;
+}
+
 .chips {
     display: flex;
     gap: 10px;
@@ -445,6 +492,73 @@ img {
 
 .button--primary {
     background: linear-gradient(180deg, rgba(143, 179, 232, 0.18), rgba(143, 179, 232, 0.08));
+}
+
+.pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 28px;
+}
+
+.pagination__button {
+    min-width: 96px;
+    padding: 10px 16px;
+    border: 1px solid rgba(140, 180, 255, 0.22);
+    border-radius: 999px;
+    background: rgba(8, 16, 32, 0.72);
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+    transition: opacity 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+}
+
+.pagination__button:hover:not(:disabled) {
+    transform: translateY(-1px);
+    border-color: rgba(140, 180, 255, 0.4);
+}
+
+.pagination__button:disabled {
+    opacity: 0.4;
+    cursor: default;
+}
+
+.pagination__info {
+    min-width: 72px;
+    text-align: center;
+    opacity: 0.9;
+}
+
+.card--ad .card__link,
+.card--ad .card__body {
+    height: 100%;
+}
+
+.card--ad .card__link {
+    display: flex;
+    align-items: stretch;
+    pointer-events: none;
+}
+
+.card--ad .card__body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    text-align: center;
+    gap: 10px;
+}
+
+.card--ad .card__title {
+    font-size: 0.82rem;
+    letter-spacing: 0.08em;
+    opacity: 0.7;
+}
+
+.card--ad .card__date {
+    font-size: 1rem;
+    opacity: 0.95;
 }
 
 .license {

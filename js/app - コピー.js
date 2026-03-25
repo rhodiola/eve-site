@@ -20,10 +20,10 @@ const state = {
 const elements = {
     gallery: document.querySelector("[data-gallery]"),
     galleryEmpty: document.querySelector("[data-gallery-empty]"),
-    pagination: document.querySelector("[data-pagination]"),
-    pageInfo: document.querySelector("[data-page-info]"),
-    pagePrev: document.querySelector("[data-page-prev]"),
-    pageNext: document.querySelector("[data-page-next]"),
+    paginations: Array.from(document.querySelectorAll("[data-pagination-top], [data-pagination-bottom]")),
+    pageInfos: Array.from(document.querySelectorAll("[data-page-info]")),
+    pagePrevs: Array.from(document.querySelectorAll("[data-page-prev]")),
+    pageNexts: Array.from(document.querySelectorAll("[data-page-next]")),
     currentCount: document.querySelector("[data-current-count]"),
     search: document.querySelector("[data-search]"),
     sort: document.querySelector("[data-sort]"),
@@ -200,11 +200,23 @@ function buildGalleryPageHtml(images) {
 function renderPagination() {
     const pageCount = getPageCount();
     const hasItems = state.filteredImages.length > 0;
+    const hidden = !hasItems || pageCount <= 1;
 
-    elements.pagination.hidden = !hasItems || pageCount <= 1;
-    elements.pageInfo.textContent = `${state.currentPage} / ${pageCount}`;
-    elements.pagePrev.disabled = state.currentPage <= 1;
-    elements.pageNext.disabled = state.currentPage >= pageCount;
+    elements.paginations.forEach((nav) => {
+        nav.hidden = hidden;
+    });
+
+    elements.pageInfos.forEach((info) => {
+        info.textContent = `${state.currentPage} / ${pageCount}`;
+    });
+
+    elements.pagePrevs.forEach((button) => {
+        button.disabled = state.currentPage <= 1;
+    });
+
+    elements.pageNexts.forEach((button) => {
+        button.disabled = state.currentPage >= pageCount;
+    });
 }
 
 function renderGallery() {
@@ -296,18 +308,22 @@ function bindEvents() {
         renderViewer(image);
     });
 
-    elements.pagePrev.addEventListener("click", () => {
-        if (state.currentPage <= 1) return;
-        state.currentPage -= 1;
-        renderGallery();
-        window.scrollTo({ top: 0, behavior: "smooth" });
+    elements.pagePrevs.forEach((button) => {
+        button.addEventListener("click", () => {
+            if (state.currentPage <= 1) return;
+            state.currentPage -= 1;
+            renderGallery();
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        });
     });
 
-    elements.pageNext.addEventListener("click", () => {
-        if (state.currentPage >= getPageCount()) return;
-        state.currentPage += 1;
-        renderGallery();
-        window.scrollTo({ top: 0, behavior: "smooth" });
+    elements.pageNexts.forEach((button) => {
+        button.addEventListener("click", () => {
+            if (state.currentPage >= getPageCount()) return;
+            state.currentPage += 1;
+            renderGallery();
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        });
     });
 }
 
@@ -334,7 +350,9 @@ async function init() {
     } catch (error) {
         console.error(error);
         elements.gallery.innerHTML = "";
-        elements.pagination.hidden = true;
+        elements.paginations.forEach((nav) => {
+            nav.hidden = true;
+        });
         elements.galleryEmpty.hidden = false;
         elements.galleryEmpty.textContent = "画像データの読み込みに失敗しました。";
         elements.viewerTitle.textContent = "読み込みエラー";
