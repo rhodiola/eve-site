@@ -1,5 +1,6 @@
 const IMAGE_BASE_URL = "https://img.eve.npaso.com";
 const DATA_URL = "./data/images.json";
+const HIDDEN_TAGS = ["#sexy", "#soft"];
 
 const state = {
     allImages: [],
@@ -45,6 +46,10 @@ function getImageUrls(id) {
 function formatDate(dateString) {
     if (!dateString) return "";
     return dateString.replace(/-/g, ".");
+}
+
+function getVisibleTags(tags = []) {
+    return tags.filter((tag) => !HIDDEN_TAGS.includes(tag));
 }
 
 function getSearchTarget(image) {
@@ -104,7 +109,7 @@ function filterImages() {
 
 function createCardHtml(image) {
     const urls = getImageUrls(image.id);
-    const tagsHtml = (image.tags || [])
+    const tagsHtml = getVisibleTags(image.tags || [])
         .map((tag) => `<span class="tag">${escapeHtml(tag)}</span>`)
         .join("");
 
@@ -145,7 +150,7 @@ function renderViewer(image) {
     elements.viewerDescription.textContent = image.description || "";
     elements.viewerOriginal.href = urls.original;
 
-    elements.viewerTags.innerHTML = (image.tags || [])
+    elements.viewerTags.innerHTML = getVisibleTags(image.tags || [])
         .map((tag) => `<span class="tag">${escapeHtml(tag)}</span>`)
         .join("");
 }
