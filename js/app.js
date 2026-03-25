@@ -1,6 +1,6 @@
 const IMAGE_BASE_URL = "https://img.eve.npaso.com";
 const DATA_URL = "./data/images.json";
-const HIDDEN_TAGS = ["#sexy", "#soft"];
+const HIDDEN_TAGS = ["sexy", "soft"];
 
 const state = {
     allImages: [],
