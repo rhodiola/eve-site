@@ -2,19 +2,28 @@ const IMAGE_BASE_URL = "https://img.eve.npaso.com";
 const DATA_URL = "./data/images.json";
 const HIDDEN_TAGS = ["sexy", "soft"];
 
+const GRID_COLUMNS = 5;
+const PAGE_ROWS = 12;
+const AD_ROWS = [3, 6, 9, 12];
+const IMAGE_SLOTS_PER_PAGE = PAGE_ROWS * GRID_COLUMNS - AD_ROWS.length;
+
 const state = {
     allImages: [],
     filteredImages: [],
     activeFilter: "すべて",
     searchText: "",
     sortOrder: "new",
-    selectedId: null
+    selectedId: null,
+    currentPage: 1
 };
 
 const elements = {
-    galleryBefore: document.querySelector("[data-gallery-before]"),
-    galleryAfter: document.querySelector("[data-gallery-after]"),
+    gallery: document.querySelector("[data-gallery]"),
     galleryEmpty: document.querySelector("[data-gallery-empty]"),
+    pagination: document.querySelector("[data-pagination]"),
+    pageInfo: document.querySelector("[data-page-info]"),
+    pagePrev: document.querySelector("[data-page-prev]"),
+    pageNext: document.querySelector("[data-page-next]"),
     currentCount: document.querySelector("[data-current-count]"),
     search: document.querySelector("[data-search]"),
     sort: document.querySelector("[data-sort]"),
@@ -129,14 +138,84 @@ function createCardHtml(image) {
     `;
 }
 
-function renderGallery() {
-    const items = state.filteredImages;
-    const beforeAd = items.slice(0, 2);
-    const afterAd = items.slice(2);
+function createAdCardHtml() {
+    return `
+        <article class="card card--ad" aria-label="広告">
+            <div class="card__link">
+                <div class="card__body">
+                    <div class="card__title">ADVERTISEMENT</div>
+                    <div class="card__date">SPONSORED</div>
+                </div>
+            </div>
+        </article>
+    `;
+}
 
-    elements.galleryBefore.innerHTML = beforeAd.map(createCardHtml).join("");
-    elements.galleryAfter.innerHTML = afterAd.map(createCardHtml).join("");
-    elements.galleryEmpty.hidden = items.length > 0;
+function getPageCount() {
+    return Math.max(1, Math.ceil(state.filteredImages.length / IMAGE_SLOTS_PER_PAGE));
+}
+
+function clampCurrentPage() {
+    state.currentPage = Math.min(Math.max(1, state.currentPage), getPageCount());
+}
+
+function getCurrentPageImages() {
+    const start = (state.currentPage - 1) * IMAGE_SLOTS_PER_PAGE;
+    const end = start + IMAGE_SLOTS_PER_PAGE;
+    return state.filteredImages.slice(start, end);
+}
+
+function buildGalleryPageHtml(images) {
+    let index = 0;
+    let html = "";
+
+    for (let row = 1; row <= PAGE_ROWS; row += 1) {
+        const isAdRow = AD_ROWS.includes(row);
+        const rowCapacity = isAdRow ? GRID_COLUMNS - 1 : GRID_COLUMNS;
+        const remaining = images.length - index;
+
+        if (remaining <= 0) {
+            break;
+        }
+
+        const rowImages = images.slice(index, index + Math.min(rowCapacity, remaining));
+        index += rowImages.length;
+
+        if (!isAdRow) {
+            html += rowImages.map(createCardHtml).join("");
+            continue;
+        }
+
+        const leftImages = rowImages.slice(0, 2);
+        const rightImages = rowImages.slice(2);
+
+        html += leftImages.map(createCardHtml).join("");
+        html += createAdCardHtml();
+        html += rightImages.map(createCardHtml).join("");
+    }
+
+    return html;
+}
+
+function renderPagination() {
+    const pageCount = getPageCount();
+    const hasItems = state.filteredImages.length > 0;
+
+    elements.pagination.hidden = !hasItems || pageCount <= 1;
+    elements.pageInfo.textContent = `${state.currentPage} / ${pageCount}`;
+    elements.pagePrev.disabled = state.currentPage <= 1;
+    elements.pageNext.disabled = state.currentPage >= pageCount;
+}
+
+function renderGallery() {
+    clampCurrentPage();
+
+    const items = getCurrentPageImages();
+
+    elements.gallery.innerHTML = buildGalleryPageHtml(items);
+    elements.galleryEmpty.hidden = state.filteredImages.length > 0;
+
+    renderPagination();
 }
 
 function renderViewer(image) {
@@ -177,6 +256,7 @@ function ensureSelectedImage() {
 
 function refresh() {
     filterImages();
+    clampCurrentPage();
     renderGallery();
     ensureSelectedImage();
 }
@@ -187,17 +267,20 @@ function bindEvents() {
             elements.chips.forEach((item) => item.classList.remove("is-active"));
             chip.classList.add("is-active");
             state.activeFilter = chip.dataset.filter || chip.textContent.trim();
+            state.currentPage = 1;
             refresh();
         });
     });
 
     elements.search.addEventListener("input", (event) => {
         state.searchText = event.target.value || "";
+        state.currentPage = 1;
         refresh();
     });
 
     elements.sort.addEventListener("change", (event) => {
         state.sortOrder = event.target.value;
+        state.currentPage = 1;
         refresh();
     });
 
@@ -211,6 +294,20 @@ function bindEvents() {
 
         state.selectedId = image.id;
         renderViewer(image);
+    });
+
+    elements.pagePrev.addEventListener("click", () => {
+        if (state.currentPage <= 1) return;
+        state.currentPage -= 1;
+        renderGallery();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    elements.pageNext.addEventListener("click", () => {
+        if (state.currentPage >= getPageCount()) return;
+        state.currentPage += 1;
+        renderGallery();
+        window.scrollTo({ top: 0, behavior: "smooth" });
     });
 }
 
@@ -236,8 +333,8 @@ async function init() {
         refresh();
     } catch (error) {
         console.error(error);
-        elements.galleryBefore.innerHTML = "";
-        elements.galleryAfter.innerHTML = "";
+        elements.gallery.innerHTML = "";
+        elements.pagination.hidden = true;
         elements.galleryEmpty.hidden = false;
         elements.galleryEmpty.textContent = "画像データの読み込みに失敗しました。";
         elements.viewerTitle.textContent = "読み込みエラー";

@@ -85,21 +85,17 @@
                 </div>
             </div>
 
-            <div class="gallery" data-gallery>
-                <div class="gallery__items" data-gallery-before></div>
-
-                <div class="ad-slot" aria-label="広告予定エリア">
-                    <div>
-                        <small>Advertisement</small>
-                    </div>
-                </div>
-
-                <div class="gallery__items" data-gallery-after></div>
-            </div>
+            <div class="gallery-grid" data-gallery></div>
 
             <p class="gallery-empty" data-gallery-empty hidden>
                 条件に合う画像がありません。
             </p>
+
+            <nav class="pagination" data-pagination hidden aria-label="ページ移動">
+                <button class="pagination__button" type="button" data-page-prev>前へ</button>
+                <div class="pagination__info" data-page-info>1 / 1</div>
+                <button class="pagination__button" type="button" data-page-next>次へ</button>
+            </nav>
         </section>
 
         <section id="viewer" class="viewer">
