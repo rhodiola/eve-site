@@ -425,18 +425,19 @@ img {
 
 .viewer__image {
     width: min(100%, 720px);
-    margin: 0 auto;
-    border: 1px solid var(--line);
-    border-radius: 26px;
-    overflow: hidden;
-    background: #0f141b;
-    box-shadow: var(--shadow);
+    margin-inline: auto;
 }
 
-.viewer__image img {
-    display: block;
-    width: 100%;
-    height: auto;
+@media (max-width: 640px) {
+    .viewer__layout {
+        width: 100%;
+    }
+
+    .viewer__image,
+    .viewer__side {
+        width: 100%;
+        margin-inline: 0;
+    }
 }
 
 .viewer__side {
