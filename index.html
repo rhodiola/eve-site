@@ -64,8 +64,17 @@
 
         <section id="gallery" class="container" aria-labelledby="gallery-heading">
             <div class="toolbar">
-                <div>
-                    <h2 id="gallery-heading" style="margin:0 0 10px; font-size:1.15rem;">Gallery</h2>
+                <div class="toolbar__left">
+                    <div class="gallery-heading-row">
+                        <h2 id="gallery-heading">Gallery</h2>
+
+                        <nav class="pagination pagination--inline" data-pagination-top hidden aria-label="ページ移動（上部）">
+                            <button class="pagination__button" type="button" data-page-prev>前へ</button>
+                            <div class="pagination__info" data-page-info>1 / 1</div>
+                            <button class="pagination__button" type="button" data-page-next>次へ</button>
+                        </nav>
+                    </div>
+
                     <div class="chips" aria-label="タグ絞り込み">
                         <button class="chip is-active" type="button" data-filter="すべて">すべて</button>
                         <button class="chip" type="button" data-filter="全身">全身</button>
@@ -75,6 +84,7 @@
                         <button class="chip" type="button" data-filter="夏服">夏服</button>
                     </div>
                 </div>
+
                 <div class="toolbar__right">
                     <input class="search" type="search" placeholder="タグ・日付・雰囲気で検索" aria-label="検索" data-search />
                     <select class="sort" aria-label="並び替え" data-sort>
@@ -91,7 +101,7 @@
                 条件に合う画像がありません。
             </p>
 
-            <nav class="pagination" data-pagination hidden aria-label="ページ移動">
+            <nav class="pagination" data-pagination-bottom hidden aria-label="ページ移動（下部）">
                 <button class="pagination__button" type="button" data-page-prev>前へ</button>
                 <div class="pagination__info" data-page-info>1 / 1</div>
                 <button class="pagination__button" type="button" data-page-next>次へ</button>

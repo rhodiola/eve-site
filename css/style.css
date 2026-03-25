@@ -218,6 +218,29 @@ img {
     margin: 18px 0 24px;
 }
 
+.toolbar__left {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.gallery-heading-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.gallery-heading-row h2 {
+    margin: 0;
+    font-size: 1.15rem;
+}
+
+.pagination--inline {
+    margin-top: 0;
+    justify-content: flex-start;
+}
+
 .chips {
     display: flex;
     gap: 10px;
