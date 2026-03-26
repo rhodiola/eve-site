@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Eve Visual Library</title>
+    <meta name="description" content="生成AIによるギャラリーサイト" />
+    <link rel="stylesheet" href="./css/style.css" />
+</head>
+
+<body>
+    <div id="top"></div>
+    <header class="site-header">
+        <div class="container site-header__inner">
+            <a class="brand" href="index.html">
+                <span class="brand__title">イブのいない世界</span>
+                <span class="brand__sub">archive of eve</span>
+            </a>
+            <nav class="site-nav" aria-label="Primary">
+                <a href="#top" class="site-nav__icon" aria-label="ページ上部へ戻る" title="TOPへ">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M12 5l-7 7m7-7l7 7m-7-7v14" />
+                    </svg>
+                </a>
+
+                <a href="#gallery">Gallery</a>
+                <a href="#viewer">Viewer</a>
+                <a href="#license">License</a>
+                <a href="#about">About</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <div class="hero__card">
+                    <div>
+                        <div class="hero__eyebrow">Eve image archive</div>
+                        <h1>イブのいない世界。</h1>
+                        <p style="color:#d7d2f2;">
+                            ここはアンドロイド「イブ」のビジュアル集<br>　　--　AI Generated Images　--
+                        </p>
+                    </div>
+                    <div class="hero__meta">
+                        <div class="meta-box">
+                            <span class="meta-box__label">Current count</span>
+                            <span class="meta-box__value" data-current-count>0 images</span>
+                        </div>
+                        <div class="meta-box">
+                            <span class="meta-box__label">Format</span>
+                            <span class="meta-box__value">Thumbnail / Medium / Original</span>
+                        </div>
+                        <div class="meta-box">
+                            <span class="meta-box__label">Usage</span>
+                            <span class="meta-box__value">個人・商用利用可 / 再配布禁止</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="gallery" class="container" aria-labelledby="gallery-heading">
+            <div class="toolbar">
+                <div class="toolbar__left">
+                    <div class="gallery-heading-row">
+                        <h2 id="gallery-heading">Gallery</h2>
+
+                        <nav class="pagination pagination--inline" data-pagination-top hidden aria-label="ページ移動（上部）">
+                            <button class="pagination__button" type="button" data-page-prev>前へ</button>
+                            <div class="pagination__info" data-page-info>1 / 1</div>
+                            <button class="pagination__button" type="button" data-page-next>次へ</button>
+                        </nav>
+                    </div>
+
+                    <div class="chips" aria-label="タグ絞り込み">
+                        <button class="chip is-active" type="button" data-filter="すべて">すべて</button>
+                        <button class="chip" type="button" data-filter="全身">全身</button>
+                        <button class="chip" type="button" data-filter="上半身">上半身</button>
+                        <button class="chip" type="button" data-filter="顔">顔</button>
+                    </div>
+                </div>
+
+                <div class="toolbar__right">
+                    <input class="search" type="search" placeholder="タグ・日付(例:20260323)・雰囲気で検索" aria-label="検索"
+                        data-search />
+                    <select class="sort" aria-label="並び替え" data-sort>
+                        <option value="new">新しい順</option>
+                        <option value="old">古い順</option>
+                        <option value="popular">人気順</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="gallery" data-gallery></div>
+
+            <p class="gallery-empty" data-gallery-empty hidden>
+                条件に合う画像がありません。
+            </p>
+
+            <nav class="pagination" data-pagination-bottom hidden aria-label="ページ移動（下部）">
+                <button class="pagination__button" type="button" data-page-prev>前へ</button>
+                <div class="pagination__info" data-page-info>1 / 1</div>
+                <button class="pagination__button" type="button" data-page-next>次へ</button>
+            </nav>
+        </section>
+
+        <section id="viewer" class="viewer">
+            <div class="container viewer__layout">
+                <div class="viewer__image">
+                    <img src="" alt="表示中のイブ画像" data-viewer-image />
+                </div>
+
+                <aside class="viewer__side">
+                    <section class="panel">
+                        <h2 data-viewer-title>読み込み中...</h2>
+                        <p data-viewer-description>
+                            画像情報を読み込んでいます。
+                        </p>
+                        <div class="actions">
+                            <a class="button button--primary" href="#" target="_blank" rel="noopener noreferrer"
+                                data-viewer-original>高画質を開く</a>
+                        </div>
+                    </section>
+
+                    <section class="panel">
+                        <h3>Tags</h3>
+                        <div class="tags" data-viewer-tags></div>
+                    </section>
+
+                    <section class="panel">
+                        <h3>Advertisement</h3>
+                        <p>
+                        </p>
+                    </section>
+                </aside>
+            </div>
+        </section>
+
+        <section id="license" class="license">
+            <div class="container">
+                <div class="license__box">
+                    <h2>License</h2>
+                    <p>
+                        本サイトに掲載されている画像は、個人・商用を問わず自由にご利用いただけます。<br>
+                        クレジット表記は任意ですが、記載していただける場合は当サイト名をご利用ください。
+                    </p>
+                    <p>ただし、以下の行為は禁止とします。</p>
+                    <ul>
+                        <li>画像の再配布（ダウンロード素材としての再公開を含む）</li>
+                        <li>画像の再販売、およびそれに準ずる行為</li>
+                        <li>AI学習用途での利用</li>
+                        <li>公序良俗に反する用途での利用</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="container" style="padding-bottom: 56px;">
+            <div class="panel">
+                <h2 style="margin:0 0 10px; font-size:1.15rem;">About</h2>
+                <p>
+                    このサイトは、生成AIによって作られた画像のギャラリーです。
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container site-footer__inner">
+            <div>© 2026 eve.npaso.com</div>
+            <div>archive of eve</div>
+        </div>
+    </footer>
+
+    <script src="./js/app.js"></script>
+</body>
+
+</html>
