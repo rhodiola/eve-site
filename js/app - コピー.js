@@ -195,80 +195,54 @@ function buildDesktopFixedGalleryHtml(imagesNewestFirst) {
     const rowsBottomUp = chunkArray(chronological, GRID_COLUMNS);
     const rowsTopDown = rowsBottomUp.reverse();
 
-    return rowsTopDown.map((row) => {
-        const slots = [...row];
+    return rowsTopDown
+        .map((row) => {
+            const slots = [...row];
 
-        while (slots.length < GRID_COLUMNS) {
-            slots.push(null);
-        }
+            while (slots.length < GRID_COLUMNS) {
+                slots.push(null);
+            }
 
-        return slots.map((item) => (item ? createCardHtml(item) : createSpacerHtml())).join("");
-    }).join("");
+            return slots
+                .map((item) => (item ? createCardHtml(item) : createSpacerHtml()))
+                .join("");
+        })
+        .join("");
 }
 
 /**
  * スマホの left-new:
  * - 1ページ20枚
- * - 5枚単位でブロック化
- * - 各ブロック内は「左上が最古、右下ほど新しい」
- * - PCの横一列(5枚)を、スマホでは2列の縦ブロックとして表現
- * - 空白は各ブロックの右側にのみ出し、下に落とさない
+ * - 5枚単位で区切る
+ * - 上のブロックほど新しい
+ * - 各5枚ブロック内は oldest -> newest
+ * - 表示は 2列の row-major
  *
- * count=1: 1 _
- * count=2: 1 2
- * count=3: 1 2 / 3 _
- * count=4: 1 2 / 3 4
- * count=5: 1 2 / 3 4 / 5 _
+ * 1枚: 1 _
+ * 2枚: 1 2
+ * 3枚: 1 2 / 3 _
+ * 4枚: 1 2 / 3 4
+ * 5枚: 1 2 / 3 4 / 5 _
  */
-function getMobileGroupSlotOrder(count) {
-    switch (count) {
-        case 1:
-            return [1];
-        case 2:
-            return [1, 2];
-        case 3:
-            return [1, 2, 3];
-        case 4:
-            return [1, 2, 3, 4];
-        case 5:
-            return [1, 2, 3, 4, 5];
-        default:
-            return [];
-    }
-}
-
-function getMobileGroupRowCount(count) {
-    if (count <= 2) return 1;
-    if (count <= 4) return 2;
-    return 3;
-}
-
 function buildMobileFixedGroupHtml(groupNewestFirst, groupIndex) {
     const chronological = [...groupNewestFirst].reverse();
-    const count = chronological.length;
-    const slotOrder = getMobileGroupSlotOrder(count);
-    const rowCount = getMobileGroupRowCount(count);
-    const totalSlots = rowCount * 2;
-    const slots = new Array(totalSlots).fill(null);
+    const slots = chronological.map(createCardHtml);
 
-    chronological.forEach((image, index) => {
-        const slotNumber = slotOrder[index];
-        if (!slotNumber) return;
-        slots[slotNumber - 1] = createCardHtml(image);
-    });
+    if (slots.length % 2 !== 0) {
+        slots.push(createSpacerHtml());
+    }
 
-    const innerHtml = slots.map((slot) => slot || createSpacerHtml()).join("");
-    const dividerStyle = groupIndex === 0
-        ? "padding-top:0;margin-top:0;border-top:none;"
-        : "padding-top:18px;margin-top:18px;border-top:1px solid rgba(255,255,255,0.12);";
+    const dividerStyle =
+        groupIndex === 0
+            ? "margin-top:0;padding-top:0;border-top:none;"
+            : "margin-top:18px;padding-top:18px;border-top:1px solid rgba(132,149,171,0.22);";
 
     return `
-        <div
-            class="gallery-group"
-            style="${dividerStyle} display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;grid-column:1 / -1;"
-        >
-            ${innerHtml}
-        </div>
+        <section class="gallery-group" style="${dividerStyle}">
+            <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;">
+                ${slots.join("")}
+            </div>
+        </section>
     `;
 }
 
@@ -290,6 +264,20 @@ function buildGalleryPageHtml(images) {
     }
 
     return buildDefaultGalleryHtml(images);
+}
+
+function applyGalleryContainerMode() {
+    const isMobileFixedMode = isMobileLayout() && state.sortOrder === "left-new";
+
+    if (isMobileFixedMode) {
+        elements.gallery.style.display = "block";
+        elements.gallery.style.gridTemplateColumns = "none";
+        elements.gallery.style.gap = "0";
+    } else {
+        elements.gallery.style.display = "";
+        elements.gallery.style.gridTemplateColumns = "";
+        elements.gallery.style.gap = "";
+    }
 }
 
 function renderPagination() {
@@ -319,6 +307,7 @@ function renderGallery() {
 
     const items = getCurrentPageImages();
 
+    applyGalleryContainerMode();
     elements.gallery.innerHTML = buildGalleryPageHtml(items);
     elements.galleryEmpty.hidden = state.filteredImages.length > 0;
     state.lastLayoutKey = getLayoutKey();
