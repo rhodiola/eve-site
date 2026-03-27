@@ -146,14 +146,14 @@ img {
 }
 
 .hero {
-    padding: 52px 0 28px;
+    padding: 38px 0 20px;
 }
 
 .hero__card {
     display: grid;
     grid-template-columns: 1.25fr 0.9fr;
-    gap: 24px;
-    padding: 28px;
+    gap: 20px;
+    padding: 22px;
     border: 1px solid var(--line);
     border-radius: calc(var(--radius) + 6px);
     background: linear-gradient(180deg, rgba(17, 22, 29, 0.92), rgba(12, 16, 22, 0.88));
@@ -170,9 +170,9 @@ img {
 }
 
 .hero h1 {
-    margin: 0 0 12px;
+    margin: 0 0 8px;
     font-size: clamp(2rem, 4vw, 3.25rem);
-    line-height: 1.15;
+    line-height: 1.12;
     letter-spacing: -0.03em;
 }
 
@@ -184,12 +184,12 @@ img {
 
 .hero__meta {
     display: grid;
-    gap: 12px;
+    gap: 10px;
     align-content: start;
 }
 
 .meta-box {
-    padding: 16px 18px;
+    padding: 14px 16px;
     border: 1px solid var(--line);
     border-radius: var(--radius);
     background: linear-gradient(180deg, rgba(20, 27, 36, 0.88), rgba(15, 20, 28, 0.92));
@@ -578,11 +578,13 @@ img {
     }
 
     .hero {
-        padding-top: 34px;
+        padding-top: 26px;
+        padding-bottom: 16px;
     }
 
     .hero__card {
-        padding: 20px;
+        padding: 18px;
+        gap: 16px;
     }
 
     .gallery {

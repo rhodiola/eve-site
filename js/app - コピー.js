@@ -169,6 +169,12 @@ function createSpacerHtml() {
 }
 
 function getPageCount() {
+    if (isMobileLayout() && state.sortOrder === "left-new") {
+        const mobileGroups = chunkArray(state.filteredImages, MOBILE_GROUP_SIZE);
+        const groupsPerPage = MOBILE_ITEMS_PER_PAGE / MOBILE_GROUP_SIZE;
+        return Math.max(1, Math.ceil(mobileGroups.length / groupsPerPage));
+    }
+
     return Math.max(1, Math.ceil(state.filteredImages.length / getItemsPerPage()));
 }
 
@@ -183,14 +189,26 @@ function getCurrentPageImages() {
     return state.filteredImages.slice(start, end);
 }
 
+function getCurrentPageMobileGroups() {
+    const chronological = [...state.filteredImages].reverse();
+    const allGroupsOldestFirst = chunkArray(chronological, MOBILE_GROUP_SIZE);
+    const allGroupsTopDown = allGroupsOldestFirst.reverse();
+
+    const groupsPerPage = MOBILE_ITEMS_PER_PAGE / MOBILE_GROUP_SIZE;
+    const start = (state.currentPage - 1) * groupsPerPage;
+    const end = start + groupsPerPage;
+
+    return allGroupsTopDown.slice(start, end);
+}
+
 /**
- * left-new の共通行を作る
- * - 入力は newest -> oldest
- * - 出力は top -> bottom の 5枚行
+ * left-new 用の共通 5枚行を作る
+ * 入力: newest -> oldest
+ * 出力: top -> bottom の 5枚行
  *
- * 例: 8枚
- * top row    = [6,7,8]
- * bottom row = [1,2,3,4,5]
+ * 例:
+ * 8枚 -> [[6,7,8], [1,2,3,4,5]]
+ * 10枚 -> [[6,7,8,9,10], [1,2,3,4,5]]
  */
 function buildFixedRowsTopDown(imagesNewestFirst) {
     const chronological = [...imagesNewestFirst].reverse();
@@ -199,9 +217,9 @@ function buildFixedRowsTopDown(imagesNewestFirst) {
 }
 
 /**
- * PC left-new
+ * PCの left-new:
  * - 上の行ほど新しい
- * - 同じ行では右ほど新しい
+ * - 同じ行の中では右ほど新しい
  * - 空白は最上段の右側
  */
 function buildDesktopFixedGalleryHtml(imagesNewestFirst) {
@@ -223,10 +241,9 @@ function buildDesktopFixedGalleryHtml(imagesNewestFirst) {
 }
 
 /**
- * スマホ left-new
- * - PCの1行をそのまま1ブロックとして使う
- * - その行の先頭画像がスマホブロック左上
- * - 2列 row-major で表示
+ * スマホの left-new:
+ * - 5枚を1ブロックとして扱う
+ * - 2列 row-major
  *
  * 1枚: 1 _
  * 2枚: 1 2
@@ -241,10 +258,9 @@ function buildMobileFixedGroupHtml(rowImages, groupIndex) {
         slots.push(createSpacerHtml());
     }
 
-    const sectionStyle =
-        groupIndex === 0
-            ? "margin-top:0;padding-top:0;border-top:none;"
-            : "margin-top:18px;padding-top:18px;border-top:1px solid rgba(150,168,191,0.32);";
+    const sectionStyle = groupIndex === 0
+        ? "margin-top:0;padding-top:0;border-top:none;"
+        : "margin-top:28px;padding-top:22px;border-top:2px solid rgba(180,195,215,0.7);";
 
     return `
         <section class="gallery-group" style="${sectionStyle}">
@@ -255,9 +271,10 @@ function buildMobileFixedGroupHtml(rowImages, groupIndex) {
     `;
 }
 
-function buildMobileFixedGalleryHtml(imagesNewestFirst) {
-    const rowsTopDown = buildFixedRowsTopDown(imagesNewestFirst);
-    return rowsTopDown.map((row, index) => buildMobileFixedGroupHtml(row, index)).join("");
+function buildMobileFixedGalleryHtml(groups) {
+    return groups
+        .map((group, index) => buildMobileFixedGroupHtml(group, index))
+        .join("");
 }
 
 function buildDefaultGalleryHtml(images) {
@@ -267,7 +284,7 @@ function buildDefaultGalleryHtml(images) {
 function buildGalleryPageHtml(images) {
     if (state.sortOrder === "left-new") {
         if (isMobileLayout()) {
-            return buildMobileFixedGalleryHtml(images);
+            return buildMobileFixedGalleryHtml(chunkArray(images, MOBILE_GROUP_SIZE));
         }
         return buildDesktopFixedGalleryHtml(images);
     }
@@ -314,10 +331,18 @@ function renderPagination() {
 function renderGallery() {
     clampCurrentPage();
 
-    const items = getCurrentPageImages();
+    const isMobileFixed = isMobileLayout() && state.sortOrder === "left-new";
+    const items = isMobileFixed ? [] : getCurrentPageImages();
+    const mobileGroups = isMobileFixed ? getCurrentPageMobileGroups() : [];
 
     applyGalleryContainerMode();
-    elements.gallery.innerHTML = buildGalleryPageHtml(items);
+
+    if (isMobileFixed) {
+        elements.gallery.innerHTML = buildMobileFixedGalleryHtml(mobileGroups);
+    } else {
+        elements.gallery.innerHTML = buildGalleryPageHtml(items);
+    }
+
     elements.galleryEmpty.hidden = state.filteredImages.length > 0;
     state.lastLayoutKey = getLayoutKey();
 

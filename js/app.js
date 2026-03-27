@@ -169,6 +169,12 @@ function createSpacerHtml() {
 }
 
 function getPageCount() {
+    if (isMobileLayout() && state.sortOrder === "left-new") {
+        const mobileGroups = chunkArray(state.filteredImages, MOBILE_GROUP_SIZE);
+        const groupsPerPage = MOBILE_ITEMS_PER_PAGE / MOBILE_GROUP_SIZE;
+        return Math.max(1, Math.ceil(mobileGroups.length / groupsPerPage));
+    }
+
     return Math.max(1, Math.ceil(state.filteredImages.length / getItemsPerPage()));
 }
 
@@ -183,95 +189,92 @@ function getCurrentPageImages() {
     return state.filteredImages.slice(start, end);
 }
 
+function getCurrentPageMobileGroups() {
+    const chronological = [...state.filteredImages].reverse();
+    const allGroupsOldestFirst = chunkArray(chronological, MOBILE_GROUP_SIZE);
+    const allGroupsTopDown = allGroupsOldestFirst.reverse();
+
+    const groupsPerPage = MOBILE_ITEMS_PER_PAGE / MOBILE_GROUP_SIZE;
+    const start = (state.currentPage - 1) * groupsPerPage;
+    const end = start + groupsPerPage;
+
+    return allGroupsTopDown.slice(start, end);
+}
+
 /**
- * PCの left-new:
- * - 元データは新しい順
- * - 表示時だけ oldest -> newest に反転
- * - 5枚ごとに下段から積み、最後に上から順へ並べ直す
- * - 不足分の空白は最上段の右側へ置く
+ * left-new 用の共通 5枚行を作る
+ * 入力: newest -> oldest
+ * 出力: top -> bottom の 5枚行
+ *
+ * 例:
+ * 8枚 -> [[6,7,8], [1,2,3,4,5]]
+ * 10枚 -> [[6,7,8,9,10], [1,2,3,4,5]]
  */
-function buildDesktopFixedGalleryHtml(imagesNewestFirst) {
+function buildFixedRowsTopDown(imagesNewestFirst) {
     const chronological = [...imagesNewestFirst].reverse();
     const rowsBottomUp = chunkArray(chronological, GRID_COLUMNS);
-    const rowsTopDown = rowsBottomUp.reverse();
+    return rowsBottomUp.reverse();
+}
 
-    return rowsTopDown.map((row) => {
-        const slots = [...row];
+/**
+ * PCの left-new:
+ * - 上の行ほど新しい
+ * - 同じ行の中では右ほど新しい
+ * - 空白は最上段の右側
+ */
+function buildDesktopFixedGalleryHtml(imagesNewestFirst) {
+    const rowsTopDown = buildFixedRowsTopDown(imagesNewestFirst);
 
-        while (slots.length < GRID_COLUMNS) {
-            slots.push(null);
-        }
+    return rowsTopDown
+        .map((row) => {
+            const slots = [...row];
 
-        return slots.map((item) => (item ? createCardHtml(item) : createSpacerHtml())).join("");
-    }).join("");
+            while (slots.length < GRID_COLUMNS) {
+                slots.push(null);
+            }
+
+            return slots
+                .map((item) => (item ? createCardHtml(item) : createSpacerHtml()))
+                .join("");
+        })
+        .join("");
 }
 
 /**
  * スマホの left-new:
- * - 1ページ20枚
- * - 5枚単位でブロック化
- * - 各ブロックは「新しいほど左上寄り」
- * - 自動詰めにせず、slot を固定して描画
+ * - 5枚を1ブロックとして扱う
+ * - 2列 row-major
  *
- * slot 番号:
- * 1 2
- * 3 4
- * 5 6
- *
- * count=3,5 のときに空欄が下へ落ちないよう、
- * 位置を専用に決めています。
+ * 1枚: 1 _
+ * 2枚: 1 2
+ * 3枚: 1 2 / 3 _
+ * 4枚: 1 2 / 3 4
+ * 5枚: 1 2 / 3 4 / 5 _
  */
-function getMobileGroupSlotOrder(count) {
-    switch (count) {
-        case 1:
-            return [1];
-        case 2:
-            return [1, 2];
-        case 3:
-            return [1, 3, 4];
-        case 4:
-            return [1, 2, 3, 4];
-        case 5:
-            return [1, 3, 4, 5, 6];
-        default:
-            return [];
+function buildMobileFixedGroupHtml(rowImages, groupIndex) {
+    const slots = rowImages.map(createCardHtml);
+
+    if (slots.length % 2 !== 0) {
+        slots.push(createSpacerHtml());
     }
-}
 
-function getMobileGroupRowCount(count) {
-    if (count <= 2) return 1;
-    if (count <= 4) return 2;
-    return 3;
-}
-
-function buildMobileFixedGroupHtml(groupNewestFirst) {
-    const count = groupNewestFirst.length;
-    const slotOrder = getMobileGroupSlotOrder(count);
-    const rowCount = getMobileGroupRowCount(count);
-    const totalSlots = rowCount * 2;
-    const slots = new Array(totalSlots).fill(null);
-
-    groupNewestFirst.forEach((image, index) => {
-        const slotNumber = slotOrder[index];
-        if (!slotNumber) return;
-        slots[slotNumber - 1] = createCardHtml(image);
-    });
-
-    const innerHtml = slots.map((slot) => slot || createSpacerHtml()).join("");
+    const sectionStyle = groupIndex === 0
+        ? "margin-top:0;padding-top:0;border-top:none;"
+        : "margin-top:28px;padding-top:22px;border-top:2px solid rgba(180,195,215,0.7);";
 
     return `
-        <div
-            class="gallery-group"
-            style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;grid-column:1 / -1;"
-        >
-            ${innerHtml}
-        </div>
+        <section class="gallery-group" style="${sectionStyle}">
+            <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;">
+                ${slots.join("")}
+            </div>
+        </section>
     `;
 }
 
-function buildMobileFixedGalleryHtml(imagesNewestFirst) {
-    const groups = chunkArray(imagesNewestFirst, MOBILE_GROUP_SIZE);
-    return groups.map(buildMobileFixedGroupHtml).join("");
+function buildMobileFixedGalleryHtml(groups) {
+    return groups
+        .map((group, index) => buildMobileFixedGroupHtml(group, index))
+        .join("");
 }
 
 function buildDefaultGalleryHtml(images) {
@@ -281,12 +284,26 @@ function buildDefaultGalleryHtml(images) {
 function buildGalleryPageHtml(images) {
     if (state.sortOrder === "left-new") {
         if (isMobileLayout()) {
-            return buildMobileFixedGalleryHtml(images);
+            return buildMobileFixedGalleryHtml(chunkArray(images, MOBILE_GROUP_SIZE));
         }
         return buildDesktopFixedGalleryHtml(images);
     }
 
     return buildDefaultGalleryHtml(images);
+}
+
+function applyGalleryContainerMode() {
+    const isMobileLeftNew = isMobileLayout() && state.sortOrder === "left-new";
+
+    if (isMobileLeftNew) {
+        elements.gallery.style.display = "block";
+        elements.gallery.style.gridTemplateColumns = "none";
+        elements.gallery.style.gap = "0";
+    } else {
+        elements.gallery.style.display = "";
+        elements.gallery.style.gridTemplateColumns = "";
+        elements.gallery.style.gap = "";
+    }
 }
 
 function renderPagination() {
@@ -314,9 +331,18 @@ function renderPagination() {
 function renderGallery() {
     clampCurrentPage();
 
-    const items = getCurrentPageImages();
+    const isMobileFixed = isMobileLayout() && state.sortOrder === "left-new";
+    const items = isMobileFixed ? [] : getCurrentPageImages();
+    const mobileGroups = isMobileFixed ? getCurrentPageMobileGroups() : [];
 
-    elements.gallery.innerHTML = buildGalleryPageHtml(items);
+    applyGalleryContainerMode();
+
+    if (isMobileFixed) {
+        elements.gallery.innerHTML = buildMobileFixedGalleryHtml(mobileGroups);
+    } else {
+        elements.gallery.innerHTML = buildGalleryPageHtml(items);
+    }
+
     elements.galleryEmpty.hidden = state.filteredImages.length > 0;
     state.lastLayoutKey = getLayoutKey();
 
