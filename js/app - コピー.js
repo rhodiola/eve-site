@@ -184,16 +184,28 @@ function getCurrentPageImages() {
 }
 
 /**
- * PCの left-new:
- * - 元データは新しい順
- * - 表示時だけ oldest -> newest に反転
- * - 5枚ごとに下段から積み、最後に上から順へ並べ直す
- * - 不足分の空白は最上段の右側へ置く
+ * left-new の共通行を作る
+ * - 入力は newest -> oldest
+ * - 出力は top -> bottom の 5枚行
+ *
+ * 例: 8枚
+ * top row    = [6,7,8]
+ * bottom row = [1,2,3,4,5]
  */
-function buildDesktopFixedGalleryHtml(imagesNewestFirst) {
+function buildFixedRowsTopDown(imagesNewestFirst) {
     const chronological = [...imagesNewestFirst].reverse();
     const rowsBottomUp = chunkArray(chronological, GRID_COLUMNS);
-    const rowsTopDown = rowsBottomUp.reverse();
+    return rowsBottomUp.reverse();
+}
+
+/**
+ * PC left-new
+ * - 上の行ほど新しい
+ * - 同じ行では右ほど新しい
+ * - 空白は最上段の右側
+ */
+function buildDesktopFixedGalleryHtml(imagesNewestFirst) {
+    const rowsTopDown = buildFixedRowsTopDown(imagesNewestFirst);
 
     return rowsTopDown
         .map((row) => {
@@ -211,12 +223,10 @@ function buildDesktopFixedGalleryHtml(imagesNewestFirst) {
 }
 
 /**
- * スマホの left-new:
- * - 1ページ20枚
- * - 5枚単位で区切る
- * - 上のブロックほど新しい
- * - 各5枚ブロック内は oldest -> newest
- * - 表示は 2列の row-major
+ * スマホ left-new
+ * - PCの1行をそのまま1ブロックとして使う
+ * - その行の先頭画像がスマホブロック左上
+ * - 2列 row-major で表示
  *
  * 1枚: 1 _
  * 2枚: 1 2
@@ -224,21 +234,20 @@ function buildDesktopFixedGalleryHtml(imagesNewestFirst) {
  * 4枚: 1 2 / 3 4
  * 5枚: 1 2 / 3 4 / 5 _
  */
-function buildMobileFixedGroupHtml(groupNewestFirst, groupIndex) {
-    const chronological = [...groupNewestFirst].reverse();
-    const slots = chronological.map(createCardHtml);
+function buildMobileFixedGroupHtml(rowImages, groupIndex) {
+    const slots = rowImages.map(createCardHtml);
 
     if (slots.length % 2 !== 0) {
         slots.push(createSpacerHtml());
     }
 
-    const dividerStyle =
+    const sectionStyle =
         groupIndex === 0
             ? "margin-top:0;padding-top:0;border-top:none;"
-            : "margin-top:18px;padding-top:18px;border-top:1px solid rgba(132,149,171,0.22);";
+            : "margin-top:18px;padding-top:18px;border-top:1px solid rgba(150,168,191,0.32);";
 
     return `
-        <section class="gallery-group" style="${dividerStyle}">
+        <section class="gallery-group" style="${sectionStyle}">
             <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;">
                 ${slots.join("")}
             </div>
@@ -247,8 +256,8 @@ function buildMobileFixedGroupHtml(groupNewestFirst, groupIndex) {
 }
 
 function buildMobileFixedGalleryHtml(imagesNewestFirst) {
-    const groups = chunkArray(imagesNewestFirst, MOBILE_GROUP_SIZE);
-    return groups.map((group, index) => buildMobileFixedGroupHtml(group, index)).join("");
+    const rowsTopDown = buildFixedRowsTopDown(imagesNewestFirst);
+    return rowsTopDown.map((row, index) => buildMobileFixedGroupHtml(row, index)).join("");
 }
 
 function buildDefaultGalleryHtml(images) {
@@ -267,9 +276,9 @@ function buildGalleryPageHtml(images) {
 }
 
 function applyGalleryContainerMode() {
-    const isMobileFixedMode = isMobileLayout() && state.sortOrder === "left-new";
+    const isMobileLeftNew = isMobileLayout() && state.sortOrder === "left-new";
 
-    if (isMobileFixedMode) {
+    if (isMobileLeftNew) {
         elements.gallery.style.display = "block";
         elements.gallery.style.gridTemplateColumns = "none";
         elements.gallery.style.gap = "0";
