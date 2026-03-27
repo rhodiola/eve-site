@@ -4,17 +4,21 @@ const HIDDEN_TAGS = ["sexy", "soft"];
 
 const GRID_COLUMNS = 5;
 const PAGE_ROWS = 12;
-const AD_ROWS = [3, 6, 9, 12];
-const IMAGE_SLOTS_PER_PAGE = PAGE_ROWS * GRID_COLUMNS - AD_ROWS.length;
+const DESKTOP_ITEMS_PER_PAGE = PAGE_ROWS * GRID_COLUMNS;
+
+const MOBILE_BREAKPOINT = 640;
+const MOBILE_ITEMS_PER_PAGE = 20;
+const MOBILE_GROUP_SIZE = 5;
 
 const state = {
     allImages: [],
     filteredImages: [],
     activeFilter: "すべて",
     searchText: "",
-    sortOrder: "new",
+    sortOrder: "left-new",
     selectedId: null,
-    currentPage: 1
+    currentPage: 1,
+    lastLayoutKey: null
 };
 
 const elements = {
@@ -71,6 +75,28 @@ function getSearchTarget(image) {
     ]
         .join(" ")
         .toLowerCase();
+}
+
+function isMobileLayout() {
+    return window.innerWidth <= MOBILE_BREAKPOINT;
+}
+
+function getLayoutKey() {
+    return isMobileLayout() ? "mobile" : "desktop";
+}
+
+function getItemsPerPage() {
+    return isMobileLayout() ? MOBILE_ITEMS_PER_PAGE : DESKTOP_ITEMS_PER_PAGE;
+}
+
+function chunkArray(items, size) {
+    const chunks = [];
+
+    for (let i = 0; i < items.length; i += size) {
+        chunks.push(items.slice(i, i + size));
+    }
+
+    return chunks;
 }
 
 function sortImages(images) {
@@ -138,21 +164,12 @@ function createCardHtml(image) {
     `;
 }
 
-function createAdCardHtml() {
-    return `
-        <article class="card card--ad" aria-label="広告">
-            <div class="card__link">
-                <div class="card__body">
-                    <div class="card__title">ADVERTISEMENT</div>
-                    <div class="card__date">SPONSORED</div>
-                </div>
-            </div>
-        </article>
-    `;
+function createSpacerHtml() {
+    return `<div aria-hidden="true" style="visibility:hidden;pointer-events:none;"></div>`;
 }
 
 function getPageCount() {
-    return Math.max(1, Math.ceil(state.filteredImages.length / IMAGE_SLOTS_PER_PAGE));
+    return Math.max(1, Math.ceil(state.filteredImages.length / getItemsPerPage()));
 }
 
 function clampCurrentPage() {
@@ -160,41 +177,116 @@ function clampCurrentPage() {
 }
 
 function getCurrentPageImages() {
-    const start = (state.currentPage - 1) * IMAGE_SLOTS_PER_PAGE;
-    const end = start + IMAGE_SLOTS_PER_PAGE;
+    const itemsPerPage = getItemsPerPage();
+    const start = (state.currentPage - 1) * itemsPerPage;
+    const end = start + itemsPerPage;
     return state.filteredImages.slice(start, end);
 }
 
+/**
+ * PCの left-new:
+ * - 元データは新しい順
+ * - 表示時だけ oldest -> newest に反転
+ * - 5枚ごとに下段から積み、最後に上から順へ並べ直す
+ * - 不足分の空白は最上段の右側へ置く
+ */
+function buildDesktopFixedGalleryHtml(imagesNewestFirst) {
+    const chronological = [...imagesNewestFirst].reverse();
+    const rowsBottomUp = chunkArray(chronological, GRID_COLUMNS);
+    const rowsTopDown = rowsBottomUp.reverse();
+
+    return rowsTopDown.map((row) => {
+        const slots = [...row];
+
+        while (slots.length < GRID_COLUMNS) {
+            slots.push(null);
+        }
+
+        return slots.map((item) => (item ? createCardHtml(item) : createSpacerHtml())).join("");
+    }).join("");
+}
+
+/**
+ * スマホの left-new:
+ * - 1ページ20枚
+ * - 5枚単位でブロック化
+ * - 各ブロックは「新しいほど左上寄り」
+ * - 自動詰めにせず、slot を固定して描画
+ *
+ * slot 番号:
+ * 1 2
+ * 3 4
+ * 5 6
+ *
+ * count=3,5 のときに空欄が下へ落ちないよう、
+ * 位置を専用に決めています。
+ */
+function getMobileGroupSlotOrder(count) {
+    switch (count) {
+        case 1:
+            return [1];
+        case 2:
+            return [1, 2];
+        case 3:
+            return [1, 3, 4];
+        case 4:
+            return [1, 2, 3, 4];
+        case 5:
+            return [1, 3, 4, 5, 6];
+        default:
+            return [];
+    }
+}
+
+function getMobileGroupRowCount(count) {
+    if (count <= 2) return 1;
+    if (count <= 4) return 2;
+    return 3;
+}
+
+function buildMobileFixedGroupHtml(groupNewestFirst) {
+    const count = groupNewestFirst.length;
+    const slotOrder = getMobileGroupSlotOrder(count);
+    const rowCount = getMobileGroupRowCount(count);
+    const totalSlots = rowCount * 2;
+    const slots = new Array(totalSlots).fill(null);
+
+    groupNewestFirst.forEach((image, index) => {
+        const slotNumber = slotOrder[index];
+        if (!slotNumber) return;
+        slots[slotNumber - 1] = createCardHtml(image);
+    });
+
+    const innerHtml = slots.map((slot) => slot || createSpacerHtml()).join("");
+
+    return `
+        <div
+            class="gallery-group"
+            style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;grid-column:1 / -1;"
+        >
+            ${innerHtml}
+        </div>
+    `;
+}
+
+function buildMobileFixedGalleryHtml(imagesNewestFirst) {
+    const groups = chunkArray(imagesNewestFirst, MOBILE_GROUP_SIZE);
+    return groups.map(buildMobileFixedGroupHtml).join("");
+}
+
+function buildDefaultGalleryHtml(images) {
+    return images.map(createCardHtml).join("");
+}
+
 function buildGalleryPageHtml(images) {
-    let index = 0;
-    let html = "";
-
-    for (let row = 1; row <= PAGE_ROWS; row += 1) {
-        const isAdRow = AD_ROWS.includes(row);
-        const rowCapacity = isAdRow ? GRID_COLUMNS - 1 : GRID_COLUMNS;
-        const remaining = images.length - index;
-
-        if (remaining <= 0) {
-            break;
+    if (state.sortOrder === "left-new") {
+        if (isMobileLayout()) {
+            return buildMobileFixedGalleryHtml(images);
         }
-
-        const rowImages = images.slice(index, index + Math.min(rowCapacity, remaining));
-        index += rowImages.length;
-
-        if (!isAdRow) {
-            html += rowImages.map(createCardHtml).join("");
-            continue;
-        }
-
-        const leftImages = rowImages.slice(0, 2);
-        const rightImages = rowImages.slice(2);
-
-        html += leftImages.map(createCardHtml).join("");
-        html += createAdCardHtml();
-        html += rightImages.map(createCardHtml).join("");
+        return buildDesktopFixedGalleryHtml(images);
     }
 
-    return html;
+    return buildDefaultGalleryHtml(images);
 }
 
 function renderPagination() {
@@ -226,6 +318,7 @@ function renderGallery() {
 
     elements.gallery.innerHTML = buildGalleryPageHtml(items);
     elements.galleryEmpty.hidden = state.filteredImages.length > 0;
+    state.lastLayoutKey = getLayoutKey();
 
     renderPagination();
 }
@@ -301,7 +394,10 @@ function bindEvents() {
         if (!trigger) return;
 
         const id = trigger.dataset.imageId;
-        const image = state.filteredImages.find((item) => item.id === id) || state.allImages.find((item) => item.id === id);
+        const image =
+            state.filteredImages.find((item) => item.id === id) ||
+            state.allImages.find((item) => item.id === id);
+
         if (!image) return;
 
         state.selectedId = image.id;
@@ -324,6 +420,14 @@ function bindEvents() {
             renderGallery();
             window.scrollTo({ top: 0, behavior: "smooth" });
         });
+    });
+
+    window.addEventListener("resize", () => {
+        const nextLayoutKey = getLayoutKey();
+
+        if (nextLayoutKey !== state.lastLayoutKey) {
+            renderGallery();
+        }
     });
 }
 
