@@ -1,4 +1,5 @@
 :root {
+    --hero-image: url("../images/eve-title.webp");
     --bg: #0a0d12;
     --bg-2: #11161d;
     --panel: rgba(18, 24, 32, 0.84);
@@ -447,6 +448,16 @@ img {
     font-size: 0.93rem;
 }
 
+.panel p {
+    margin: 0;
+    color: #a9b5c4;
+    font-size: 0.93rem;
+}
+
+[data-viewer-description] {
+    white-space: pre-wrap;
+}
+
 .actions {
     display: grid;
     gap: 10px;
@@ -568,6 +579,10 @@ img {
     .viewer__side {
         position: static;
     }
+
+    .hero__card::after {
+        background: url("../images/hero-pc.webp") center top / contain no-repeat;
+    }
 }
 
 @media (max-width: 640px) {
@@ -594,5 +609,281 @@ img {
 
     .search {
         min-width: 100%;
+    }
+}
+
+/* ===== ornament / hero final ===== */
+
+/* Hero は画像なしの2カラムに戻す */
+.hero__card {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(300px, 360px);
+    gap: 24px;
+    align-items: start;
+    padding: 22px;
+    border: 1px solid var(--line);
+    border-radius: calc(var(--radius) + 6px);
+    background: linear-gradient(180deg, rgba(17, 22, 29, 0.92), rgba(12, 16, 22, 0.88));
+    box-shadow: var(--shadow);
+    position: relative;
+    overflow: hidden;
+    min-height: 0;
+}
+
+/* 左側のタイトル群 */
+.hero__card> :first-child {
+    min-width: 0;
+    position: relative;
+    z-index: 1;
+    padding-top: 4px;
+}
+
+/* 右のメタ情報 */
+.hero__meta {
+    display: grid;
+    gap: 12px;
+    align-content: start;
+    position: relative;
+    z-index: 1;
+}
+
+.hero__card {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+}
+
+/* 文字とメタを前面に */
+.hero__card> :first-child,
+.hero__meta {
+    position: relative;
+    z-index: 1;
+}
+
+/* 既存の img 要素は使わない */
+.hero__art {
+    display: none;
+}
+
+/* タイトル付近に装飾画像を重ねる */
+.hero__card::after {
+    content: "";
+    position: absolute;
+    left: 46%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: clamp(220px, 28vw, 420px);
+    aspect-ratio: 3 / 4;
+    background: var(--hero-image) center top / contain no-repeat;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.7;
+    filter: none;
+    mask-image: radial-gradient(circle at center,
+            rgba(0, 0, 0, 1) 0%,
+            rgba(0, 0, 0, 0.88) 52%,
+            rgba(0, 0, 0, 0) 78%);
+    -webkit-mask-image: radial-gradient(circle at center,
+            rgba(0, 0, 0, 1) 0%,
+            rgba(0, 0, 0, 0.88) 52%,
+            rgba(0, 0, 0, 0) 78%);
+}
+
+/* viewer 側の装飾枠は残す */
+.viewer__ornament {
+    position: relative;
+    overflow: hidden;
+    border-radius: 24px;
+    background: #05070b;
+    min-height: 220px;
+    margin-top: 20px;
+}
+
+.viewer__ornament-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 40%;
+    display: block;
+    opacity: 1;
+    filter: none;
+    pointer-events: none;
+    user-select: none;
+}
+
+/* gallery の空白マスは残す */
+.ornament-slot {
+    position: relative;
+    overflow: hidden;
+    border-radius: 24px;
+    background: #05070b;
+    min-height: 100%;
+}
+
+.ornament-slot__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 40%;
+    display: block;
+    opacity: 1;
+    filter: none;
+    pointer-events: none;
+    user-select: none;
+}
+
+.ornament-slot::after,
+.viewer__ornament::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom,
+            rgba(3, 6, 12, 0.12),
+            rgba(3, 6, 12, 0.34));
+    pointer-events: none;
+}
+
+/* 少し狭いPC / タブレット */
+@media (max-width: 1180px) {
+    .hero__card {
+        grid-template-columns: minmax(0, 1fr) minmax(280px, 340px);
+        gap: 20px;
+    }
+}
+
+/* タブレット */
+@media (max-width: 960px) {
+
+    .hero__card,
+    .viewer__layout {
+        grid-template-columns: 1fr;
+    }
+
+    .viewer__side {
+        position: static;
+    }
+
+    .hero__card::after {
+        left: auto;
+        right: 12px;
+        top: 18px;
+        transform: none;
+        width: min(30vw, 180px);
+        opacity: 0.7;
+        background-position: center top;
+        background-size: contain;
+        background-repeat: no-repeat;
+    }
+}
+
+/* スマホ */
+@media (max-width: 640px) {
+
+    .site-header__inner,
+    .toolbar {
+        align-items: flex-start;
+    }
+
+    .hero {
+        padding-top: 26px;
+        padding-bottom: 16px;
+    }
+
+    .hero__card {
+        padding: 18px;
+        gap: 16px;
+    }
+
+    .gallery {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+    }
+
+    .search {
+        min-width: 100%;
+    }
+
+    .viewer__ornament {
+        min-height: 160px;
+        border-radius: 18px;
+    }
+
+    .ornament-slot {
+        border-radius: 18px;
+    }
+
+    .hero__card::after {
+        right: 4px;
+        top: 14px;
+        width: min(34vw, 120px);
+        aspect-ratio: 3 / 4;
+        opacity: 0.7;
+
+        background-image: var(--hero-image);
+        background-position: center top;
+        background-size: contain;
+        background-repeat: no-repeat;
+    }
+}
+
+.viewer__ornament,
+.viewer__ornament-image {
+    display: none !important;
+}
+
+/* 空白装飾カードを通常カードと同じ縦バランスにする */
+.ornament-card {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    min-height: 100%;
+}
+
+/* 通常サムネの画像表示域に合わせる */
+.ornament-card .ornament-slot {
+    border-radius: 24px 24px 0 0;
+    overflow: hidden;
+    background: #05070b;
+    aspect-ratio: 2/3;
+}
+
+/* 下の説明欄ぶんの高さを確保して、全体高さを揃える */
+.ornament-card__body {
+    min-height: 132px;
+    border-radius: 0 0 24px 24px;
+    background: transparent;
+}
+
+/* 画像そのもの */
+.ornament-slot__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 40%;
+    display: block;
+    opacity: 1;
+    filter: none;
+}
+
+/* スマホ */
+@media (max-width: 640px) {
+    .ornament-card .ornament-slot {
+        border-radius: 18px 18px 0 0;
+    }
+
+    .ornament-card__body {
+        min-height: 108px;
+        border-radius: 0 0 18px 18px;
+    }
+
+    .hero__card::after {
+        left: auto;
+        right: -8px;
+        top: 18px;
+        transform: none;
+        width: min(42vw, 160px);
+        aspect-ratio: 3 / 4;
+        opacity: 0.6;
+        filter: none;
+        background-position: center top;
     }
 }

@@ -1,6 +1,7 @@
 const IMAGE_BASE_URL = "https://img.eve.npaso.com";
 const DATA_URL = "./data/images.json";
-const HIDDEN_TAGS = ["sexy", "soft"];
+const ORNAMENT_IMAGE_URL = "./images/eve-loss-ornament.webp";
+const HIDDEN_TAGS = ["soft"];
 
 const GRID_COLUMNS = 5;
 const PAGE_ROWS = 12;
@@ -165,7 +166,14 @@ function createCardHtml(image) {
 }
 
 function createSpacerHtml() {
-    return `<div aria-hidden="true" style="visibility:hidden;pointer-events:none;"></div>`;
+    return `
+        <article class="card ornament-card" aria-hidden="true">
+            <div class="card__media ornament-slot">
+                <img src="${ORNAMENT_IMAGE_URL}" alt="" class="ornament-slot__image" />
+            </div>
+            <div class="ornament-card__body"></div>
+        </article>
+    `;
 }
 
 function getPageCount() {
@@ -357,7 +365,7 @@ function renderViewer(image) {
     elements.viewerImage.src = urls.medium;
     elements.viewerImage.alt = image.title || image.id;
     elements.viewerTitle.textContent = image.title || image.id;
-    elements.viewerDescription.textContent = image.description || "";
+    elements.viewerDescription.innerHTML = escapeHtml(image.description || "").replace(/\n/g, "<br>");
     elements.viewerOriginal.href = urls.original;
 
     elements.viewerTags.innerHTML = getVisibleTags(image.tags || [])
