@@ -399,7 +399,7 @@ img {
 
 .viewer__layout {
     display: grid;
-    grid-template-columns: minmax(0, 1.05fr) minmax(280px, 360px);
+    grid-template-columns: minmax(720px, 1fr) minmax(380px, 460px);
     gap: 26px;
     align-items: start;
 }
@@ -886,4 +886,15 @@ img {
         filter: none;
         background-position: center top;
     }
+}
+
+:root {
+    --anchor-offset: 50px;
+}
+
+#gallery,
+#viewer,
+#license,
+#about {
+    scroll-margin-top: var(--anchor-offset);
 }
