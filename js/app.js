@@ -293,12 +293,28 @@ function buildDefaultGalleryHtml(images) {
     return images.map(createCardHtml).join("");
 }
 
+function buildOldGalleryHtml(images) {
+    const slots = [...images];
+
+    while (slots.length % GRID_COLUMNS !== 0) {
+        slots.push(null);
+    }
+
+    return slots
+        .map((item) => (item ? createCardHtml(item) : createSpacerHtml()))
+        .join("");
+}
+
 function buildGalleryPageHtml(images) {
     if (state.sortOrder === "left-new") {
         if (isMobileLayout()) {
             return buildMobileFixedGalleryHtml(chunkArray(images, MOBILE_GROUP_SIZE));
         }
         return buildDesktopFixedGalleryHtml(images);
+    }
+
+    if (state.sortOrder === "old") {
+        return buildOldGalleryHtml(images);
     }
 
     return buildDefaultGalleryHtml(images);
