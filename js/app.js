@@ -49,6 +49,10 @@ function escapeHtml(value = "") {
         .replace(/'/g, "&#039;");
 }
 
+function getImageAlt(image) {
+    return (image.alt || image.title || image.id || "").trim();
+}
+
 function getImageUrls(id) {
     return {
         thumb: `${IMAGE_BASE_URL}/thumb/${id}.webp`,
@@ -153,7 +157,7 @@ function createCardHtml(image) {
         <article class="card">
             <a href="#viewer" class="card__link" aria-label="詳細を見る" data-image-id="${escapeHtml(image.id)}">
                 <div class="card__thumb">
-                    <img src="${urls.thumb}" alt="${escapeHtml(image.title || image.id)}" loading="lazy" />
+                    <img src="${urls.thumb}" alt="${escapeHtml(getImageAlt(image))}" loading="lazy" />
                 </div>
                 <div class="card__body">
                     <h3 class="card__title">${escapeHtml(image.title || image.id)}</h3>
@@ -363,7 +367,7 @@ function renderViewer(image) {
     const urls = getImageUrls(image.id);
 
     elements.viewerImage.src = urls.medium;
-    elements.viewerImage.alt = image.title || image.id;
+    elements.viewerImage.alt = getImageAlt(image);
     elements.viewerTitle.textContent = image.title || image.id;
     elements.viewerDescription.innerHTML = escapeHtml(image.description || "").replace(/\n/g, "<br>");
     elements.viewerOriginal.href = urls.original;
