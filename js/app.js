@@ -37,7 +37,9 @@ const elements = {
     viewerTitle: document.querySelector("[data-viewer-title]"),
     viewerDescription: document.querySelector("[data-viewer-description]"),
     viewerTags: document.querySelector("[data-viewer-tags]"),
-    viewerOriginal: document.querySelector("[data-viewer-original]")
+    viewerPrev: document.querySelector("[data-viewer-prev]"),
+    viewerNext: document.querySelector("[data-viewer-next]"),
+    viewerPosition: document.querySelector("[data-viewer-position]")
 };
 
 function escapeHtml(value = "") {
@@ -386,11 +388,56 @@ function renderViewer(image) {
     elements.viewerImage.alt = getImageAlt(image);
     elements.viewerTitle.textContent = image.title || image.id;
     elements.viewerDescription.innerHTML = escapeHtml(image.description || "").replace(/\n/g, "<br>");
-    elements.viewerOriginal.href = urls.original;
 
     elements.viewerTags.innerHTML = getVisibleTags(image.tags || [])
         .map((tag) => `<span class="tag">${escapeHtml(tag)}</span>`)
         .join("");
+    updateViewerCutNav();
+}
+
+function getViewerSequence() {
+    const source = state.filteredImages.length > 0 ? state.filteredImages : state.allImages;
+    return [...source].reverse();
+}
+
+function getSelectedImageIndex() {
+    const sequence = getViewerSequence();
+    return sequence.findIndex((image) => image.id === state.selectedId);
+}
+
+function updateViewerCutNav() {
+    const sequence = getViewerSequence();
+    const currentIndex = getSelectedImageIndex();
+    const hasItems = sequence.length > 0;
+    const safeIndex = currentIndex >= 0 ? currentIndex : 0;
+
+    if (elements.viewerPosition) {
+        elements.viewerPosition.textContent = hasItems
+            ? `${safeIndex + 1} / ${sequence.length}`
+            : "0 / 0";
+    }
+
+    if (elements.viewerPrev) {
+        elements.viewerPrev.disabled = !hasItems || safeIndex <= 0;
+    }
+
+    if (elements.viewerNext) {
+        elements.viewerNext.disabled = !hasItems || safeIndex >= sequence.length - 1;
+    }
+}
+
+function moveViewerCut(direction) {
+    const sequence = getViewerSequence();
+    const currentIndex = getSelectedImageIndex();
+
+    if (currentIndex < 0) return;
+
+    const nextIndex = currentIndex + direction;
+    if (nextIndex < 0 || nextIndex >= sequence.length) return;
+
+    const nextImage = sequence[nextIndex];
+    state.selectedId = nextImage.id;
+    renderViewer(nextImage);
 }
 
 function updateCurrentCount() {
@@ -482,6 +529,14 @@ function bindEvents() {
         if (nextLayoutKey !== state.lastLayoutKey) {
             renderGallery();
         }
+    });
+
+    elements.viewerPrev?.addEventListener("click", () => {
+        moveViewerCut(-1);
+    });
+
+    elements.viewerNext?.addEventListener("click", () => {
+        moveViewerCut(1);
     });
 }
 
