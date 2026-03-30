@@ -438,6 +438,14 @@ function moveViewerCut(direction) {
     const nextImage = sequence[nextIndex];
     state.selectedId = nextImage.id;
     renderViewer(nextImage);
+
+    const viewerSection = document.getElementById("viewer");
+    if (viewerSection) {
+        viewerSection.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+        });
+    }
 }
 
 function updateCurrentCount() {
