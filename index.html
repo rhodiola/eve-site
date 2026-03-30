@@ -46,7 +46,7 @@
                     <div class="hero__meta">
                         <div class="meta-box">
                             <span class="meta-box__label">Current count</span>
-                            <span class="meta-box__value" data-current-count>8 images</span>
+                            <span class="meta-box__value" data-current-count>0 images</span>
                         </div>
                         <div class="meta-box">
                             <span class="meta-box__label">Format</span>
@@ -97,23 +97,7 @@
                 </div>
             </div>
 
-            <div class="gallery" data-gallery aria-live="polite">
-                <article class="card" style="grid-column:1 / -1;">
-                    <div class="card__body">
-                        <h3 class="card__title">イブの記録ギャラリー</h3>
-                        <div class="card__date">初期表示</div>
-                        <div class="tags">
-                            <span class="tag">Gallery</span>
-                            <span class="tag">Archive</span>
-                            <span class="tag">Viewer</span>
-                        </div>
-                        <p style="margin:12px 0 0;color:#a9b5c4;font-size:0.93rem;">
-                            このページでは、各 cut のサムネイル、タイトル、タグ、詳細説明を閲覧できます。<br>
-                            読み込み完了後は、タグ絞り込み・検索・並び替え・ページ移動に対応します。
-                        </p>
-                    </div>
-                </article>
-            </div>
+            <div class="gallery" data-gallery></div>
 
             <p class="gallery-empty" data-gallery-empty hidden>
                 条件に合う画像がありません。
@@ -129,32 +113,27 @@
         <section id="viewer" class="viewer">
             <div class="container viewer__layout">
                 <div class="viewer__image">
-                    <img src="./images/eve-loss-ornament.webp" alt="イブの記録を象徴する装飾画像" data-viewer-image />
+                    <img src="" alt="表示中のイブ画像" data-viewer-image />
                 </div>
 
                 <aside class="viewer__side">
                     <section class="panel">
-                        <h2 data-viewer-title>イブの記録ビューアー</h2>
+                        <h2 data-viewer-title>読み込み中...</h2>
                         <p data-viewer-description>
-                            ギャラリーから画像を選択すると、ここにタイトル・説明・タグを表示します。<br>
-                            初期表示では、サイトの概要を案内しています。
+                            画像情報を読み込んでいます。
                         </p>
                         <div class="actions">
                             <div class="viewer-cut-nav" aria-label="cut移動">
-                                <button class="button" type="button" data-viewer-prev disabled>← 前のcut</button>
-                                <div class="viewer-cut-nav__status" data-viewer-position>- / -</div>
-                                <button class="button" type="button" data-viewer-next disabled>次のcut →</button>
+                                <button class="button" type="button" data-viewer-prev>← 前のcut</button>
+                                <div class="viewer-cut-nav__status" data-viewer-position>1 / 1</div>
+                                <button class="button" type="button" data-viewer-next>次のcut →</button>
                             </div>
                         </div>
                     </section>
 
                     <section class="panel">
                         <h3>Tags</h3>
-                        <div class="tags" data-viewer-tags>
-                            <span class="tag">Gallery</span>
-                            <span class="tag">Viewer</span>
-                            <span class="tag">Archive</span>
-                        </div>
+                        <div class="tags" data-viewer-tags></div>
                     </section>
 
                 </aside>
