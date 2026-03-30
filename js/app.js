@@ -157,7 +157,7 @@ function createCardHtml(image) {
 
     return `
         <article class="card">
-            <a href="#viewer" class="card__link" data-image-id="${escapeHtml(image.id)}">
+            <a href="#viewer" class="card__link" aria-label="詳細を見る" data-image-id="${escapeHtml(image.id)}">
                 <div class="card__thumb">
                     <img src="${urls.thumb}" alt="${escapeHtml(getImageAlt(image))}" loading="lazy" />
                 </div>
