@@ -397,6 +397,11 @@ function renderViewer(image) {
 
 function getViewerSequence() {
     const source = state.filteredImages.length > 0 ? state.filteredImages : state.allImages;
+
+    if (state.sortOrder === "old") {
+        return [...source];
+    }
+
     return [...source].reverse();
 }
 
