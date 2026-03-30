@@ -421,6 +421,16 @@ img {
     display: block;
 }
 
+@media (min-width: 961px) {
+    .viewer__image {
+        aspect-ratio: auto;
+    }
+
+    .viewer__image img {
+        height: auto;
+    }
+}
+
 .viewer-cut-nav .button {
     width: 100%;
     cursor: pointer;
@@ -459,6 +469,16 @@ img {
     .viewer__side {
         width: 100%;
         margin-inline: 0;
+    }
+
+    .viewer__image {
+        aspect-ratio: auto;
+        border-radius: 18px;
+    }
+
+    .viewer__image img {
+        height: auto;
+        max-height: none;
     }
 }
 
@@ -720,7 +740,7 @@ img {
     top: 50%;
     transform: translate(-50%, -50%);
     width: clamp(220px, 28vw, 420px);
-    aspect-ratio: 3 / 4;
+
     background: var(--hero-image) center top / contain no-repeat;
     pointer-events: none;
     z-index: 0;
@@ -981,4 +1001,23 @@ img {
 #license,
 #about {
     scroll-margin-top: var(--anchor-offset);
+}
+
+@media (max-width: 960px) {
+    .viewer__image {
+        aspect-ratio: auto;
+        width: 100%;
+        max-width: 720px;
+    }
+
+    .viewer__image img {
+        height: auto;
+        max-height: none;
+    }
+}
+
+@media (max-width: 640px) {
+    .viewer__image {
+        border-radius: 18px;
+    }
 }
