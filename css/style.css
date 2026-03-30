@@ -152,18 +152,13 @@ img {
 
 .hero__card {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(300px, 360px);
-    gap: 24px;
-    align-items: start;
+    grid-template-columns: 1.25fr 0.9fr;
+    gap: 20px;
     padding: 22px;
     border: 1px solid var(--line);
     border-radius: calc(var(--radius) + 6px);
     background: linear-gradient(180deg, rgba(17, 22, 29, 0.92), rgba(12, 16, 22, 0.88));
     box-shadow: var(--shadow);
-    position: relative;
-    overflow: hidden;
-    min-height: 0;
-    isolation: isolate;
 }
 
 .hero__eyebrow {
@@ -188,41 +183,10 @@ img {
     max-width: 44em;
 }
 
-.hero__card> :first-child {
-    min-width: 0;
-    position: relative;
-    z-index: 1;
-    padding-top: 4px;
-}
-
 .hero__meta {
     display: grid;
-    gap: 12px;
+    gap: 10px;
     align-content: start;
-    position: relative;
-    z-index: 1;
-}
-
-.hero__art {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    z-index: 1;
-    min-width: 0;
-}
-
-.hero__art-image {
-    display: block;
-    width: min(100%, 320px);
-    height: auto;
-    object-fit: contain;
-    opacity: 0.92;
-    border-radius: 18px;
-}
-
-.hero__card::after {
-    content: none !important;
 }
 
 .meta-box {
@@ -670,13 +634,6 @@ img {
     padding-top: 18px;
 }
 
-@media (max-width: 1180px) {
-    .hero__card {
-        grid-template-columns: minmax(0, 1fr) minmax(280px, 340px);
-        gap: 20px;
-    }
-}
-
 @media (max-width: 960px) {
 
     .hero__card,
@@ -688,12 +645,8 @@ img {
         position: static;
     }
 
-    .hero__art {
-        justify-content: flex-start;
-    }
-
-    .hero__art-image {
-        width: min(100%, 220px);
+    .hero__card::after {
+        background: url("../images/hero-pc.webp") center top / contain no-repeat;
     }
 }
 
@@ -715,23 +668,92 @@ img {
     }
 
     .gallery {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 14px;
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 18px;
         padding-bottom: 12px;
     }
 
     .search {
         min-width: 100%;
     }
+}
 
-    .hero__art {
-        justify-content: center;
-    }
+/* ===== ornament / hero final ===== */
 
-    .hero__art-image {
-        width: min(100%, 180px);
-        border-radius: 16px;
-    }
+/* Hero は画像なしの2カラムに戻す */
+.hero__card {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(300px, 360px);
+    gap: 24px;
+    align-items: start;
+    padding: 22px;
+    border: 1px solid var(--line);
+    border-radius: calc(var(--radius) + 6px);
+    background: linear-gradient(180deg, rgba(17, 22, 29, 0.92), rgba(12, 16, 22, 0.88));
+    box-shadow: var(--shadow);
+    position: relative;
+    overflow: hidden;
+    min-height: 0;
+}
+
+/* 左側のタイトル群 */
+.hero__card> :first-child {
+    min-width: 0;
+    position: relative;
+    z-index: 1;
+    padding-top: 4px;
+}
+
+/* 右のメタ情報 */
+.hero__meta {
+    display: grid;
+    gap: 12px;
+    align-content: start;
+    position: relative;
+    z-index: 1;
+}
+
+.hero__card {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+}
+
+/* 文字とメタを前面に */
+.hero__card> :first-child,
+.hero__meta {
+    position: relative;
+    z-index: 1;
+}
+
+/* 既存の img 要素は使わない */
+.hero__art {
+    display: none;
+}
+
+/* タイトル付近に装飾画像を重ねる */
+.hero__card::after {
+    content: "";
+    position: absolute;
+    left: 46%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: clamp(220px, 28vw, 420px);
+    aspect-ratio: 3 / 4;
+    background: var(--hero-image) center top / contain no-repeat;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.7;
+    filter: none;
+    mask-image: radial-gradient(circle at center,
+            rgba(0, 0, 0, 1) 0%,
+            rgba(0, 0, 0, 0.88) 52%,
+            rgba(0, 0, 0, 0) 78%);
+    -webkit-mask-image: radial-gradient(circle at center,
+            rgba(0, 0, 0, 1) 0%,
+            rgba(0, 0, 0, 0.88) 52%,
+            rgba(0, 0, 0, 0) 78%);
 }
 
 /* viewer 側の装飾枠は残す */
@@ -825,6 +847,89 @@ img {
     pointer-events: none;
 }
 
+/* 少し狭いPC / タブレット */
+@media (max-width: 1180px) {
+    .hero__card {
+        grid-template-columns: minmax(0, 1fr) minmax(280px, 340px);
+        gap: 20px;
+    }
+}
+
+/* タブレット */
+@media (max-width: 960px) {
+
+    .hero__card,
+    .viewer__layout {
+        grid-template-columns: 1fr;
+    }
+
+    .viewer__side {
+        position: static;
+    }
+
+    .hero__card::after {
+        left: auto;
+        right: 12px;
+        top: 18px;
+        transform: none;
+        width: min(30vw, 180px);
+        opacity: 0.7;
+        background-position: center top;
+        background-size: contain;
+        background-repeat: no-repeat;
+    }
+}
+
+/* スマホ */
+@media (max-width: 640px) {
+
+    .site-header__inner,
+    .toolbar {
+        align-items: flex-start;
+    }
+
+    .hero {
+        padding-top: 26px;
+        padding-bottom: 16px;
+    }
+
+    .hero__card {
+        padding: 18px;
+        gap: 16px;
+    }
+
+    .gallery {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+    }
+
+    .search {
+        min-width: 100%;
+    }
+
+    .viewer__ornament {
+        min-height: 160px;
+        border-radius: 18px;
+    }
+
+    .ornament-slot {
+        border-radius: 18px;
+    }
+
+    .hero__card::after {
+        right: 4px;
+        top: 14px;
+        width: min(34vw, 120px);
+        aspect-ratio: 3 / 4;
+        opacity: 0.7;
+
+        background-image: var(--hero-image);
+        background-position: center top;
+        background-size: contain;
+        background-repeat: no-repeat;
+    }
+}
+
 .viewer__ornament,
 .viewer__ornament-image {
     display: none !important;
@@ -874,13 +979,16 @@ img {
         border-radius: 0 0 18px 18px;
     }
 
-    .viewer__ornament {
-        min-height: 160px;
-        border-radius: 18px;
-    }
-
-    .ornament-slot {
-        border-radius: 18px;
+    .hero__card::after {
+        left: auto;
+        right: -8px;
+        top: 18px;
+        transform: none;
+        width: min(42vw, 160px);
+        aspect-ratio: 3 / 4;
+        opacity: 0.6;
+        filter: none;
+        background-position: center top;
     }
 }
 
