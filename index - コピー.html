@@ -79,9 +79,10 @@
 
                     <div class="chips" aria-label="タグ絞り込み">
                         <button class="chip is-active" type="button" data-filter="すべて">すべて</button>
-                        <button class="chip" type="button" data-filter="全身">全身</button>
-                        <button class="chip" type="button" data-filter="上半身">上半身</button>
-                        <button class="chip" type="button" data-filter="顔">顔</button>
+                        <button class="chip" type="button" data-filter="イブ">イブ</button>
+                        <button class="chip" type="button" data-filter="救済者">救済者</button>
+                        <button class="chip" type="button" data-filter="扉">扉</button>
+                        <button class="chip" type="button" data-filter="修理">修理</button>
                     </div>
                 </div>
 
@@ -92,7 +93,6 @@
                         <option value="left-new" selected>新着順(固定配置)</option>
                         <option value="old">エピソード順</option>
                         <option value="new">通常の新着順</option>
-                        <option value="popular">人気順</option>
                     </select>
                 </div>
             </div>
@@ -123,8 +123,11 @@
                             画像情報を読み込んでいます。
                         </p>
                         <div class="actions">
-                            <a class="button button--primary" href="#" target="_blank" rel="noopener noreferrer"
-                                data-viewer-original hidden>高画質を開く</a>
+                            <div class="viewer-cut-nav" aria-label="cut移動">
+                                <button class="button" type="button" data-viewer-prev>← 前のcut</button>
+                                <div class="viewer-cut-nav__status" data-viewer-position>1 / 1</div>
+                                <button class="button" type="button" data-viewer-next>次のcut →</button>
+                            </div>
                         </div>
                     </section>
 

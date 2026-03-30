@@ -740,7 +740,7 @@ img {
     top: 50%;
     transform: translate(-50%, -50%);
     width: clamp(220px, 28vw, 420px);
-
+    aspect-ratio: 3 / 4;
     background: var(--hero-image) center top / contain no-repeat;
     pointer-events: none;
     z-index: 0;
