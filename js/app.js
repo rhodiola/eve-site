@@ -16,7 +16,7 @@ const state = {
     filteredImages: [],
     activeFilter: "すべて",
     searchText: "",
-    sortOrder: "left-new",
+    sortOrder: "new",
     selectedId: null,
     currentPage: 1,
     lastLayoutKey: null
