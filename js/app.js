@@ -568,6 +568,9 @@ async function loadImages() {
 }
 
 async function init() {
+    window.addEventListener("pageshow", (event) => {
+        console.log("pageshow persisted =", event.persisted);
+    });
     try {
         state.allImages = await loadImages();
         updateCurrentCount();
@@ -585,5 +588,18 @@ async function init() {
         elements.viewerDescription.textContent = "images.json または画像URLを確認してください。";
     }
 }
+
+window.addEventListener("pageshow", async (event) => {
+    if (!event.persisted) return;
+
+    try {
+        state.allImages = await loadImages();
+        state.currentPage = 1;
+        refresh();
+    } catch (error) {
+        console.error("pageshow reload failed:", error);
+    }
+});
+
 
 document.addEventListener("DOMContentLoaded", init);
