@@ -1,5 +1,4 @@
 const IMAGE_BASE_URL = "https://img.eve.npaso.com";
-const DATA_URL = "./data/images.json";
 const ORNAMENT_IMAGE_URL = "./images/eve-loss-ornament.webp";
 const HIDDEN_TAGS = ["soft"];
 
@@ -17,7 +16,6 @@ const state = {
     activeFilter: "すべて",
     searchText: "",
     sortOrder: "left-new",
-    selectedId: null,
     currentPage: 1,
     lastLayoutKey: null
 };
@@ -32,14 +30,7 @@ const elements = {
     currentCount: document.querySelector("[data-current-count]"),
     search: document.querySelector("[data-search]"),
     sort: document.querySelector("[data-sort]"),
-    chips: Array.from(document.querySelectorAll(".chip")),
-    viewerImage: document.querySelector("[data-viewer-image]"),
-    viewerTitle: document.querySelector("[data-viewer-title]"),
-    viewerDescription: document.querySelector("[data-viewer-description]"),
-    viewerTags: document.querySelector("[data-viewer-tags]"),
-    viewerPrev: document.querySelector("[data-viewer-prev]"),
-    viewerNext: document.querySelector("[data-viewer-next]"),
-    viewerPosition: document.querySelector("[data-viewer-position]")
+    chips: Array.from(document.querySelectorAll(".chip"))
 };
 
 function escapeHtml(value = "") {
@@ -49,6 +40,37 @@ function escapeHtml(value = "") {
         .replace(/>/g, "&gt;")
         .replace(/"/g, "&quot;")
         .replace(/'/g, "&#039;");
+}
+
+function extractDateFromId(id = "") {
+    const match = String(id).match(/(\d{4})(\d{2})(\d{2})-(\d{2})(\d{2})(\d{2})/);
+    if (!match) {
+        return {
+            isoDate: "",
+            displayDate: "",
+            compact: "",
+            timestamp: 0
+        };
+    }
+
+    const [, y, m, d, hh, mm, ss] = match;
+    return {
+        isoDate: `${y}-${m}-${d}`,
+        displayDate: `${y}.${m}.${d}`,
+        compact: `${y}${m}${d}`,
+        timestamp: Number(`${y}${m}${d}${hh}${mm}${ss}`)
+    };
+}
+
+function normalizeImage(image) {
+    const dateInfo = extractDateFromId(image.id);
+    return {
+        ...image,
+        date: image.date || dateInfo.isoDate,
+        displayDate: image.displayDate || dateInfo.displayDate,
+        compactDate: image.compactDate || dateInfo.compact,
+        timestamp: image.timestamp || dateInfo.timestamp
+    };
 }
 
 function getImageAlt(image) {
@@ -63,11 +85,6 @@ function getImageUrls(id) {
     };
 }
 
-function formatDate(dateString) {
-    if (!dateString) return "";
-    return dateString.replace(/-/g, ".");
-}
-
 function getVisibleTags(tags = []) {
     return tags.filter((tag) => !HIDDEN_TAGS.includes(tag));
 }
@@ -77,7 +94,9 @@ function getSearchTarget(image) {
         image.id,
         image.title,
         image.date,
+        image.compactDate,
         image.description,
+        image.seoDescription,
         ...(image.tags || [])
     ]
         .join(" ")
@@ -118,14 +137,10 @@ function sortImages(images) {
         }
 
         if (state.sortOrder === "old") {
-            return String(a.date).localeCompare(String(b.date)) || String(a.id).localeCompare(String(b.id));
+            return a.timestamp - b.timestamp || String(a.id).localeCompare(String(b.id));
         }
 
-        if (state.sortOrder === "popular") {
-            return (b.popularity || 0) - (a.popularity || 0) || String(b.date).localeCompare(String(a.date));
-        }
-
-        return String(b.date).localeCompare(String(a.date)) || String(b.id).localeCompare(String(a.id));
+        return b.timestamp - a.timestamp || String(b.id).localeCompare(String(a.id));
     });
 
     return items;
@@ -157,13 +172,13 @@ function createCardHtml(image) {
 
     return `
         <article class="card">
-            <a href="#viewer" class="card__link" aria-label="詳細を見る" data-image-id="${escapeHtml(image.id)}">
+            <a href="./cuts/${encodeURIComponent(image.id)}/" class="card__link" aria-label="${escapeHtml(image.title || image.id)} の詳細ページへ">
                 <div class="card__thumb">
                     <img src="${urls.thumb}" alt="${escapeHtml(getImageAlt(image))}" loading="lazy" />
                 </div>
                 <div class="card__body">
                     <h3 class="card__title">${escapeHtml(image.title || image.id)}</h3>
-                    <div class="card__date">${escapeHtml(formatDate(image.date))}</div>
+                    <div class="card__date">${escapeHtml(image.displayDate || "")}</div>
                     <div class="tags">${tagsHtml}</div>
                 </div>
             </a>
@@ -215,27 +230,12 @@ function getCurrentPageMobileGroups() {
     return allGroupsTopDown.slice(start, end);
 }
 
-/**
- * left-new 用の共通 5枚行を作る
- * 入力: newest -> oldest
- * 出力: top -> bottom の 5枚行
- *
- * 例:
- * 8枚 -> [[6,7,8], [1,2,3,4,5]]
- * 10枚 -> [[6,7,8,9,10], [1,2,3,4,5]]
- */
 function buildFixedRowsTopDown(imagesNewestFirst) {
     const chronological = [...imagesNewestFirst].reverse();
     const rowsBottomUp = chunkArray(chronological, GRID_COLUMNS);
     return rowsBottomUp.reverse();
 }
 
-/**
- * PCの left-new:
- * - 上の行ほど新しい
- * - 同じ行の中では右ほど新しい
- * - 空白は最上段の右側
- */
 function buildDesktopFixedGalleryHtml(imagesNewestFirst) {
     const rowsTopDown = buildFixedRowsTopDown(imagesNewestFirst);
 
@@ -254,17 +254,6 @@ function buildDesktopFixedGalleryHtml(imagesNewestFirst) {
         .join("");
 }
 
-/**
- * スマホの left-new:
- * - 5枚を1ブロックとして扱う
- * - 2列 row-major
- *
- * 1枚: 1 _
- * 2枚: 1 2
- * 3枚: 1 2 / 3 _
- * 4枚: 1 2 / 3 4
- * 5枚: 1 2 / 3 4 / 5 _
- */
 function buildMobileFixedGroupHtml(rowImages, groupIndex) {
     const slots = rowImages.map(createCardHtml);
 
@@ -379,97 +368,10 @@ function renderGallery() {
     renderPagination();
 }
 
-function renderViewer(image) {
-    if (!image) return;
-
-    const urls = getImageUrls(image.id);
-
-    elements.viewerImage.src = urls.medium;
-    elements.viewerImage.alt = getImageAlt(image);
-    elements.viewerTitle.textContent = image.title || image.id;
-    elements.viewerDescription.innerHTML = escapeHtml(image.description || "").replace(/\n/g, "<br>");
-
-    elements.viewerTags.innerHTML = getVisibleTags(image.tags || [])
-        .map((tag) => `<span class="tag">${escapeHtml(tag)}</span>`)
-        .join("");
-    updateViewerCutNav();
-}
-
-function getViewerSequence() {
-    const source = state.filteredImages.length > 0 ? state.filteredImages : state.allImages;
-
-    if (state.sortOrder === "old") {
-        return [...source];
-    }
-
-    return [...source].reverse();
-}
-
-function getSelectedImageIndex() {
-    const sequence = getViewerSequence();
-    return sequence.findIndex((image) => image.id === state.selectedId);
-}
-
-function updateViewerCutNav() {
-    const sequence = getViewerSequence();
-    const currentIndex = getSelectedImageIndex();
-    const hasItems = sequence.length > 0;
-    const safeIndex = currentIndex >= 0 ? currentIndex : 0;
-
-    if (elements.viewerPosition) {
-        elements.viewerPosition.textContent = hasItems
-            ? `${safeIndex + 1} / ${sequence.length}`
-            : "0 / 0";
-    }
-
-    if (elements.viewerPrev) {
-        elements.viewerPrev.disabled = !hasItems || safeIndex <= 0;
-    }
-
-    if (elements.viewerNext) {
-        elements.viewerNext.disabled = !hasItems || safeIndex >= sequence.length - 1;
-    }
-}
-
-function moveViewerCut(direction) {
-    const sequence = getViewerSequence();
-    const currentIndex = getSelectedImageIndex();
-
-    if (currentIndex < 0) return;
-
-    const nextIndex = currentIndex + direction;
-    if (nextIndex < 0 || nextIndex >= sequence.length) return;
-
-    const nextImage = sequence[nextIndex];
-    state.selectedId = nextImage.id;
-    renderViewer(nextImage);
-
-    const viewerSection = document.getElementById("viewer");
-    if (viewerSection) {
-        viewerSection.scrollIntoView({
-            behavior: "smooth",
-            block: "start"
-        });
-    }
-}
-
 function updateCurrentCount() {
     const count = state.allImages.length;
-    elements.currentCount.textContent = `${count.toLocaleString("ja-JP")} images`;
-}
-
-function ensureSelectedImage() {
-    const exists = state.filteredImages.some((image) => image.id === state.selectedId);
-
-    if (exists) {
-        const selected = state.filteredImages.find((image) => image.id === state.selectedId);
-        renderViewer(selected);
-        return;
-    }
-
-    if (state.filteredImages.length > 0) {
-        state.selectedId = state.filteredImages[0].id;
-        renderViewer(state.filteredImages[0]);
+    if (elements.currentCount) {
+        elements.currentCount.textContent = `${count.toLocaleString("ja-JP")} images`;
     }
 }
 
@@ -477,7 +379,6 @@ function refresh() {
     filterImages();
     clampCurrentPage();
     renderGallery();
-    ensureSelectedImage();
 }
 
 function bindEvents() {
@@ -491,31 +392,16 @@ function bindEvents() {
         });
     });
 
-    elements.search.addEventListener("input", (event) => {
+    elements.search?.addEventListener("input", (event) => {
         state.searchText = event.target.value || "";
         state.currentPage = 1;
         refresh();
     });
 
-    elements.sort.addEventListener("change", (event) => {
+    elements.sort?.addEventListener("change", (event) => {
         state.sortOrder = event.target.value;
         state.currentPage = 1;
         refresh();
-    });
-
-    document.addEventListener("click", (event) => {
-        const trigger = event.target.closest("[data-image-id]");
-        if (!trigger) return;
-
-        const id = trigger.dataset.imageId;
-        const image =
-            state.filteredImages.find((item) => item.id === id) ||
-            state.allImages.find((item) => item.id === id);
-
-        if (!image) return;
-
-        state.selectedId = image.id;
-        renderViewer(image);
     });
 
     elements.pagePrevs.forEach((button) => {
@@ -523,7 +409,7 @@ function bindEvents() {
             if (state.currentPage <= 1) return;
             state.currentPage -= 1;
             renderGallery();
-            window.scrollTo({ top: 0, behavior: "smooth" });
+            document.getElementById("gallery")?.scrollIntoView({ behavior: "smooth", block: "start" });
         });
     });
 
@@ -532,7 +418,7 @@ function bindEvents() {
             if (state.currentPage >= getPageCount()) return;
             state.currentPage += 1;
             renderGallery();
-            window.scrollTo({ top: 0, behavior: "smooth" });
+            document.getElementById("gallery")?.scrollIntoView({ behavior: "smooth", block: "start" });
         });
     });
 
@@ -543,63 +429,26 @@ function bindEvents() {
             renderGallery();
         }
     });
-
-    elements.viewerPrev?.addEventListener("click", () => {
-        moveViewerCut(-1);
-    });
-
-    elements.viewerNext?.addEventListener("click", () => {
-        moveViewerCut(1);
-    });
 }
 
-async function loadImages() {
-    const response = await fetch(DATA_URL, { cache: "no-store" });
-    if (!response.ok) {
-        throw new Error("images.json の読み込みに失敗しました。");
-    }
-
-    const data = await response.json();
-    if (!Array.isArray(data)) {
-        throw new Error("images.json の形式が正しくありません。");
-    }
-
-    return data;
-}
-
-async function init() {
-    window.addEventListener("pageshow", (event) => {
-        console.log("pageshow persisted =", event.persisted);
-    });
-    try {
-        state.allImages = await loadImages();
-        updateCurrentCount();
-        bindEvents();
-        refresh();
-    } catch (error) {
-        console.error(error);
-        elements.gallery.innerHTML = "";
-        elements.paginations.forEach((nav) => {
-            nav.hidden = true;
-        });
-        elements.galleryEmpty.hidden = false;
-        elements.galleryEmpty.textContent = "画像データの読み込みに失敗しました。";
-        elements.viewerTitle.textContent = "読み込みエラー";
-        elements.viewerDescription.textContent = "images.json または画像URLを確認してください。";
-    }
-}
-
-window.addEventListener("pageshow", async (event) => {
-    if (!event.persisted) return;
+function loadInitialImages() {
+    const element = document.getElementById("initial-images");
+    if (!element) return [];
 
     try {
-        state.allImages = await loadImages();
-        state.currentPage = 1;
-        refresh();
+        const parsed = JSON.parse(element.textContent || "[]");
+        return Array.isArray(parsed) ? parsed.map(normalizeImage) : [];
     } catch (error) {
-        console.error("pageshow reload failed:", error);
+        console.error("initial-images parse failed:", error);
+        return [];
     }
-});
+}
 
+function init() {
+    state.allImages = loadInitialImages();
+    updateCurrentCount();
+    bindEvents();
+    refresh();
+}
 
 document.addEventListener("DOMContentLoaded", init);

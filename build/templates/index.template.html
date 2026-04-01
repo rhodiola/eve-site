@@ -4,22 +4,23 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>The Absence of Eve</title>
-    <meta name="description" content="生成AIによるギャラリーサイト" />
+    <title>__PAGE_TITLE__</title>
+    <meta name="description" content="__META_DESCRIPTION__" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Zen+Kurenaido&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="./css/style.css?v=20260327-1" />
+    <link rel="stylesheet" href="./css/style.css?v=20260401-static-1" />
 </head>
 
 <body>
     <div id="top"></div>
+
     <header class="site-header">
         <div class="container site-header__inner">
-            <a class="brand" href="index.html">
-                <span class="brand__sub">Reload</span>
+            <a class="brand" href="./index.html">
+                <span class="brand__sub">Home</span>
             </a>
             <nav class="site-nav" aria-label="Primary">
                 <a href="#top" class="site-nav__icon" aria-label="ページ上部へ戻る" title="TOPへ">
@@ -27,9 +28,7 @@
                         <path d="M12 5l-7 7m7-7l7 7m-7-7v14" />
                     </svg>
                 </a>
-
                 <a href="#gallery">Gallery</a>
-                <a href="#viewer">Viewer</a>
                 <a href="#license">License</a>
                 <a href="#about">About</a>
             </nav>
@@ -51,7 +50,7 @@
                     <div class="hero__meta">
                         <div class="meta-box">
                             <span class="meta-box__label">Current count</span>
-                            <span class="meta-box__value" data-current-count>0 images</span>
+                            <span class="meta-box__value" data-current-count>__CURRENT_COUNT__</span>
                         </div>
                         <div class="meta-box">
                             <span class="meta-box__label">Format</span>
@@ -62,6 +61,7 @@
                             <span class="meta-box__value">個人・商用利用可 / 再配布禁止</span>
                         </div>
                     </div>
+
                     <div class="hero__art" aria-hidden="true">
                         <img src="./images/eve-loss-ornament.webp" alt="" class="hero__art-image">
                     </div>
@@ -102,7 +102,9 @@
                 </div>
             </div>
 
-            <div class="gallery" data-gallery></div>
+            <div class="gallery" data-gallery>
+                __INITIAL_GALLERY__
+            </div>
 
             <p class="gallery-empty" data-gallery-empty hidden>
                 条件に合う画像がありません。
@@ -113,36 +115,6 @@
                 <div class="pagination__info" data-page-info>1 / 1</div>
                 <button class="pagination__button" type="button" data-page-next>次のページ</button>
             </nav>
-        </section>
-
-        <section id="viewer" class="viewer">
-            <div class="container viewer__layout">
-                <div class="viewer__image">
-                    <img src="" alt="表示中のイブ画像" data-viewer-image />
-                </div>
-
-                <aside class="viewer__side">
-                    <section class="panel">
-                        <h2 data-viewer-title>読み込み中...</h2>
-                        <p data-viewer-description>
-                            画像情報を読み込んでいます。
-                        </p>
-                        <div class="actions">
-                            <div class="viewer-cut-nav" aria-label="cut移動">
-                                <button class="button" type="button" data-viewer-prev>← 前のcut</button>
-                                <div class="viewer-cut-nav__status" data-viewer-position>1 / 1</div>
-                                <button class="button" type="button" data-viewer-next>次のcut →</button>
-                            </div>
-                        </div>
-                    </section>
-
-                    <section class="panel">
-                        <h3>Tags</h3>
-                        <div class="tags" data-viewer-tags></div>
-                    </section>
-
-                </aside>
-            </div>
         </section>
 
         <section id="license" class="license">
@@ -183,7 +155,8 @@
         </div>
     </footer>
 
-    <script src="./js/app.js?v=20260327-1"></script>
+    <script id="initial-images" type="application/json">__INITIAL_IMAGES_JSON__</script>
+    <script src="./js/app.js?v=20260401-static-1"></script>
 </body>
 
 </html>
