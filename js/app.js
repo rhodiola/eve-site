@@ -10,6 +10,8 @@ const MOBILE_BREAKPOINT = 640;
 const MOBILE_ITEMS_PER_PAGE = 20;
 const MOBILE_GROUP_SIZE = 5;
 
+const GALLERY_STATE_KEY = "eve-gallery-state";
+
 const state = {
     allImages: [],
     filteredImages: [],
@@ -389,6 +391,7 @@ function bindEvents() {
             state.activeFilter = chip.dataset.filter || chip.textContent.trim();
             state.currentPage = 1;
             refresh();
+            saveGalleryState();
         });
     });
 
@@ -396,12 +399,14 @@ function bindEvents() {
         state.searchText = event.target.value || "";
         state.currentPage = 1;
         refresh();
+        saveGalleryState();
     });
 
     elements.sort?.addEventListener("change", (event) => {
         state.sortOrder = event.target.value;
         state.currentPage = 1;
         refresh();
+        saveGalleryState();
     });
 
     elements.pagePrevs.forEach((button) => {
@@ -409,6 +414,7 @@ function bindEvents() {
             if (state.currentPage <= 1) return;
             state.currentPage -= 1;
             renderGallery();
+            saveGalleryState();
             document.getElementById("gallery")?.scrollIntoView({ behavior: "smooth", block: "start" });
         });
     });
@@ -418,8 +424,15 @@ function bindEvents() {
             if (state.currentPage >= getPageCount()) return;
             state.currentPage += 1;
             renderGallery();
+            saveGalleryState();
             document.getElementById("gallery")?.scrollIntoView({ behavior: "smooth", block: "start" });
         });
+    });
+
+    elements.gallery?.addEventListener("click", (event) => {
+        const link = event.target.closest(".card__link");
+        if (!link) return;
+        saveGalleryState();
     });
 
     window.addEventListener("resize", () => {
@@ -427,6 +440,7 @@ function bindEvents() {
 
         if (nextLayoutKey !== state.lastLayoutKey) {
             renderGallery();
+            saveGalleryState();
         }
     });
 }
@@ -446,9 +460,75 @@ function loadInitialImages() {
 
 function init() {
     state.allImages = loadInitialImages();
+
+    const savedState = loadGalleryState();
+    applyGalleryState(savedState);
+
     updateCurrentCount();
+    syncControlsWithState();
     bindEvents();
     refresh();
+}
+
+function getGalleryStateSnapshot() {
+    return {
+        activeFilter: state.activeFilter,
+        searchText: state.searchText,
+        sortOrder: state.sortOrder,
+        currentPage: state.currentPage
+    };
+}
+
+function saveGalleryState() {
+    try {
+        sessionStorage.setItem(GALLERY_STATE_KEY, JSON.stringify(getGalleryStateSnapshot()));
+    } catch (error) {
+        console.warn("gallery state save failed:", error);
+    }
+}
+
+function loadGalleryState() {
+    try {
+        const raw = sessionStorage.getItem(GALLERY_STATE_KEY);
+        if (!raw) return null;
+
+        const parsed = JSON.parse(raw);
+        if (!parsed || typeof parsed !== "object") return null;
+
+        return {
+            activeFilter: typeof parsed.activeFilter === "string" ? parsed.activeFilter : "すべて",
+            searchText: typeof parsed.searchText === "string" ? parsed.searchText : "",
+            sortOrder: typeof parsed.sortOrder === "string" ? parsed.sortOrder : "left-new",
+            currentPage: Number.isInteger(parsed.currentPage) ? parsed.currentPage : 1
+        };
+    } catch (error) {
+        console.warn("gallery state load failed:", error);
+        return null;
+    }
+}
+
+function applyGalleryState(saved) {
+    if (!saved) return;
+
+    state.activeFilter = saved.activeFilter || "すべて";
+    state.searchText = saved.searchText || "";
+    state.sortOrder = saved.sortOrder || "left-new";
+    state.currentPage = saved.currentPage || 1;
+}
+
+function syncControlsWithState() {
+    if (elements.search) {
+        elements.search.value = state.searchText;
+    }
+
+    if (elements.sort) {
+        elements.sort.value = state.sortOrder;
+    }
+
+    elements.chips.forEach((chip) => {
+        const filterName = chip.dataset.filter || chip.textContent.trim();
+        chip.classList.toggle("is-active", filterName === state.activeFilter);
+    });
 }
 
 document.addEventListener("DOMContentLoaded", init);
