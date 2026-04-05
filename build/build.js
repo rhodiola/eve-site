@@ -5,6 +5,7 @@ const ROOT = process.cwd();
 const DATA_FILE = path.join(ROOT, "data", "images.json");
 const INDEX_TEMPLATE_FILE = path.join(ROOT, "build", "templates", "index.template.html");
 const CUT_TEMPLATE_FILE = path.join(ROOT, "build", "templates", "cut.template.html");
+const WIDE_TEMPLATE_FILE = path.join(ROOT, "build", "templates", "wide.template.html");
 const OUTPUT_INDEX_FILE = path.join(ROOT, "index.html");
 const OUTPUT_CUTS_DIR = path.join(ROOT, "cuts");
 
@@ -78,7 +79,8 @@ function getImageUrls(id) {
     return {
         thumb: `${IMAGE_BASE_URL}/thumb/${id}.webp`,
         medium: `${IMAGE_BASE_URL}/medium/${id}.webp`,
-        original: `${IMAGE_BASE_URL}/original/${id}.webp`
+        original: `${IMAGE_BASE_URL}/original/${id}.webp`,
+        wide: `${IMAGE_BASE_URL}/wide/${id}.webp`
     };
 }
 
@@ -245,7 +247,11 @@ function buildCutHtml({ image, previousImage, nextImage, position, total }) {
         ? `<a class="button" href="../${encodeURIComponent(nextImage.id)}/">次のcut →</a>`
         : `<span class="button is-disabled" aria-disabled="true">次のcut →</span>`;
 
-    template = replaceToken(template, "PAGE_TITLE", escapeHtml(`${image.title} | イブの喪失`));
+    const wideHtml = image.hasWide
+        ? `<a class="button detail-wide-link detail-wide-link--desktop" href="./wide/" aria-label="${escapeAttribute(image.title || image.id)} の高画質ページを開く">高画質</a>`
+        : "";
+
+    template = replaceToken(template, "PAGE_TITLE", escapeHtml(`${image.title || image.id} | イブの喪失`));
     template = replaceToken(template, "META_DESCRIPTION", escapeAttribute(image.seoDescription));
     template = replaceToken(template, "CANONICAL_PATH", escapeAttribute(`/cuts/${image.id}/`));
     template = replaceToken(template, "IMAGE_ALT", escapeAttribute(getImageAlt(image)));
@@ -257,8 +263,28 @@ function buildCutHtml({ image, previousImage, nextImage, position, total }) {
     template = replaceToken(template, "TAGS", tagsHtml);
     template = replaceToken(template, "PREV_LINK", prevHtml);
     template = replaceToken(template, "NEXT_LINK", nextHtml);
+    template = replaceToken(template, "WIDE_LINK", wideHtml);
     template = replaceToken(template, "ORIGINAL_URL", escapeAttribute(urls.original));
     template = replaceToken(template, "THUMB_URL", escapeAttribute(urls.thumb));
+
+    return template;
+}
+
+function buildWideHtml({ image }) {
+    let template = readText(WIDE_TEMPLATE_FILE);
+    const urls = getImageUrls(image.id);
+
+    template = replaceToken(template, "PAGE_TITLE", escapeHtml(`${image.title || image.id} | 横画像 | イブの喪失`));
+    template = replaceToken(
+        template,
+        "META_DESCRIPTION",
+        escapeAttribute(`${image.title || image.id} の横画像表示ページです。`)
+    );
+    template = replaceToken(template, "CANONICAL_PATH", escapeAttribute(`/cuts/${image.id}/wide/`));
+    template = replaceToken(template, "TITLE", escapeHtml(image.title || image.id));
+    template = replaceToken(template, "DISPLAY_DATE", escapeHtml(image.displayDate || ""));
+    template = replaceToken(template, "IMAGE_ALT", escapeAttribute(getImageAlt(image)));
+    template = replaceToken(template, "WIDE_IMAGE_URL", escapeAttribute(urls.wide));
 
     return template;
 }
@@ -285,6 +311,8 @@ function main() {
     fs.rmSync(OUTPUT_CUTS_DIR, { recursive: true, force: true });
     ensureDir(OUTPUT_CUTS_DIR);
 
+    let widePageCount = 0;
+
     episodeImages.forEach((image, index) => {
         const dir = path.join(OUTPUT_CUTS_DIR, image.id);
         const previousImage = index > 0 ? episodeImages[index - 1] : null;
@@ -298,9 +326,15 @@ function main() {
         });
 
         writeText(path.join(dir, "index.html"), html);
+
+        if (image.hasWide) {
+            const wideHtml = buildWideHtml({ image });
+            writeText(path.join(dir, "wide", "index.html"), wideHtml);
+            widePageCount += 1;
+        }
     });
 
-    console.log(`Generated: index.html + ${episodeImages.length} cut pages`);
+    console.log(`Generated: index.html + ${episodeImages.length} cut pages + ${widePageCount} wide pages`);
 }
 
 main();

@@ -13,6 +13,63 @@
     <link href="https://fonts.googleapis.com/css2?family=Zen+Kurenaido&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="../../css/style.css?v=20260401-static-1" />
+
+    <style>
+        .viewer-cut-nav {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-height: 52px;
+        }
+
+        .viewer-cut-nav> :first-child {
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        .viewer-cut-nav__status {
+            margin-left: auto;
+            margin-right: auto;
+            white-space: nowrap;
+            text-align: center;
+        }
+
+        .viewer-cut-nav__right {
+            display: inline-flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 10px;
+            flex-wrap: nowrap;
+        }
+
+        .viewer-cut-nav .button,
+        .viewer-cut-nav .is-disabled {
+            margin: 0;
+            white-space: nowrap;
+            min-width: 0;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        .viewer-cut-nav> :first-child .button,
+        .viewer-cut-nav> :first-child .is-disabled {
+            padding-left: 18px;
+            padding-right: 18px;
+        }
+
+        .detail-wide-link {
+            min-width: 0;
+            padding-left: 18px;
+            padding-right: 18px;
+            text-align: center;
+        }
+
+        @media (max-width: 640px) {
+            .detail-wide-link--desktop {
+                display: none !important;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -48,7 +105,10 @@
                             <div class="viewer-cut-nav" aria-label="cut移動">
                                 <a class="button" href="../eve-20260402-164910/">← 前のcut</a>
                                 <div class="viewer-cut-nav__status">14 / 16</div>
-                                <a class="button" href="../eve-20260404-002603/">次のcut →</a>
+                                <div class="viewer-cut-nav__right">
+                                    <a class="button" href="../eve-20260404-002603/">次のcut →</a>
+                                    
+                                </div>
                             </div>
                         </div>
                     </section>
