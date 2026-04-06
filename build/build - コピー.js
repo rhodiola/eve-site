@@ -9,6 +9,10 @@ const WIDE_TEMPLATE_FILE = path.join(ROOT, "build", "templates", "wide.template.
 const OUTPUT_INDEX_FILE = path.join(ROOT, "index.html");
 const OUTPUT_CUTS_DIR = path.join(ROOT, "cuts");
 
+const SITE_ORIGIN = "https://eve.npaso.com";
+const OUTPUT_SITEMAP_FILE = path.join(ROOT, "sitemap.xml");
+const OUTPUT_ROBOTS_FILE = path.join(ROOT, "robots.txt");
+
 const IMAGE_BASE_URL = "https://img.eve.npaso.com";
 const HIDDEN_TAGS = ["soft"];
 const GRID_COLUMNS = 5;
@@ -203,6 +207,23 @@ function buildDesktopFixedGalleryHtml(imagesNewestFirst, relativePrefix = "./") 
         .join("");
 }
 
+function buildCutStructuredData(image) {
+    const urls = getImageUrls(image.id);
+
+    return escapeScriptJson(JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "ImageObject",
+        "name": image.title || image.id,
+        "description": image.seoDescription || "",
+        "contentUrl": urls.original,
+        "thumbnailUrl": urls.thumb,
+        "url": `https://eve.npaso.com/cuts/${encodeURIComponent(image.id)}/`,
+        "datePublished": image.date || undefined,
+        "inLanguage": "ja",
+        "caption": getImageAlt(image)
+    }));
+}
+
 function replaceToken(template, token, value) {
     return template.replace(new RegExp(`__${token}__`, "g"), value);
 }
@@ -254,6 +275,7 @@ function buildCutHtml({ image, previousImage, nextImage, position, total }) {
     template = replaceToken(template, "PAGE_TITLE", escapeHtml(`${image.title || image.id} | イブの喪失`));
     template = replaceToken(template, "META_DESCRIPTION", escapeAttribute(image.seoDescription));
     template = replaceToken(template, "CANONICAL_PATH", escapeAttribute(`/cuts/${image.id}/`));
+    template = replaceToken(template, "STRUCTURED_DATA", buildCutStructuredData(image));
     template = replaceToken(template, "IMAGE_ALT", escapeAttribute(getImageAlt(image)));
     template = replaceToken(template, "IMAGE_MEDIUM_URL", escapeAttribute(urls.medium));
     template = replaceToken(template, "TITLE", escapeHtml(image.title || image.id));
@@ -289,6 +311,48 @@ function buildWideHtml({ image }) {
     return template;
 }
 
+function buildSitemapXml(images) {
+    const latestImageDate = images.reduce((latest, image) => {
+        if (!image.date) {
+            return latest;
+        }
+
+        return !latest || image.date > latest ? image.date : latest;
+    }, "");
+
+    const urls = [
+        {
+            loc: `${SITE_ORIGIN}/`,
+            lastmod: latestImageDate
+        },
+        ...images.map((image) => ({
+            loc: `${SITE_ORIGIN}/cuts/${encodeURIComponent(image.id)}/`,
+            lastmod: image.date || ""
+        }))
+    ];
+
+    const body = urls
+        .map(({ loc, lastmod }) => {
+            const lastmodTag = lastmod ? `\n    <lastmod>${escapeHtml(lastmod)}</lastmod>` : "";
+            return `  <url>\n    <loc>${escapeHtml(loc)}</loc>${lastmodTag}\n  </url>`;
+        })
+        .join("\n");
+
+    return `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${body}
+</urlset>
+`;
+}
+
+function buildRobotsTxt() {
+    return `User-agent: *
+Allow: /
+
+Sitemap: ${SITE_ORIGIN}/sitemap.xml
+`;
+}
+
 function main() {
     if (!fs.existsSync(DATA_FILE)) {
         throw new Error(`images.json が見つかりません: ${DATA_FILE}`);
@@ -307,6 +371,8 @@ function main() {
     );
 
     writeText(OUTPUT_INDEX_FILE, buildIndexHtml(images));
+    writeText(OUTPUT_SITEMAP_FILE, buildSitemapXml(images));
+    writeText(OUTPUT_ROBOTS_FILE, buildRobotsTxt());
 
     fs.rmSync(OUTPUT_CUTS_DIR, { recursive: true, force: true });
     ensureDir(OUTPUT_CUTS_DIR);
