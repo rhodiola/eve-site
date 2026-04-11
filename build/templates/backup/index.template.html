@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>__PAGE_TITLE__</title>
+    <meta name="description" content="__META_DESCRIPTION__" />
+    <link rel="canonical" href="https://eve.npaso.com/" />
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "イブの喪失 | The Absence of Eve",
+        "url": "https://eve.npaso.com/",
+        "inLanguage": "ja",
+        "description": "__META_DESCRIPTION__"
+    }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Kurenaido&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="./css/style.css?v=20260401-static-1" />
+</head>
+
+<body>
+    <div id="top"></div>
+
+    <header class="site-header">
+        <div class="container site-header__inner">
+            <a class="brand" href="./index.html">
+                <span class="brand__sub">Home</span>
+            </a>
+            <nav class="site-nav" aria-label="Primary">
+                <a href="#top" class="site-nav__icon" aria-label="ページ上部へ戻る" title="TOPへ">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M12 5l-7 7m7-7l7 7m-7-7v14" />
+                    </svg>
+                </a>
+                <a href="#gallery">Gallery</a>
+                <a href="#license">License</a>
+                <a href="#about">About</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <div class="hero__card">
+                    <div>
+                        <div class="hero__eyebrow">The Absence of Eve</div>
+                        <h1>イブの喪失</h1>
+                        <p style="color:#d7d2f2;">
+                            <br>アンドロイド「イブ」を主人公にした
+                            <br>AI画像と詩のギャラリーサイトです。
+                            <br>宇宙を舞台にした作品を収めています。
+                        </p>
+                    </div>
+
+                    <div class="hero__meta">
+                        <div class="meta-box">
+                            <span class="meta-box__label">Current count</span>
+                            <span class="meta-box__value" data-current-count>__CURRENT_COUNT__</span>
+                        </div>
+                        <div class="meta-box">
+                            <span class="meta-box__label">Format</span>
+                            <span class="meta-box__value">Thumbnail / Medium (webp)</span>
+                        </div>
+                        <div class="meta-box">
+                            <span class="meta-box__label">Usage</span>
+                            <span class="meta-box__value">個人・商用利用可 / 再配布禁止</span>
+                        </div>
+                    </div>
+
+                    <div class="hero__art" aria-hidden="true">
+                        <img src="./images/eve-loss-ornament.webp" alt="" class="hero__art-image">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="gallery" class="container" aria-labelledby="gallery-heading">
+            <div class="toolbar">
+                <div class="toolbar__left">
+                    <div class="gallery-heading-row">
+                        <h2 id="gallery-heading">Gallery</h2>
+
+                        <nav class="pagination pagination--inline" data-pagination-top hidden aria-label="ページ移動（上部）">
+                            <button class="pagination__button" type="button" data-page-prev>前のページ</button>
+                            <div class="pagination__info" data-page-info>1 / 1</div>
+                            <button class="pagination__button" type="button" data-page-next>次のページ</button>
+                        </nav>
+                    </div>
+
+                    <div class="chips" aria-label="タグ絞り込み">
+                        <button class="chip is-active" type="button" data-filter="すべて">すべて</button>
+                        <button class="chip" type="button" data-filter="イブ">イブ</button>
+                        <button class="chip" type="button" data-filter="救済者">救済者</button>
+                        <button class="chip" type="button" data-filter="扉">扉</button>
+                        <button class="chip" type="button" data-filter="修理">修理</button>
+                    </div>
+                </div>
+
+                <div class="toolbar__right">
+                    <input class="search" type="search" placeholder="タグ・日付(例:20260323)・雰囲気で検索" aria-label="検索"
+                        data-search />
+                    <select class="sort" aria-label="並び替え" data-sort>
+                        <option value="left-new" selected>新着順(固定配置)</option>
+                        <option value="old">エピソード順</option>
+                        <option value="new">通常の新着順</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="gallery" data-gallery>
+                __INITIAL_GALLERY__
+            </div>
+
+            <p class="gallery-empty" data-gallery-empty hidden>
+                条件に合う画像がありません。
+            </p>
+
+            <nav class="pagination" data-pagination-bottom hidden aria-label="ページ移動（下部）">
+                <button class="pagination__button" type="button" data-page-prev>前のページ</button>
+                <div class="pagination__info" data-page-info>1 / 1</div>
+                <button class="pagination__button" type="button" data-page-next>次のページ</button>
+            </nav>
+        </section>
+
+        <section id="license" class="license">
+            <div class="container">
+                <div class="license__box">
+                    <h2>License</h2>
+                    <p>
+                        本サイトに掲載されている画像は、個人・商用を問わず自由にご利用いただけます。<br>
+                        クレジット表記は任意ですが、記載していただける場合は当サイト名をご利用ください。
+                    </p>
+                    <p>ただし、以下の行為は禁止とします。</p>
+                    <ul>
+                        <li>画像の再配布（ダウンロード素材としての再公開を含む）</li>
+                        <li>画像の再販売、およびそれに準ずる行為</li>
+                        <li>AI学習用途での利用</li>
+                        <li>公序良俗に反する用途での利用</li>
+
+                        ※ 掲載画像には、出所や生成に関する情報が付与されている場合があります。
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="container" style="padding-bottom: 56px;">
+            <div class="panel">
+                <h2 style="margin:0 0 10px; font-size:1.15rem;">About</h2>
+                <p>
+                    このサイトは、生成AIによって作られた画像のギャラリーです。<br>
+                    銀髪と青い瞳を持つイブの物語を、SFの世界観とともにcut形式で掲載しています。<br>
+                    各作品ページで前後cutへ続けて閲覧ができます。
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container site-footer__inner">
+            <div>© 2026 eve.npaso.com</div>
+            <div>The Absence of Eve</div>
+        </div>
+    </footer>
+
+    <script id="initial-images" type="application/json">__INITIAL_IMAGES_JSON__</script>
+    <script src="./js/app.js?v=20260401-static-1"></script>
+</body>
+
+</html>
