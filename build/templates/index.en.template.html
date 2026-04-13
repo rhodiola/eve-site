@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>__PAGE_TITLE__</title>
+    <meta name="description" content="__META_DESCRIPTION__" />
+    <link rel="canonical" href="https://eve.npaso.com/en/" />
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "The Absence of Eve",
+        "url": "https://eve.npaso.com/en/",
+        "inLanguage": "en",
+        "description": "__META_DESCRIPTION__"
+    }
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="../css/style.en.css?v=20260413-en-1" />
+</head>
+
+<body>
+    <div id="top"></div>
+
+    <header class="site-header">
+        <div class="container site-header__inner">
+            <a class="brand" href="./index.html">
+                <span class="brand__sub">Home</span>
+            </a>
+            <nav class="site-nav" aria-label="Primary">
+                <a href="#top" class="site-nav__icon" aria-label="Back to top" title="Top">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M12 5l-7 7m7-7l7 7m-7-7v14" />
+                    </svg>
+                </a>
+                <a href="#gallery">Gallery</a>
+                <a href="#license">License</a>
+                <a href="#about">About</a>
+                <a href="../index.html" lang="ja">JP</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <div class="hero__card">
+                    <div>
+                        <div class="hero__eyebrow">The Absence of Eve</div>
+                        <h1>The Absence of Eve</h1>
+                        <p>
+                            This is a gallery site featuring <br>
+                            AI-generated images and poems starring the android "Eve."<br>
+                            It contains works set in space.
+                        </p>
+                    </div>
+
+                    <div class="hero__meta">
+                        <div class="meta-box">
+                            <span class="meta-box__label">Current count</span>
+                            <span class="meta-box__value" data-current-count>__CURRENT_COUNT__</span>
+                        </div>
+                        <div class="meta-box">
+                            <span class="meta-box__label">Format</span>
+                            <span class="meta-box__value">Thumbnail / Medium (webp)</span>
+                        </div>
+                        <div class="meta-box">
+                            <span class="meta-box__label">Usage</span>
+                            <span class="meta-box__value">Personal & commercial use allowed / redistribution
+                                prohibited</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="gallery" class="container" aria-labelledby="gallery-heading">
+            <div class="toolbar">
+                <div class="toolbar__left">
+                    <div class="gallery-heading-row">
+                        <h2 id="gallery-heading">Gallery</h2>
+
+                        <nav class="pagination pagination--inline" data-pagination-top hidden
+                            aria-label="Top pagination">
+                            <button class="pagination__button" type="button" data-page-prev>Previous</button>
+                            <div class="pagination__info" data-page-info>1 / 1</div>
+                            <button class="pagination__button" type="button" data-page-next>Next</button>
+                        </nav>
+                    </div>
+
+                    <div class="chips" aria-label="Tag filters">
+                        <button class="chip is-active" type="button" data-filter="All">All</button>
+                        <button class="chip" type="button" data-filter="Eve">Eve</button>
+                        <button class="chip" type="button" data-filter="Door">Door</button>
+                        <button class="chip" type="button" data-filter="Space Colony">Space Colony</button>
+                        <button class="chip" type="button" data-filter="Ruins">Ruins</button>
+                    </div>
+                </div>
+
+                <div class="toolbar__right">
+                    <input class="search" type="search" placeholder="Search by tag, date, mood, or title"
+                        aria-label="Search" data-search />
+                    <select class="sort" aria-label="Sort order" data-sort>
+                        <option value="left-new" selected>Newest (fixed layout)</option>
+                        <option value="old">Story order</option>
+                        <option value="new">Newest</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="gallery" data-gallery>
+                __INITIAL_GALLERY__
+            </div>
+
+            <p class="gallery-empty" data-gallery-empty hidden>
+                No images matched your filters.
+            </p>
+
+            <nav class="pagination" data-pagination-bottom hidden aria-label="Bottom pagination">
+                <button class="pagination__button" type="button" data-page-prev>Previous</button>
+                <div class="pagination__info" data-page-info>1 / 1</div>
+                <button class="pagination__button" type="button" data-page-next>Next</button>
+            </nav>
+        </section>
+
+        <section id="license" class="license">
+            <div class="container">
+                <div class="panel">
+                    <h2>License</h2>
+                    <p>
+                        Images on this site may be used for personal and commercial purposes.<br>
+                        Credit is optional. Redistribution of the original image files is not allowed.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="license" style="padding-top:0;">
+            <div class="container">
+                <div class="panel">
+                    <h2>About</h2>
+                    <p>
+                        This archive presents Eve through AI-generated images and poems.<br>
+                        Each cut stands as a fragment of a larger, quiet narrative.
+                    </p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container site-footer__inner">
+            <div>© 2026 eve.npaso.com</div>
+            <div>The Absence of Eve</div>
+        </div>
+    </footer>
+
+    <script>
+        window.__INITIAL_IMAGES__ = __INITIAL_IMAGES_JSON__;
+    </script>
+    <script src="../js/app.en.js?v=20260413-en-1"></script>
+</body>
+
+</html>

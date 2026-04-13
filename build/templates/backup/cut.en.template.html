@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8" />
@@ -11,36 +11,44 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Zen+Kurenaido&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="../../css/style.css?v=20260401-static-1" />
+    <link rel="stylesheet" href="../../../css/style.en.css?v=20260413-en-1" />
 
     <style>
         .viewer-cut-nav {
-            display: flex;
-            align-items: center;
+            display: grid;
+            grid-template-columns: max-content minmax(72px, 1fr) max-content;
             gap: 12px;
+            align-items: center;
             min-height: 52px;
         }
 
         .viewer-cut-nav> :first-child {
-            display: flex;
-            justify-content: flex-start;
+            justify-self: start;
         }
 
         .viewer-cut-nav__status {
-            margin-left: auto;
-            margin-right: auto;
-            white-space: nowrap;
+            justify-self: center;
+            min-width: 0;
             text-align: center;
+            font-size: 0.88rem;
+            line-height: 1;
+            color: var(--muted);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-inline: 8px;
         }
 
         .viewer-cut-nav__right {
-            display: inline-flex;
+            justify-self: end;
+            display: flex;
             align-items: center;
             justify-content: flex-end;
             gap: 10px;
             flex-wrap: nowrap;
+            min-width: 0;
         }
 
         .viewer-cut-nav .button,
@@ -48,14 +56,12 @@
             margin: 0;
             white-space: nowrap;
             min-width: 0;
+            min-height: 42px;
             padding-left: 20px;
             padding-right: 20px;
-        }
-
-        .viewer-cut-nav> :first-child .button,
-        .viewer-cut-nav> :first-child .is-disabled {
-            padding-left: 18px;
-            padding-right: 18px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .detail-full-link {
@@ -82,7 +88,7 @@
                 <span class="brand__sub">Home</span>
             </a>
             <nav class="site-nav" aria-label="Primary">
-                <a href="../../index.html#gallery">Gallery</a>
+                <a href="../../index.html">Gallery</a>
                 <a href="../../index.html#license">License</a>
                 <a href="../../index.html#about">About</a>
                 __LANG_SWITCH_HTML__
@@ -104,7 +110,7 @@
                         <p data-viewer-description>__DESCRIPTION_HTML__</p>
 
                         <div class="actions">
-                            <div class="viewer-cut-nav" aria-label="cut移動">
+                            <div class="viewer-cut-nav" aria-label="cut navigation">
                                 __PREV_LINK__
                                 <div class="viewer-cut-nav__status">__POSITION__</div>
                                 <div class="viewer-cut-nav__right">
@@ -119,7 +125,6 @@
                         <h2>Tags</h2>
                         <div class="tags">__TAGS__</div>
                     </section>
-
                 </aside>
             </div>
         </section>

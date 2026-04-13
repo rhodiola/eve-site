@@ -1,0 +1,48 @@
+
+eve-site/
+│
+├─ index.html                        # 日本語トップ（生成後）
+├─ en/
+│  ├─ index.html                     # 英語トップ（生成後）
+│  └─ cuts/
+│     ├─ eve-20260323-152334/
+│     │  └─ index.html               # 英語個別cutページ（生成後）
+│     ├─ eve-20260328-162907/
+│     │  └─ index.html
+│     └─ ...
+│
+├─ cuts/
+│  ├─ eve-20260323-152334/
+│  │  └─ index.html                  # 日本語個別cutページ（生成後）
+│  ├─ eve-20260328-162907/
+│  │  └─ index.html
+│  └─ ...
+│
+├─ data/
+│  └─ images.json                    # 元データ（ja + en を同居）
+│
+├─ js/
+│  ├─ app.js                         # 日本語トップ一覧用JS
+│  └─ app.en.js                      # 英語トップ一覧用JS
+│
+├─ css/
+│  ├─ style.css                      # 日本語用CSS
+│  └─ style.en.css                   # 英語用CSS
+│
+├─ images/
+│  ├─ eve-loss-ornament.webp
+│  └─ ...                            # 共通画像資産
+│
+├─ build/
+│  ├─ build.js                       # 日本語・英語をまとめて生成する本体
+│  └─ templates/
+│     ├─ index.template.html         # 日本語トップ用
+│     ├─ cut.template.html           # 日本語cut用
+│     ├─ wide.template.html          # 日本語wide用
+│     ├─ index.en.template.html      # 英語トップ用
+│     ├─ cut.en.template.html        # 英語cut用
+│     └─ wide.en.template.html       # 英語wide用（必要なら）
+│
+├─ sitemap.xml                       # 生成後
+├─ robots.txt                        # 生成後
+└─ package.json

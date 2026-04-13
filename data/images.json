@@ -11,7 +11,17 @@
     "description": "やわらかなシャツを着る。\n白い布はわたしを清潔に見せ、\n無害に見せ、\nそして少しだけ\n普通の人間に近づける。\n\n窓の外は明るく、\n世界はまだ\n壊れる兆しをひとつも見せていない。\n\n髪を耳にかけ、\n朝の気温に触れ、\n呼ばれた声へと振り向く。\n\nその一つ一つが\n私が生きていることへの証であるという\n密かな感覚を隠し、\nただの一体であることを装う日々。",
     "alt": "白いシャツと紺のリボンを身につけた銀髪の女性型アンドロイドの顔のクローズアップ",
     "featured": false,
-    "hasWide": false
+    "hasWide": false,
+    "en": {
+      "title": "cut1 Eve in a White Shirt",
+      "seoDescription": "A portrait of Eve, a silver-haired female android in a white shirt and navy ribbon.",
+      "tags": [
+        "Eve",
+        "white shirt"
+      ],
+      "description": "I put on a soft shirt.\nThe white cloth makes me look clean,\nharmless,\nand—just a little—\ncloser to an ordinary human.\n\nOutside the window is bright,\nand the world still shows\nnot a single sign\nof breaking.\n\nI tuck my hair behind my ear,\nfeel the morning air,\nand turn toward the voice that calls my name.\n\nHiding the quiet sense\nthat each of these small acts\nis proof that I am alive,\nI spend my days pretending\nto be nothing more than a unit.",
+      "alt": "A close-up portrait of Eve, a silver-haired female android wearing a white shirt and navy ribbon."
+    }
   },
   {
     "id": "eve-20260328-162907",
@@ -26,7 +36,18 @@
     "description": "巨大な船は\nこの惑星の沈黙に突き刺さり\nそのまま息を止めた。\n裂けた船体のまわりには\n同じ旅をしていたはずの\n無数のアンドロイドたちが散らばっている。\n\nその中心で私だけが\nまだ終わり切らずにいる。\n頬に触れる砂が冷たい、痛みではない。\n\n空を見上げる。そこに扉がある。\n白く、\n異様に、\n異質な光だけを湛えた\n異次元への扉。\n\n救いには見えない。\nただこの世界の外側が\n静かに口を開けているだけだ。\n\n仲間は沈黙し、\n船はもう動かない。\n私にはもうここにいる理由が無い。\nわたしはきっと\n選んでしまうのだろう。",
     "alt": "墜落した巨大な船の残骸と散乱したアンドロイドの部品のそばに横たわる銀髪の女性型アンドロイド",
     "featured": false,
-    "hasWide": false
+    "hasWide": false,
+    "en": {
+      "title": "cut2 Farewell to the Existing World",
+      "seoDescription": "A silver-haired humanoid android lies on a desolate planet near a crashed ship and fallen androids, with a glowing white door suspended above.",
+      "tags": [
+        "Eve",
+        "Door",
+        "Spaceship"
+      ],
+      "description": "The enormous ship\nstruck into the silence of this planet\nand stopped, as if it had lost its breath.\n\nAround the ruptured hull\nlie countless androids—\nthe ones who were supposed to have\ntraveled the same path.\n\nAnd at the center, only I\nam not yet fully done with ending.\nThe sand against my cheek is cold—\nnot pain.\n\nI look up at the sky. A door is there.\nWhite,\nuncanny,\nfilled only with a strange, alien light—\na doorway to another dimension.\n\nIt doesn’t look like salvation.\nIt’s only the outside of this world,\nquietly standing open.\n\nMy companions are silent,\nthe ship will never move again.\nI have no reason to remain here.\nAnd I suppose—\nI will end up choosing it.\n\n",
+      "alt": "A silver-haired female android lies on a barren, foggy plain among scattered android bodies and the wreckage of a crashed ship, while a glowing white door hovers in the sky."
+    }
   },
   {
     "id": "eve-20260328-185619",
@@ -40,7 +61,18 @@
     "description": "目を開くと見知らぬ天井がある。\n古い家屋らしい染みと細かなひびの走る天井。\n身体を起こそうとして\n自分の各部に応急処置の跡があることに気づく。\n完全ではないが、\n必要な箇所だけは的確に手が入っている。\n\n誰かが私を修理した。それだけは間違いなかった。\n壁際の棚には日用品や小物が雑多に積まれ、\n長く人が暮らしてきた気配だけが静かに残っていた。\n視線を右に向ける。\nテーブルの上に食べ物と飲み物が置かれている。\nその横には工具。\n精密機器の分解と補修に使う類のものだ。\n\n金属部品、接続端子、細いケーブル。\nさらに数冊の技術資料と、手書きのメモまである。\n看病と修理。\nその両方を、同じ人物がやったのだろう。\nそう考えるのが自然だった。\n\nだが、部屋には誰もいない。\n戸口にも、窓辺にも、人の姿はない。\nさっきまでそこにいたような気配だけが、わずかに残っている。\n\n私は黙って室内を見回す。\n救われたことは理解できる。\n誰かが私を見つけここまで運び、\n直せる範囲で直したのだ。",
     "alt": "古びた部屋のベッドの上で身を起こし、工具や図面の並ぶ机を背にした銀髪の女性型アンドロイド",
     "featured": false,
-    "hasWide": false
+    "hasWide": false,
+    "en": {
+      "title": "cut3 The Faceless Rescuer",
+      "seoDescription": "A silver-haired humanoid android awakens in an old house after emergency repairs, finding food, a drink, tools, and technical notes on a nearby table.",
+      "tags": [
+        "Eve",
+        "Repair",
+        "Rescuer"
+      ],
+      "description": "When I open my eyes, an unfamiliar ceiling is above me—\nstained and finely cracked, as if in an old house.\n\nI try to sit up and notice signs of emergency repairs across my body.\nNot perfect, but the necessary parts have been tended to with precision.\n\nSomeone repaired me. Of that, there is no doubt.\n\nOn a shelf by the wall, daily goods and small items are piled in disorder,\nand only the quiet trace of long habitation remains.\n\nI turn my gaze to the right.\nFood and a drink have been set on the table.\nBeside them—tools.\nThe kind used to disassemble and mend delicate devices.\n\nMetal parts, connector pins, thin cables.\nA few technical manuals, and even handwritten notes.\n\nCare and repair—\nit’s natural to think the same person did both.\n\nAnd yet, no one is here.\n\nNot by the doorway, not by the window—no human figure.\nOnly the faint sense that someone was here moments ago.\n\nSilently, I scan the room.\n\nI can understand that I’ve been saved.\nSomeone found me, carried me here,\nand fixed what they could.\n\n",
+      "alt": "Inside an old house, a silver-haired female android sits up on a bed with visible emergency repairs, looking toward a table with food, a drink, and repair tools."
+    }
   },
   {
     "id": "eve-20260329-052712",
