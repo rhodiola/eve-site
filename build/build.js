@@ -62,9 +62,13 @@ function readText(filePath) {
     return fs.readFileSync(filePath, "utf8");
 }
 
+function toCrlf(text = "") {
+    return String(text).replace(/\r?\n/g, "\r\n");
+}
+
 function writeText(filePath, content) {
     ensureDir(path.dirname(filePath));
-    fs.writeFileSync(filePath, content, "utf8");
+    fs.writeFileSync(filePath, toCrlf(content), "utf8");
 }
 
 function checkRemoteFileExists(url, redirectCount = 0) {
