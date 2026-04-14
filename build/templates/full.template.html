@@ -249,154 +249,38 @@
             let hideTimer = null;
             let isDownloading = false;
 
-                        const DOWNLOAD_LABELS = {
-                download: "DL",
-                download2: "DL2"
-            };
-
-            function getDownloadSources() {
+            function buildPixItemUrl() {
                 const viewerUrl = image.currentSrc || image.src || "";
-                if (!viewerUrl) {
-                    return [];
-                }
-
-                let filename = "image.webp";
+                if (!viewerUrl) return "";
                 try {
                     const parsedUrl = new URL(viewerUrl, location.href);
                     const parts = parsedUrl.pathname.split("/");
-                    filename = parts[parts.length - 1] || filename;
+                    const filename = parts[parts.length - 1] || "";
+                    const id = filename.replace(/\.webp$/i, "");
+                    if (!id) return "";
+                    return `https://pix.npaso.com/items/${encodeURIComponent(id)}/`;
                 } catch (_) {
-                    // noop
+                    return "";
                 }
-
-                const createVariantUrl = (folderName) => {
-                    try {
-                        const parsedUrl = new URL(viewerUrl, location.href);
-                        // Replace the first occurrence of a known folder with the target folder.
-                        parsedUrl.pathname = parsedUrl.pathname.replace(/\/(download2|download|viewer)\//, `/${folderName}/`);
-                        // If no replacement happened, fall back to /{folderName}/{filename}.
-                        if (!parsedUrl.pathname.includes(`/${folderName}/`)) {
-                            const parts = parsedUrl.pathname.split("/");
-                            const file = parts[parts.length - 1] || filename;
-                            parsedUrl.pathname = `/${folderName}/${file}`;
-                        }
-                        return parsedUrl.toString();
-                    } catch (_) {
-                        return "";
-                    }
-                };
-
-                return [
-                    { key: "download", url: createVariantUrl("download"), filename, label: DOWNLOAD_LABELS.download },
-                    { key: "download2", url: createVariantUrl("download2"), filename, label: DOWNLOAD_LABELS.download2 }
-                ].filter((source) => source.url);
             }
 
-            function createDownloadButtonLabel(width, height, label) {
-                return `${width}×${height} ${label}`;
-            }
-
-            function createDownloadButton(source, width, height) {
-                const button = document.createElement("button");
-                button.type = "button";
-                button.className = "viewer-chip viewer-chip--download";
-                button.textContent = createDownloadButtonLabel(width, height, source.label || "DL");
-                button.setAttribute("aria-label", `${createDownloadButtonLabel(width, height, source.label || "DL")} download`);
-                button.addEventListener("click", async (event) => {
-                    event.preventDefault();
-                    event.stopPropagation();
-                    await downloadCurrentImage(source.url, source.filename, button);
-                });
-                return button;
-            }
-
-            function probeDownloadSource(source) {
-                return new Promise((resolve) => {
-                    const probe = new Image();
-
-                    probe.onload = () => {
-                        resolve({
-                            source,
-                            width: probe.naturalWidth || 0,
-                            height: probe.naturalHeight || 0
-                        });
-                    };
-
-                    probe.onerror = () => resolve(null);
-                    probe.src = `${source.url}${source.url.includes("?") ? "&" : "?"}v=${Date.now()}`;
-                });
-            }
-
-            async function renderDownloadButtons() {
-                if (!actionsContainer) {
-                    return;
-                }
-
+            function renderPixLink() {
+                if (!actionsContainer) return;
                 actionsContainer.replaceChildren();
 
-                const downloadSources = getDownloadSources();
-                const results = await Promise.all(downloadSources.map((source) => probeDownloadSource(source)));
-                const availableSources = results.filter((result) => result && result.width > 0 && result.height > 0);
+                const url = buildPixItemUrl();
+                if (!url) return;
 
-                availableSources.forEach((entry) => {
-                    actionsContainer.appendChild(
-                        createDownloadButton(entry.source, entry.width, entry.height)
-                    );
-                });
+                const link = document.createElement("a");
+                link.className = "viewer-chip viewer-chip--download";
+                link.href = url;
+                link.target = "_blank";
+                link.rel = "noopener";
+                link.textContent = "pixでダウンロード";
+                link.setAttribute("aria-label", "pixでダウンロード");
+                actionsContainer.appendChild(link);
             }
-
-            async function downloadCurrentImage(url, filename, button) {
-                if (!url || !button || isDownloading) {
-                    return;
-                }
-
-                isDownloading = true;
-                button.classList.add("is-busy");
-                showOverlay();
-
-                try {
-                    const response = await fetch(url, {
-                        method: "GET",
-                        mode: "cors",
-                        credentials: "omit",
-                        cache: "no-store",
-                        redirect: "follow"
-                    });
-
-                    if (!response.ok) {
-                        throw new Error(`HTTP ${response.status}`);
-                    }
-
-                    const blob = await response.blob();
-                    if (!blob || blob.size === 0) {
-                        throw new Error("Empty response body (blob size = 0).");
-                    }
-
-                    const objectUrl = URL.createObjectURL(blob);
-
-                    try {
-                        const link = document.createElement("a");
-                        link.href = objectUrl;
-                        link.download = filename || "image.webp";
-                        link.rel = "noopener";
-                        link.style.display = "none";
-                        document.body.appendChild(link);
-                        link.click();
-                        setTimeout(() => link.remove(), 2000);
-                    } finally {
-                        setTimeout(() => URL.revokeObjectURL(objectUrl), 30000);
-                    }
-                } catch (error) {
-                    console.error("Download failed:", url, error);
-                    alert("Download failed. Check console/network.");
-                } finally {
-                    isDownloading = false;
-                    button.classList.remove("is-busy");
-                    showOverlay();
-                }
-            }
-
-            container.addEventListener("wheel", (event) => {
+container.addEventListener("wheel", (event) => {
                 event.preventDefault();
                 const delta = event.deltaY < 0 ? SCALE_STEP : -SCALE_STEP;
                 zoomAt(event.clientX, event.clientY, scale + delta);
@@ -495,7 +379,7 @@
                 showOverlay();
             });
 
-            renderDownloadButtons();
+            renderPixLink();
             showOverlay();
         })();
     </script>
