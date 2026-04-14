@@ -47,7 +47,7 @@
             min-height: 44px;
             padding: 0 16px;
             border-radius: 999px;
-            background: rgba(0, 0, 0, 0.2);
+            background: rgba(0, 0, 0, 0.72);
             border: 1px solid rgba(255, 255, 255, 0.28);
             color: rgba(255, 255, 255, 0.96);
             font-size: 16px;
@@ -79,7 +79,7 @@
         .viewer-back:hover {
             background: rgba(0, 0, 0, 0.84);
             transform: translateY(-1px);
-            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.5);
         }
 
         .viewer-meta-row {
@@ -115,7 +115,7 @@
             min-height: 44px;
             padding: 0 14px;
             border-radius: 999px;
-            background: rgba(0, 0, 0, 0.2);
+            background: rgba(0, 0, 0, 0.72);
             border: 1px solid rgba(255, 255, 255, 0.22);
             color: rgba(255, 255, 255, 0.92);
             font-size: 14px;
@@ -145,7 +145,7 @@
         .viewer-chip--download:hover {
             background: rgba(0, 0, 0, 0.84);
             transform: translateY(-1px);
-            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.5);
         }
 
         .viewer-chip--download.is-busy {
@@ -249,74 +249,18 @@
             let hideTimer = null;
             let isDownloading = false;
 
-            function isTemplateToken(value) {
-                return typeof value === "string" && /^__.+__$/.test(value);
-            }
-
-            function getDownloadSources() {
-                const viewerUrl = image.currentSrc || image.src || "";
-
-                if (!viewerUrl) {
-                    return [];
+            const downloadSources = [
+                {
+                    url: "__DOWNLOAD_IMAGE_URL__",
+                    filename: "__DOWNLOAD_IMAGE_FILENAME__",
+                    label: "DL"
+                },
+                {
+                    url: "__DOWNLOAD2_IMAGE_URL__",
+                    filename: "__DOWNLOAD2_IMAGE_FILENAME__",
+                    label: "DL2"
                 }
-
-                let filename = "__DOWNLOAD_IMAGE_FILENAME__";
-
-                try {
-                    const parsedUrl = new URL(viewerUrl, location.href);
-                    const pathnameParts = parsedUrl.pathname.split("/");
-                    filename = pathnameParts[pathnameParts.length - 1] || filename;
-                } catch (_) {
-                }
-
-                const createVariantUrl = (folderName) => {
-                    try {
-                        const parsedUrl = new URL(viewerUrl, location.href);
-
-                        if (/\/full\//.test(parsedUrl.pathname)) {
-                            parsedUrl.pathname = parsedUrl.pathname.replace(/\/full\//, `/${folderName}/`);
-                        } else if (/\/viewer\//.test(parsedUrl.pathname)) {
-                            parsedUrl.pathname = parsedUrl.pathname.replace(/\/viewer\//, `/${folderName}/`);
-                        } else {
-                            return "";
-                        }
-
-                        return parsedUrl.toString();
-                    } catch (_) {
-                        return "";
-                    }
-                };
-
-                const derivedSources = [
-                    {
-                        key: "download",
-                        url: createVariantUrl("download"),
-                        filename
-                    },
-                    {
-                        key: "download2",
-                        url: createVariantUrl("download2"),
-                        filename
-                    }
-                ].filter((source) => source.url);
-
-                if (derivedSources.length) {
-                    return derivedSources;
-                }
-
-                return [
-                    {
-                        key: "download",
-                        url: isTemplateToken("__DOWNLOAD_IMAGE_URL__") ? "" : "__DOWNLOAD_IMAGE_URL__",
-                        filename: isTemplateToken("__DOWNLOAD_IMAGE_FILENAME__") ? filename : "__DOWNLOAD_IMAGE_FILENAME__"
-                    },
-                    {
-                        key: "download2",
-                        url: isTemplateToken("__DOWNLOAD2_IMAGE_URL__") ? "" : "__DOWNLOAD2_IMAGE_URL__",
-                        filename: isTemplateToken("__DOWNLOAD2_IMAGE_FILENAME__") ? filename : "__DOWNLOAD2_IMAGE_FILENAME__"
-                    }
-                ].filter((source) => source.url);
-            }
+            ].filter((source) => source.url);
 
             function clamp(value, min, max) {
                 return Math.min(max, Math.max(min, value));
@@ -383,18 +327,16 @@
                 }, OVERLAY_HIDE_DELAY);
             }
 
-            function createDownloadButton(source, width, height) {
+            function createDownloadButton(entry) {
                 const button = document.createElement("button");
                 button.type = "button";
                 button.className = "viewer-chip viewer-chip--download";
-                button.dataset.downloadUrl = source.url;
-                button.dataset.downloadFilename = source.filename || "";
-                button.textContent = `${width}×${height} DL`;
-                button.setAttribute("aria-label", `${width}×${height} DL`);
+                button.textContent = `${entry.width}×${entry.height} ${entry.label}`;
+                button.setAttribute("aria-label", `${entry.width}×${entry.height} ${entry.label}`);
                 button.addEventListener("click", async (event) => {
                     event.preventDefault();
                     event.stopPropagation();
-                    await downloadCurrentImage(button);
+                    await downloadImage(entry.url, entry.filename, button);
                 });
                 return button;
             }
@@ -405,7 +347,7 @@
 
                     probe.onload = () => {
                         resolve({
-                            source,
+                            ...source,
                             width: probe.naturalWidth || 0,
                             height: probe.naturalHeight || 0
                         });
@@ -423,26 +365,16 @@
 
                 actionsContainer.replaceChildren();
 
-                const downloadSources = getDownloadSources();
                 const results = await Promise.all(downloadSources.map((source) => probeDownloadSource(source)));
-                const availableSources = results.filter((result) => result && result.width > 0 && result.height > 0);
+                const availableEntries = results.filter((entry) => entry && entry.width > 0 && entry.height > 0);
 
-                availableSources.forEach((entry) => {
-                    actionsContainer.appendChild(
-                        createDownloadButton(entry.source, entry.width, entry.height)
-                    );
+                availableEntries.forEach((entry) => {
+                    actionsContainer.appendChild(createDownloadButton(entry));
                 });
             }
 
-            async function downloadCurrentImage(button) {
-                if (!button || isDownloading) {
-                    return;
-                }
-
-                const url = button.dataset.downloadUrl;
-                const filename = button.dataset.downloadFilename || "__DOWNLOAD_IMAGE_FILENAME__" || "image.webp";
-
-                if (!url) {
+            async function downloadImage(url, filename, button) {
+                if (!url || !button || isDownloading) {
                     return;
                 }
 
@@ -469,16 +401,14 @@
                     try {
                         const link = document.createElement("a");
                         link.href = objectUrl;
-                        link.download = filename;
+                        link.download = filename || "image.webp";
                         link.rel = "noopener";
                         link.style.display = "none";
                         document.body.appendChild(link);
                         link.click();
                         link.remove();
                     } finally {
-                        setTimeout(() => {
-                            URL.revokeObjectURL(objectUrl);
-                        }, 1500);
+                        setTimeout(() => URL.revokeObjectURL(objectUrl), 1500);
                     }
                 } catch (_) {
                 } finally {
@@ -570,7 +500,7 @@
                 showOverlay();
             });
 
-            ["mousemove", "mousedown", "touchstart", "keydown", "wheel", "click"].forEach((eventName) => {
+            ["mousemove", "mousedown", "touchstart", "click"].forEach((eventName) => {
                 window.addEventListener(eventName, showOverlay, { passive: true });
             });
 
