@@ -128,12 +128,13 @@ img {
 
 .hero h1 {
     margin: 0 0 10px;
-    font-family: Inter, "Noto Sans", system-ui, sans-serif;
-    font-size: clamp(2rem, 3.5vw, 2.9rem);
-    font-weight: 700;
-    line-height: 1.08;
+    font-family: "Cormorant Garamond", serif;
+    font-size: clamp(2rem, 3.6vw, 3rem);
+    font-weight: 600;
+    font-style: normal;
+    line-height: 1.02;
     letter-spacing: 0.01em;
-    color: #dfe7f3;
+    color: #e7edf7;
 }
 
 .hero p {

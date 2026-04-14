@@ -265,6 +265,9 @@ function buildOldGalleryHtml(images) {
 
 function buildGalleryPageHtml(images) {
     if (state.sortOrder === "left-new") {
+        if (isMobileLayout()) {
+            return buildDefaultGalleryHtml(images);
+        }
         return buildDesktopFixedGalleryHtml(images);
     }
     if (state.sortOrder === "old") {
