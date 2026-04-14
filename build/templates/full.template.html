@@ -101,15 +101,11 @@
         .viewer-meta-row.is-visible {
             opacity: 1;
             transform: translateY(0);
-        
-            pointer-events: auto;
         }
 
         .viewer-meta-row.is-dimmed {
             opacity: 0;
             transform: translateY(-2px);
-        
-            pointer-events: none;
         }
 
         .viewer-chip {
@@ -220,7 +216,7 @@
     <a class="viewer-back" href="../" aria-label="Back">←</a>
 
     <div class="viewer-meta-row" id="viewerMetaRow" aria-live="polite">
-        <div id="viewerActions" style="display:flex; gap:10px; flex-wrap:wrap; pointer-events:auto;"></div>
+        <div id="viewerActions" style="display:flex; gap:10px; flex-wrap:wrap; pointer-events:none;"></div>
     </div>
 
     <main class="viewer-stage" id="viewerStage" aria-label="Full image viewer">
@@ -252,6 +248,22 @@
             let dragOriginY = 0;
             let hideTimer = null;
             let isDownloading = false;
+
+            const downloadSources = [
+                {
+                    key: "download",
+                    url: "__DOWNLOAD_IMAGE_URL__",
+                    filename: "__DOWNLOAD_IMAGE_FILENAME__",
+                    label: "DL"
+                },
+                {
+                    key: "download2",
+                    url: "__DOWNLOAD2_IMAGE_URL__",
+                    filename: "__DOWNLOAD2_IMAGE_FILENAME__",
+                    label: "DL2"
+                }
+            ].filter((source) => source.url);
+
             function clamp(value, min, max) {
                 return Math.min(max, Math.max(min, value));
             }
@@ -316,6 +328,58 @@
                     }
                 }, OVERLAY_HIDE_DELAY);
             }
+
+            function createDownloadButton(entry) {
+                const button = document.createElement("button");
+                button.type = "button";
+                button.className = "viewer-chip viewer-chip--download";
+                button.textContent = `${entry.width}×${entry.height} ${entry.label}`;
+                button.setAttribute("aria-label", `${entry.width}×${entry.height} ${entry.label}`);
+                button.addEventListener("click", async (event) => {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    await downloadImage(entry.url, entry.filename, button);
+                });
+                return button;
+            }
+
+            function probeDownloadSource(source) {
+                return new Promise((resolve) => {
+                    const probe = new Image();
+
+                    probe.onload = () => {
+                        resolve({
+                            ...source,
+                            width: probe.naturalWidth || 0,
+                            height: probe.naturalHeight || 0
+                        });
+                    };
+
+                    probe.onerror = () => resolve(null);
+                    probe.src = `${source.url}${source.url.includes("?") ? "&" : "?"}v=${Date.now()}`;
+                });
+            }
+
+            async function renderDownloadButtons() {
+                if (!actionsContainer) {
+                    return;
+                }
+
+                actionsContainer.replaceChildren();
+
+                const results = await Promise.all(downloadSources.map((source) => probeDownloadSource(source)));
+                const availableEntries = results.filter((entry) => entry && entry.width > 0 && entry.height > 0);
+
+                availableEntries.forEach((entry) => {
+                    actionsContainer.appendChild(createDownloadButton(entry));
+                });
+            }
+
+            async function downloadImage(url, filename, button) {
+                if (!url || !button || isDownloading) {
+                    return;
+                }
+
                 isDownloading = true;
                 button.classList.add("is-busy");
                 showOverlay();
@@ -455,7 +519,7 @@
                 showOverlay();
             });
 
-            renderPixLink();
+            renderDownloadButtons();
             showOverlay();
         })();
     </script>
