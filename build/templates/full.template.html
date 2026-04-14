@@ -47,8 +47,8 @@
             min-height: 44px;
             padding: 0 16px;
             border-radius: 999px;
-            background: rgba(0, 0, 0, 0.72);
-            border: 1px solid rgba(255, 255, 255, 0.28);
+            background: rgba(0, 0, 0, 0.18);
+            border: 1px solid rgba(255, 255, 255, 0.12);
             color: rgba(255, 255, 255, 0.96);
             font-size: 16px;
             font-weight: 700;
@@ -67,7 +67,7 @@
         }
 
         .viewer-back.is-visible {
-            opacity: 0.86;
+            opacity: 0.22;
             pointer-events: auto;
         }
 
@@ -99,7 +99,7 @@
         }
 
         .viewer-meta-row.is-visible {
-            opacity: 1;
+            opacity: 0.22;
             transform: translateY(0);
         }
 
@@ -115,8 +115,8 @@
             min-height: 44px;
             padding: 0 14px;
             border-radius: 999px;
-            background: rgba(0, 0, 0, 0.72);
-            border: 1px solid rgba(255, 255, 255, 0.22);
+            background: rgba(0, 0, 0, 0.18);
+            border: 1px solid rgba(255, 255, 255, 0.12);
             color: rgba(255, 255, 255, 0.92);
             font-size: 14px;
             font-weight: 600;
@@ -216,7 +216,7 @@
     <a class="viewer-back" href="../" aria-label="Back">←</a>
 
     <div class="viewer-meta-row" id="viewerMetaRow" aria-live="polite">
-        <div id="viewerActions" style="display:flex; gap:10px; flex-wrap:wrap; pointer-events:none;"></div>
+        <div id="viewerActions" style="display:flex; gap:10px; flex-wrap:wrap; pointer-events:auto;"></div>
     </div>
 
     <main class="viewer-stage" id="viewerStage" aria-label="Full image viewer">
@@ -266,10 +266,10 @@
 
                 if (!baseId) return "";
 
-                // eve-20260412-055318 -> pix-20260412-055318-01
-                // pix-20260412-055318 -> pix-20260412-055318-01
+                // eve-20260412-055318 -> pix-20260412-055318
+                // pix-20260412-055318 -> pix-20260412-055318
                 baseId = baseId.replace(/^eve-/, "pix-").replace(/-\d{2}$/, "");
-                return `${PIX_ITEM_BASE}${encodeURIComponent(baseId)}-01/`;
+                return `${PIX_ITEM_BASE}${encodeURIComponent(baseId)}/`;
             }
 
 
