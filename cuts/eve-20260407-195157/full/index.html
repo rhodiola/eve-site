@@ -249,20 +249,29 @@
             let hideTimer = null;
             let isDownloading = false;
 
-            const downloadSources = [
-                {
-                    key: "download",
-                    url: "https://img.eve.npaso.com/download/eve-20260407-195157.webp",
-                    filename: "eve-20260407-195157.webp",
-                    label: "DL"
-                },
-                {
-                    key: "download2",
-                    url: "https://img.eve.npaso.com/download2/eve-20260407-195157.webp",
-                    filename: "eve-20260407-195157-2.webp",
-                    label: "DL2"
+            const PIX_ITEM_BASE = "https://pix.npaso.com/items/";
+
+            function buildPixItemUrl() {
+                const viewerUrl = image.currentSrc || image.src || "";
+                if (!viewerUrl) return "";
+
+                let baseId = "";
+                try {
+                    const parsed = new URL(viewerUrl, location.href);
+                    const filename = (parsed.pathname.split("/").pop() || "").replace(/\.(webp|png|jpg|jpeg)$/i, "");
+                    baseId = filename || "";
+                } catch (_) {
+                    // noop
                 }
-            ].filter((source) => source.url);
+
+                if (!baseId) return "";
+
+                // eve-20260412-055318 -> pix-20260412-055318-01
+                // pix-20260412-055318 -> pix-20260412-055318-01
+                baseId = baseId.replace(/^eve-/, "pix-").replace(/-\d{2}$/, "");
+                return `${PIX_ITEM_BASE}${encodeURIComponent(baseId)}-01/`;
+            }
+
 
             function clamp(value, min, max) {
                 return Math.min(max, Math.max(min, value));
@@ -315,6 +324,10 @@
                     metaRow.classList.remove("is-dimmed");
                 }
 
+                if (actionsContainer) {
+                    actionsContainer.style.pointerEvents = "auto";
+                }
+
                 clearTimeout(hideTimer);
                 hideTimer = setTimeout(() => {
                     if (backButton) {
@@ -326,99 +339,35 @@
                         metaRow.classList.remove("is-visible");
                         metaRow.classList.add("is-dimmed");
                     }
+
+                    if (actionsContainer) {
+                        actionsContainer.style.pointerEvents = "none";
+                    }
                 }, OVERLAY_HIDE_DELAY);
             }
 
-            function createDownloadButton(entry) {
-                const button = document.createElement("button");
-                button.type = "button";
-                button.className = "viewer-chip viewer-chip--download";
-                button.textContent = `${entry.width}×${entry.height} ${entry.label}`;
-                button.setAttribute("aria-label", `${entry.width}×${entry.height} ${entry.label}`);
-                button.addEventListener("click", async (event) => {
-                    event.preventDefault();
-                    event.stopPropagation();
-                    await downloadImage(entry.url, entry.filename, button);
-                });
-                return button;
-            }
-
-            function probeDownloadSource(source) {
-                return new Promise((resolve) => {
-                    const probe = new Image();
-
-                    probe.onload = () => {
-                        resolve({
-                            ...source,
-                            width: probe.naturalWidth || 0,
-                            height: probe.naturalHeight || 0
-                        });
-                    };
-
-                    probe.onerror = () => resolve(null);
-                    probe.src = `${source.url}${source.url.includes("?") ? "&" : "?"}v=${Date.now()}`;
-                });
-            }
-
-            async function renderDownloadButtons() {
+            function renderPixLink() {
                 if (!actionsContainer) {
                     return;
                 }
 
                 actionsContainer.replaceChildren();
 
-                const results = await Promise.all(downloadSources.map((source) => probeDownloadSource(source)));
-                const availableEntries = results.filter((entry) => entry && entry.width > 0 && entry.height > 0);
-
-                availableEntries.forEach((entry) => {
-                    actionsContainer.appendChild(createDownloadButton(entry));
-                });
-            }
-
-            async function downloadImage(url, filename, button) {
-                if (!url || !button || isDownloading) {
+                const url = buildPixItemUrl();
+                if (!url) {
                     return;
                 }
 
-                isDownloading = true;
-                button.classList.add("is-busy");
-                showOverlay();
-
-                try {
-                    const response = await fetch(url, {
-                        method: "GET",
-                        mode: "cors",
-                        credentials: "omit",
-                        cache: "no-store",
-                        redirect: "follow"
-                    });
-
-                    if (!response.ok) {
-                        throw new Error(`HTTP ${response.status}`);
-                    }
-
-                    const blob = await response.blob();
-                    const objectUrl = URL.createObjectURL(blob);
-
-                    try {
-                        const link = document.createElement("a");
-                        link.href = objectUrl;
-                        link.download = filename || "image.webp";
-                        link.rel = "noopener";
-                        link.style.display = "none";
-                        document.body.appendChild(link);
-                        link.click();
-                        link.remove();
-                    } finally {
-                        setTimeout(() => URL.revokeObjectURL(objectUrl), 1500);
-                    }
-                } catch (_) {
-                } finally {
-                    isDownloading = false;
-                    button.classList.remove("is-busy");
-                    showOverlay();
-                }
+                const link = document.createElement("a");
+                link.className = "viewer-chip viewer-chip--download";
+                link.href = url;
+                link.target = "_blank";
+                link.rel = "noopener";
+                link.textContent = "pix";
+                link.setAttribute("aria-label", "Open on pix.npaso.com");
+                actionsContainer.appendChild(link);
             }
+
 
             container.addEventListener("wheel", (event) => {
                 event.preventDefault();
@@ -519,7 +468,7 @@
                 showOverlay();
             });
 
-            renderDownloadButtons();
+            renderPixLink();
             showOverlay();
         })();
     </script>
