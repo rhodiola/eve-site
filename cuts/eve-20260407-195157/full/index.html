@@ -213,10 +213,10 @@
 </head>
 
 <body>
-    <a class="viewer-back" href="../" aria-label="Back">←</a>
+    <a class="viewer-back is-visible" href="../" aria-label="Back">←</a>
 
-    <div class="viewer-meta-row" id="viewerMetaRow" aria-live="polite">
-        <div id="viewerActions" style="display:flex; gap:10px; flex-wrap:wrap; pointer-events:auto;"></div>
+    <div class="viewer-meta-row is-visible" id="viewerMetaRow" aria-live="polite">
+        <div id="viewerActions" style="display:flex; gap:10px; flex-wrap:wrap; pointer-events:auto;"><a id="pixDownloadLink" class="viewer-chip viewer-chip--download" href="https://pix.npaso.com/" rel="noopener">pixでダウンロード</a></div>
     </div>
 
     <main class="viewer-stage" id="viewerStage" aria-label="Full image viewer">
@@ -248,39 +248,80 @@
             let dragOriginY = 0;
             let hideTimer = null;
             let isDownloading = false;
+function buildPixUrlFromViewer() {
+    const viewerUrl = image.currentSrc || image.src || "";
+    if (!viewerUrl) {
+        return "https://pix.npaso.com/";
+    }
 
-            function buildPixItemUrl() {
-                const viewerUrl = image.currentSrc || image.src || "";
-                if (!viewerUrl) return "";
+    try {
+        const parsed = new URL(viewerUrl, location.href);
+        const file = (parsed.pathname.split("/").pop() || "").trim();
+        const id = file.replace(/\.webp$/i, "");
+        if (!id) {
+            return "https://pix.npaso.com/";
+        }
+        return `https://pix.npaso.com/items/${encodeURIComponent(id)}/`;
+    } catch (_) {
+        return "https://pix.npaso.com/";
+    }
+}
+
+function renderPixLink() {
+    const link = document.getElementById("pixDownloadLink");
+    if (!link) {
+        return;
+    }
+    link.href = buildPixUrlFromViewer();
+}
+
+                isDownloading = true;
+                button.classList.add("is-busy");
+                showOverlay();
+
                 try {
-                    const parsedUrl = new URL(viewerUrl, location.href);
-                    const parts = parsedUrl.pathname.split("/");
-                    const filename = parts[parts.length - 1] || "";
-                    const id = filename.replace(/\.webp$/i, "");
-                    if (!id) return "";
-                    return `https://pix.npaso.com/items/${encodeURIComponent(id)}/`;
-                } catch (_) {
-                    return "";
+                    const response = await fetch(url, {
+                        method: "GET",
+                        mode: "cors",
+                        credentials: "omit",
+                        cache: "no-store",
+                        redirect: "follow"
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}`);
+                    }
+
+                    const blob = await response.blob();
+                    if (!blob || blob.size === 0) {
+                        throw new Error("Empty response body (blob size = 0).");
+                    }
+
+                    const objectUrl = URL.createObjectURL(blob);
+
+                    try {
+                        const link = document.createElement("a");
+                        link.href = objectUrl;
+                        link.download = filename || "image.webp";
+                        link.rel = "noopener";
+                        link.style.display = "none";
+                        document.body.appendChild(link);
+                        link.click();
+                        setTimeout(() => link.remove(), 2000);
+                    } finally {
+                        setTimeout(() => URL.revokeObjectURL(objectUrl), 30000);
+                    }
+                } catch (error) {
+                    console.error("Download failed:", url, error);
+                    alert("Download failed. Check console/network.");
+                } finally {
+                    isDownloading = false;
+                    button.classList.remove("is-busy");
+                    showOverlay();
                 }
             }
 
-            function renderPixLink() {
-                if (!actionsContainer) return;
-                actionsContainer.replaceChildren();
-
-                const url = buildPixItemUrl();
-                if (!url) return;
-
-                const link = document.createElement("a");
-                link.className = "viewer-chip viewer-chip--download";
-                link.href = url;
-                link.target = "_blank";
-                link.rel = "noopener";
-                link.textContent = "pixでダウンロード";
-                link.setAttribute("aria-label", "pixでダウンロード");
-                actionsContainer.appendChild(link);
-            }
-container.addEventListener("wheel", (event) => {
+            container.addEventListener("wheel", (event) => {
                 event.preventDefault();
                 const delta = event.deltaY < 0 ? SCALE_STEP : -SCALE_STEP;
                 zoomAt(event.clientX, event.clientY, scale + delta);
@@ -378,7 +419,6 @@ container.addEventListener("wheel", (event) => {
                 resetView();
                 showOverlay();
             });
-
             renderPixLink();
             showOverlay();
         })();
