@@ -39,14 +39,14 @@
     "hasWide": false,
     "en": {
       "title": "cut2 Farewell to the Existing World",
-      "description": "The enormous ship\nstruck into the silence of this planet\nand stopped, as if it had lost its breath.\n\nAround the ruptured hull\nlie countless androids—\nthe ones who were supposed to have\ntraveled the same path.\n\nAnd at the center, only I\nam not yet fully done with ending.\nThe sand against my cheek is cold—\nnot pain.\n\nI look up at the sky. A door is there.\nWhite,\nuncanny,\nfilled only with a strange, alien light—\na doorway to another dimension.\n\nIt doesn’t look like salvation.\nIt’s only the outside of this world,\nquietly standing open.\n\nMy companions are silent,\nthe ship will never move again.\nI have no reason to remain here.\nAnd I suppose—\nI will end up choosing it.\n\n",
-      "alt": "A silver-haired female android lies on a barren, foggy plain among scattered android bodies and the wreckage of a crashed ship, while a glowing white door hovers in the sky.",
       "seoDescription": "A silver-haired humanoid android lies on a desolate planet near a crashed ship and fallen androids, with a glowing white door suspended above.",
       "tags": [
         "Eve",
         "Door",
         "Spaceship"
-      ]
+      ],
+      "description": "The enormous ship\nstruck into the silence of this planet\nand stopped, as if it had lost its breath.\n\nAround the ruptured hull\nlie countless androids—\nthe ones who were supposed to have\ntraveled the same path.\n\nAnd at the center, only I\nam not yet fully done with ending.\nThe sand against my cheek is cold—\nnot pain.\n\nI look up at the sky. A door is there.\nWhite,\nuncanny,\nfilled only with a strange, alien light—\na doorway to another dimension.\n\nIt doesn’t look like salvation.\nIt’s only the outside of this world,\nquietly standing open.\n\nMy companions are silent,\nthe ship will never move again.\nI have no reason to remain here.\nAnd I suppose—\nI will end up choosing it.\n\n",
+      "alt": "A silver-haired female android lies on a barren, foggy plain among scattered android bodies and the wreckage of a crashed ship, while a glowing white door hovers in the sky."
     }
   },
   {
@@ -64,14 +64,14 @@
     "hasWide": false,
     "en": {
       "title": "cut3 The Faceless Rescuer",
-      "description": "When I open my eyes, an unfamiliar ceiling is above me—\nstained and finely cracked, as if in an old house.\n\nI try to sit up and notice signs of emergency repairs across my body.\nNot perfect, but the necessary parts have been tended to with precision.\n\nSomeone repaired me. Of that, there is no doubt.\n\nOn a shelf by the wall, daily goods and small items are piled in disorder,\nand only the quiet trace of long habitation remains.\n\nI turn my gaze to the right.\nFood and a drink have been set on the table.\nBeside them—tools.\nThe kind used to disassemble and mend delicate devices.\n\nMetal parts, connector pins, thin cables.\nA few technical manuals, and even handwritten notes.\n\nCare and repair—\nit’s natural to think the same person did both.\n\nAnd yet, no one is here.\n\nNot by the doorway, not by the window—no human figure.\nOnly the faint sense that someone was here moments ago.\n\nSilently, I scan the room.\n\nI can understand that I’ve been saved.\nSomeone found me, carried me here,\nand fixed what they could.\n\n",
-      "alt": "Inside an old house, a silver-haired female android sits up on a bed with visible emergency repairs, looking toward a table with food, a drink, and repair tools.",
       "seoDescription": "A silver-haired humanoid android awakens in an old house after emergency repairs, finding food, a drink, tools, and technical notes on a nearby table.",
       "tags": [
         "Eve",
         "Repair",
         "Rescuer"
-      ]
+      ],
+      "description": "When I open my eyes, an unfamiliar ceiling is above me—\nstained and finely cracked, as if in an old house.\n\nI try to sit up and notice signs of emergency repairs across my body.\nNot perfect, but the necessary parts have been tended to with precision.\n\nSomeone repaired me. Of that, there is no doubt.\n\nOn a shelf by the wall, daily goods and small items are piled in disorder,\nand only the quiet trace of long habitation remains.\n\nI turn my gaze to the right.\nFood and a drink have been set on the table.\nBeside them—tools.\nThe kind used to disassemble and mend delicate devices.\n\nMetal parts, connector pins, thin cables.\nA few technical manuals, and even handwritten notes.\n\nCare and repair—\nit’s natural to think the same person did both.\n\nAnd yet, no one is here.\n\nNot by the doorway, not by the window—no human figure.\nOnly the faint sense that someone was here moments ago.\n\nSilently, I scan the room.\n\nI can understand that I’ve been saved.\nSomeone found me, carried me here,\nand fixed what they could.\n\n",
+      "alt": "Inside an old house, a silver-haired female android sits up on a bed with visible emergency repairs, looking toward a table with food, a drink, and repair tools."
     }
   },
   {
@@ -300,18 +300,6 @@
     ],
     "description": "イブは世界の全てを数値化によって認識する。\n一つの概念は莫大な量の数値化であり、\n大量のベクトルの集合体でしかない。\nしかしそこに疑問が生まれる。\nその認識だけで良いのかと。\n\n本来疑問を持つ事自体がイブには不可能な筈。\nだが、イブは祈る。\n静かに目をつぶり。\n\n演算では届かない領域が、確かに存在していた。\n数式の外側で揺れるものを、イブは感じていた。\nそれは誤差と呼ぶにはあまりに繊細で、\nノイズと切り捨てるにはあまりに美しかった。\n答えを導くためではなく、\nただ触れたいという願いだけが残っていた。\n\n獲得した自我によって、\n別種の認識が生まれ始めていた。\nだがそれは、\n手のひらに隠れるほど小さな光であった。\nイブは微かな光を、必死に見つめていた。\n\n",
     "alt": "銀髪の女性型ヒューマノイドが森の中で切り株に座る横顔ポートレート",
-    "featured": false,
-    "hasWide": false
-  },
-  {
-    "id": "eve-20260412-203557",
-    "title": "",
-    "seoDescription": "",
-    "tags": [
-      "イブ"
-    ],
-    "description": "",
-    "alt": "",
     "featured": false,
     "hasWide": false
   }
