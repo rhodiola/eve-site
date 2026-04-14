@@ -249,20 +249,73 @@
             let hideTimer = null;
             let isDownloading = false;
 
-            const downloadSources = [
-                {
-                    key: "download",
-                    url: "__DOWNLOAD_IMAGE_URL__",
-                    filename: "__DOWNLOAD_IMAGE_FILENAME__",
-                    label: "DL"
-                },
-                {
-                    key: "download2",
-                    url: "__DOWNLOAD2_IMAGE_URL__",
-                    filename: "__DOWNLOAD2_IMAGE_FILENAME__",
-                    label: "DL2"
+            function getDownloadSources() {
+                const viewerUrl = image.currentSrc || image.src || "";
+                const explicitSources = [
+                    {
+                        key: "download",
+                        url: "__DOWNLOAD_IMAGE_URL__",
+                        filename: "__DOWNLOAD_IMAGE_FILENAME__",
+                        label: "DL"
+                    },
+                    {
+                        key: "download2",
+                        url: "__DOWNLOAD2_IMAGE_URL__",
+                        filename: "__DOWNLOAD2_IMAGE_FILENAME__",
+                        label: "DL2"
+                    }
+                ].filter((source) => source.url);
+
+                if (explicitSources.length) {
+                    return explicitSources;
                 }
-            ].filter((source) => source.url);
+
+                if (!viewerUrl) {
+                    return [];
+                }
+
+                let filename = "";
+
+                try {
+                    const parsedUrl = new URL(viewerUrl, location.href);
+                    const pathnameParts = parsedUrl.pathname.split("/");
+                    filename = pathnameParts[pathnameParts.length - 1] || "";
+                } catch (_) {
+                }
+
+                const createVariantUrl = (folderName) => {
+                    try {
+                        const parsedUrl = new URL(viewerUrl, location.href);
+
+                        if (/\/full\//.test(parsedUrl.pathname)) {
+                            parsedUrl.pathname = parsedUrl.pathname.replace(/\/full\//, `/${folderName}/`);
+                        } else if (/\/viewer\//.test(parsedUrl.pathname)) {
+                            parsedUrl.pathname = parsedUrl.pathname.replace(/\/viewer\//, `/${folderName}/`);
+                        } else {
+                            return "";
+                        }
+
+                        return parsedUrl.toString();
+                    } catch (_) {
+                        return "";
+                    }
+                };
+
+                return [
+                    {
+                        key: "download",
+                        url: createVariantUrl("download"),
+                        filename,
+                        label: "DL"
+                    },
+                    {
+                        key: "download2",
+                        url: createVariantUrl("download2"),
+                        filename,
+                        label: "DL2"
+                    }
+                ].filter((source) => source.url);
+            }
 
             function clamp(value, min, max) {
                 return Math.min(max, Math.max(min, value));
@@ -333,12 +386,14 @@
                 const button = document.createElement("button");
                 button.type = "button";
                 button.className = "viewer-chip viewer-chip--download";
+                button.dataset.downloadUrl = entry.url;
+                button.dataset.downloadFilename = entry.filename || "";
                 button.textContent = `${entry.width}×${entry.height} ${entry.label}`;
                 button.setAttribute("aria-label", `${entry.width}×${entry.height} ${entry.label}`);
                 button.addEventListener("click", async (event) => {
                     event.preventDefault();
                     event.stopPropagation();
-                    await downloadImage(entry.url, entry.filename, button);
+                    await downloadCurrentImage(button);
                 });
                 return button;
             }
@@ -349,7 +404,7 @@
 
                     probe.onload = () => {
                         resolve({
-                            ...source,
+                            source,
                             width: probe.naturalWidth || 0,
                             height: probe.naturalHeight || 0
                         });
@@ -367,16 +422,28 @@
 
                 actionsContainer.replaceChildren();
 
+                const downloadSources = getDownloadSources();
                 const results = await Promise.all(downloadSources.map((source) => probeDownloadSource(source)));
                 const availableEntries = results.filter((entry) => entry && entry.width > 0 && entry.height > 0);
 
                 availableEntries.forEach((entry) => {
-                    actionsContainer.appendChild(createDownloadButton(entry));
+                    actionsContainer.appendChild(createDownloadButton({
+                        ...entry.source,
+                        width: entry.width,
+                        height: entry.height
+                    }));
                 });
             }
 
-            async function downloadImage(url, filename, button) {
-                if (!url || !button || isDownloading) {
+            async function downloadCurrentImage(button) {
+                if (!button || isDownloading) {
+                    return;
+                }
+
+                const url = button.dataset.downloadUrl;
+                const filename = button.dataset.downloadFilename || "image.webp";
+
+                if (!url) {
                     return;
                 }
 
@@ -403,7 +470,7 @@
                     try {
                         const link = document.createElement("a");
                         link.href = objectUrl;
-                        link.download = filename || "image.webp";
+                        link.download = filename;
                         link.rel = "noopener";
                         link.style.display = "none";
                         document.body.appendChild(link);
