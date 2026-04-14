@@ -249,37 +249,23 @@
             let hideTimer = null;
             let isDownloading = false;
 
+            function isTemplateToken(value) {
+                return typeof value === "string" && /^__.+__$/.test(value);
+            }
+
             function getDownloadSources() {
                 const viewerUrl = image.currentSrc || image.src || "";
-                const explicitSources = [
-                    {
-                        key: "download",
-                        url: "__DOWNLOAD_IMAGE_URL__",
-                        filename: "__DOWNLOAD_IMAGE_FILENAME__",
-                        label: "DL"
-                    },
-                    {
-                        key: "download2",
-                        url: "__DOWNLOAD2_IMAGE_URL__",
-                        filename: "__DOWNLOAD2_IMAGE_FILENAME__",
-                        label: "DL2"
-                    }
-                ].filter((source) => source.url);
-
-                if (explicitSources.length) {
-                    return explicitSources;
-                }
 
                 if (!viewerUrl) {
                     return [];
                 }
 
-                let filename = "";
+                let filename = "__DOWNLOAD_IMAGE_FILENAME__";
 
                 try {
                     const parsedUrl = new URL(viewerUrl, location.href);
                     const pathnameParts = parsedUrl.pathname.split("/");
-                    filename = pathnameParts[pathnameParts.length - 1] || "";
+                    filename = pathnameParts[pathnameParts.length - 1] || filename;
                 } catch (_) {
                 }
 
@@ -301,18 +287,33 @@
                     }
                 };
 
-                return [
+                const derivedSources = [
                     {
                         key: "download",
                         url: createVariantUrl("download"),
-                        filename,
-                        label: "DL"
+                        filename
                     },
                     {
                         key: "download2",
                         url: createVariantUrl("download2"),
-                        filename,
-                        label: "DL2"
+                        filename
+                    }
+                ].filter((source) => source.url);
+
+                if (derivedSources.length) {
+                    return derivedSources;
+                }
+
+                return [
+                    {
+                        key: "download",
+                        url: isTemplateToken("__DOWNLOAD_IMAGE_URL__") ? "" : "__DOWNLOAD_IMAGE_URL__",
+                        filename: isTemplateToken("__DOWNLOAD_IMAGE_FILENAME__") ? filename : "__DOWNLOAD_IMAGE_FILENAME__"
+                    },
+                    {
+                        key: "download2",
+                        url: isTemplateToken("__DOWNLOAD2_IMAGE_URL__") ? "" : "__DOWNLOAD2_IMAGE_URL__",
+                        filename: isTemplateToken("__DOWNLOAD2_IMAGE_FILENAME__") ? filename : "__DOWNLOAD2_IMAGE_FILENAME__"
                     }
                 ].filter((source) => source.url);
             }
@@ -382,14 +383,14 @@
                 }, OVERLAY_HIDE_DELAY);
             }
 
-            function createDownloadButton(entry) {
+            function createDownloadButton(source, width, height) {
                 const button = document.createElement("button");
                 button.type = "button";
                 button.className = "viewer-chip viewer-chip--download";
-                button.dataset.downloadUrl = entry.url;
-                button.dataset.downloadFilename = entry.filename || "";
-                button.textContent = `${entry.width}×${entry.height} ${entry.label}`;
-                button.setAttribute("aria-label", `${entry.width}×${entry.height} ${entry.label}`);
+                button.dataset.downloadUrl = source.url;
+                button.dataset.downloadFilename = source.filename || "";
+                button.textContent = `${width}×${height} DL`;
+                button.setAttribute("aria-label", `${width}×${height} DL`);
                 button.addEventListener("click", async (event) => {
                     event.preventDefault();
                     event.stopPropagation();
@@ -424,14 +425,12 @@
 
                 const downloadSources = getDownloadSources();
                 const results = await Promise.all(downloadSources.map((source) => probeDownloadSource(source)));
-                const availableEntries = results.filter((entry) => entry && entry.width > 0 && entry.height > 0);
+                const availableSources = results.filter((result) => result && result.width > 0 && result.height > 0);
 
-                availableEntries.forEach((entry) => {
-                    actionsContainer.appendChild(createDownloadButton({
-                        ...entry.source,
-                        width: entry.width,
-                        height: entry.height
-                    }));
+                availableSources.forEach((entry) => {
+                    actionsContainer.appendChild(
+                        createDownloadButton(entry.source, entry.width, entry.height)
+                    );
                 });
             }
 
@@ -441,7 +440,7 @@
                 }
 
                 const url = button.dataset.downloadUrl;
-                const filename = button.dataset.downloadFilename || "image.webp";
+                const filename = button.dataset.downloadFilename || "__DOWNLOAD_IMAGE_FILENAME__" || "image.webp";
 
                 if (!url) {
                     return;
@@ -477,7 +476,9 @@
                         link.click();
                         link.remove();
                     } finally {
-                        setTimeout(() => URL.revokeObjectURL(objectUrl), 1500);
+                        setTimeout(() => {
+                            URL.revokeObjectURL(objectUrl);
+                        }, 1500);
                     }
                 } catch (_) {
                 } finally {
