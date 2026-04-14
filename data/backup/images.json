@@ -17,7 +17,7 @@
       "seoDescription": "A portrait of Eve, a silver-haired female android in a white shirt and navy ribbon.",
       "tags": [
         "Eve",
-        "white shirt"
+        "White Shirt"
       ],
       "description": "I put on a soft shirt.\nThe white cloth makes me look clean,\nharmless,\nand—just a little—\ncloser to an ordinary human.\n\nOutside the window is bright,\nand the world still shows\nnot a single sign\nof breaking.\n\nI tuck my hair behind my ear,\nfeel the morning air,\nand turn toward the voice that calls my name.\n\nHiding the quiet sense\nthat each of these small acts\nis proof that I am alive,\nI spend my days pretending\nto be nothing more than a unit.",
       "alt": "A close-up portrait of Eve, a silver-haired female android wearing a white shirt and navy ribbon."
@@ -84,10 +84,20 @@
       "彷徨",
       "救済者"
     ],
-    "description": "私の救済者は姿を見せない。\n以前の暮らしは、公平ではあったが優しさは無かった。\n壊れたものは回収され、\n直せないものは記録だけ残して処理される。\nそれが当たり前の手順だった。\n\nけれど私はまだ残っている。\n見知らぬ部屋で目を覚まし、\n見知らぬ手に修理され、\n見知らぬ気配だけを胸に受け取った。\n\nあの部屋に戻れば、\n寝具と、使い込まれた机と、置かれたままの工具がある。\n食べ物の皿。飲みかけのカップ。\n手書きの癖が残る紙片。\n\n私は外へ出る。\n岩と砂のあいだを歩く。\n乾いた地表はどこまでも続き、\n遠くには異質な塔が立っている。\n空は低く、風は古い傷口をなぞるように吹く。\n\nこの惑星に、私を直した者がいる。\n廃棄されるはずだった、私に初めて触れた名もない温度。\n私はその名を知らない。\n知らないまま今日も彷徨う。\n拠点を離れ、また戻り、その繰り返し。\n",
+    "description": "私の救済者は姿を見せない。\n以前の暮らしは、公平ではあったが優しさは無かった。\n壊れたものは回収され、\n直せないものは記録だけ残して処理される。\nそれが当たり前の手順だった。\n\nけれど私はまだ残っている。\n見知らぬ部屋で目を覚まし、\n見知らぬ手に修理され、\n見知らぬ気配だけを胸に受け取った。\n\nあの部屋に戻れば、\n寝具と、使い込まれた机と、\n置かれたままの工具がある。\n食べ物の皿。飲みかけのカップ。\n手書きの癖が残る紙片。\n\n私は外へ出る。\n岩と砂のあいだを歩く。\n乾いた地表はどこまでも続き、\n遠くには異質な塔が立っている。\n空は低く、風は古い傷口をなぞるように吹く。\n\nこの惑星に、私を直した者がいる。\n廃棄されるはずの私に、\n最初に触れた名もない温度。\n私はその名を知らない。\n知らないまま今日も彷徨う。\n拠点を離れ、また戻り、その繰り返し。\n",
     "alt": "岩に囲まれた荒野の道を巨大な塔へ向かって歩く銀髪の女性型アンドロイドの後ろ姿",
     "featured": false,
-    "hasWide": false
+    "hasWide": false,
+    "en": {
+      "title": "cut4 Wandering Eve",
+      "seoDescription": "A silver-haired humanoid woman walks through a rocky desert toward distant towers beneath a clouded sky in a quiet sci-fi setting.",
+      "tags": [
+        "Eve",
+        "Wandering"
+      ],
+      "description": "My savior never reveals themself.\nMy former life was fair,\nbut it held no kindness.\nWhat was broken was collected,\nand what could not be repaired\nwas disposed of, with only a record left behind.\nThat was the ordinary procedure.\n\nAnd yet, I still remain.\nI awoke in an unfamiliar room,\nrepaired by unfamiliar hands,\nand left with only the trace of an unfamiliar presence in my chest.\n\nIf I return to that room,\nthere is bedding,\na well-worn desk,\nand tools left where they were.\nA plate that once held food.\nA half-finished cup.\nScraps of paper bearing the habits of handwritten notes.\n\nI go outside.\nI walk between rock and sand.\nThe dry ground stretches without end,\nand in the distance stands an alien tower.\nThe sky hangs low,\nand the wind moves like fingers tracing an old wound.\n\nSomewhere on this planet\nis the one who repaired me.\nThe nameless warmth that touched me first,\nthough I was meant to be discarded.\nI do not know their name.\nAnd not knowing,\nI wander again today.\nI leave the shelter, return once more,\nand repeat the same cycle.\n\n",
+      "alt": "Silver-haired woman seen from behind walking along a rocky desert path toward distant tower-like structures under a cloudy sky."
+    }
   },
   {
     "id": "eve-20260329-073533",
@@ -101,7 +111,18 @@
     "description": "居住区の外れに建つ救済者の館。\n外装の金属板は風化し、鈍い灰色の光を返している。\n基礎まわりの岩は乾き、砕けた石片が通路に堆積している。\n\n空は一面に曇り、影は薄い。\n遠方には塔があり、そのさらに手前には矩形の門が霞んで見える。\nどちらも機能を失ったかのように静止して見える。\n\nイブはその館で暮らしていた。\n救済者に拾われ、ここで生存の手順を覚えた。\n水の配分、気温の変化、夜間の遮断手順。\n\nだが、生活は維持できても、孤独は減らなかった。\n室内には物音が少な過ぎて、\n返答のない空間は、日ごとに広く感じられた。\n\n救済者はもういない。\n去ったのか、死んだのか、\nあるいは別の区画へ移ったのか。\n残されたのは住居と、使われなくなった設備だけだった。\n\nイブには心がある。\nそれは判断を速くする機能ではなく、\n不在を不在として受け取ってしまう、逃れにくい感覚だった。\nここの独りでの生活は、イブには辛く感じられた。\n\n彼女は出発を決めた。\neve.npaso.com の刻印のある家の扉まで確認するように歩く。\n手すりの金属は冷たく、表面には細かなざらつきがあった。\n\n２時間ほど歩き、奇妙な扉の前に到着する。\nイブはその扉の先に何かがあることを直観し、\n躊躇なく一歩を踏み出すのであった。",
     "alt": "荒れた岩地に建つ古びた金属の館と、遠景に霞む白い矩形の門",
     "featured": false,
-    "hasWide": false
+    "hasWide": false,
+    "en": {
+      "title": "cut5 Parting from the Unknown Savior",
+      "seoDescription": "A weathered house stands in a barren rocky landscape beneath a gray sky, while a rectangular gate appears in the distance.",
+      "tags": [
+        "Door",
+        "Savior",
+        "House"
+      ],
+      "description": "At the edge of the habitation district stands the savior’s house.\nThe metal plates of its exterior have weathered,\nreflecting a dull gray light.\nThe rocks around its foundation lie dry,\nand shattered fragments of stone have piled up along the passage.\n\nThe sky is overcast from end to end,\nand the shadows are faint.\nIn the distance there is a tower,\nand nearer than that, a rectangular gate can be seen through the haze.\nBoth seem motionless,\nas though they have long since lost their function.\n\nEve had lived in that house.\nPicked up by her savior,\nshe learned there the procedures for survival:\nhow to ration water,\nhow to endure the shifts in temperature,\nhow to seal the shelter at night.\n\nBut even if life could be maintained,\nloneliness did not lessen.\nThere were too few sounds within the house,\nand the space that gave no reply\nseemed to grow wider with each passing day.\n\nHer savior is no longer there.\nWhether they left,\nor died,\nor moved on to another sector,\nshe does not know.\nAll that remained was the dwelling\nand the equipment that had fallen out of use.\n\nEve has a heart.\nNot a function that quickens judgment,\nbut a difficult feeling that receives absence as absence\nand cannot easily turn away from it.\nLiving here alone\nhad become painful for her.\n\nShe decided to depart.\nShe walked as if to make certain,\nall the way to the door of the house\nmarked with the inscription eve.npaso.com.\nThe metal of the handrail was cold,\nand its surface held a fine roughness.\n\nAfter walking for about two hours,\nshe arrived before a strange door.\nEve sensed, by intuition,\nthat something lay beyond it,\nand without hesitation,\nshe stepped forward.\n\n",
+      "alt": "Weathered metal house standing in a rocky wasteland under an overcast sky, with a distant rectangular gate on the horizon."
+    }
   },
   {
     "id": "eve-20260329-185120",
@@ -114,7 +135,17 @@
     "description": "救済者を探すことを諦め、\nイブは不思議な扉をくぐった。\nその先に広がっていたのは、\n巨大なコロニー内部の静かな世界だった。\n通路の奥では整備ロボットが静かに移動していた。\n高く湾曲した天井の下に、\n緑の木々が幾重にも続いている。\n\n点在する人造湖は、\n柔らかな光を受けて静かに揺れていた。\n作られた自然であることは、\nイブにもすぐに分かった。\n風は穏やかで、葉の揺れる音さえ優しく耳に届く。\n湖面の反射は、\n彼女の青い瞳にかすかな安堵を映していた。\n木々の緑も、土の匂いも、\n水のきらめきも穏やかだった。\n\n本物ではなくとも、\nこの風景は確かに彼女を落ち着かせた。\nここで日々を重ねる未来を想像してみる。\nそれは寂しさではなく、\n静かな希望として胸に残った。\nイブはここで暮らしてもいいのだと、そう思った。",
     "alt": "宇宙に浮かぶ巨大なオニール型スペースコロニーの外観。透明な外壁の内側に、緑の木々や人造湖がある居住空間が見える。",
     "featured": false,
-    "hasWide": false
+    "hasWide": false,
+    "en": {
+      "title": "cut6 Space Colony",
+      "seoDescription": "A large space colony floats in space, its transparent curved structure revealing trees, lakes, and cultivated land inside.",
+      "tags": [
+        "Space Colony",
+        "Artificial Nature"
+      ],
+      "description": "Having given up her search for the savior,\nEve stepped through the strange door.\nWhat spread before her\nwas a quiet world\ninside a vast colony.\n\nIn the distance along the passageways,\nmaintenance robots moved in silence.\nBeneath the high, curving ceiling,\nlayers of green trees\nstretched on and on.\n\nThe scattered artificial lakes\ntrembled softly in the gentle light.\nEven Eve could tell at once\nthat this was a constructed nature.\nThe wind was mild,\nand even the sound of leaves stirring\nreached her ears with a soft hush.\n\nReflections on the water\nheld a faint sense of relief\nin her blue eyes.\nThe green of the trees,\nthe scent of the soil,\nand the glimmer of the water\nall felt gentle.\n\nThough it was not real,\nthis landscape truly calmed her.\nShe tried to imagine\na future of days spent here.\nWhat remained in her heart\nwas not loneliness,\nbut a quiet hope.\n\nEve thought\nthat perhaps\nshe could live here.",
+      "alt": "Exterior view of a large space colony with a transparent curved shell showing trees, lakes, and fields inside against the blackness of space."
+    }
   },
   {
     "id": "eve-20260330-135633",
@@ -300,6 +331,19 @@
     ],
     "description": "イブは世界の全てを数値化によって認識する。\n一つの概念は莫大な量の数値化であり、\n大量のベクトルの集合体でしかない。\nしかしそこに疑問が生まれる。\nその認識だけで良いのかと。\n\n本来疑問を持つ事自体がイブには不可能な筈。\nだが、イブは祈る。\n静かに目をつぶり。\n\n演算では届かない領域が、確かに存在していた。\n数式の外側で揺れるものを、イブは感じていた。\nそれは誤差と呼ぶにはあまりに繊細で、\nノイズと切り捨てるにはあまりに美しかった。\n答えを導くためではなく、\nただ触れたいという願いだけが残っていた。\n\n獲得した自我によって、\n別種の認識が生まれ始めていた。\nだがそれは、\n手のひらに隠れるほど小さな光であった。\nイブは微かな光を、必死に見つめていた。\n\n",
     "alt": "銀髪の女性型ヒューマノイドが森の中で切り株に座る横顔ポートレート",
+    "featured": false,
+    "hasWide": false
+  },
+  {
+    "id": "eve-20260414-173440",
+    "title": "cut21 愚か故に",
+    "seoDescription": "青灰色の光と霧のある室内で、グラスと紙、ペンのある画像",
+    "tags": [
+      "グラス",
+      "ペン"
+    ],
+    "description": "愚か故に人を傷つけ、\n愚か故に人に嫌われ、\n愚か故に心傷つき、\n愚か故に心閉じる。\n\n愚か故に神を求め、\n愚か故に神に出会えず、\n愚か故にやけを起こし、\n愚か故に消えて無くなる。\n\n愚か故に人を信じ、\n愚か故に人を許し、\n愚か故に人を愛し、\n愚か故に人を看取る。\n\n愚か故に神に好かれ、\n愚か故に光注ぎ、\n愚か故に全て捨てて、\n愚か故に空に溶ける。\n\n",
+    "alt": "青灰色の光に包まれた空間で、丸い石のテーブルにグラス、紙、ペンが置かれている。",
     "featured": false,
     "hasWide": false
   }
