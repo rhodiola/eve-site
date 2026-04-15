@@ -276,6 +276,22 @@ function buildGalleryPageHtml(images) {
     return buildDefaultGalleryHtml(images);
 }
 
+function syncMobileSortOptions() {
+    if (!elements.sort) return;
+
+    const fixedOption = elements.sort.querySelector('option[value="left-new"]');
+    const isMobile = isMobileLayout();
+
+    if (fixedOption) {
+        fixedOption.hidden = isMobile;
+    }
+
+    if (isMobile && state.sortOrder === "left-new") {
+        state.sortOrder = "new";
+        state.currentPage = 1;
+        elements.sort.value = "new";
+    }
+}
 function updateGallery() {
     filterImages();
     clampCurrentPage();
@@ -381,6 +397,7 @@ function attachEvents() {
         const layoutKey = getLayoutKey();
         if (state.lastLayoutKey === layoutKey) return;
         state.lastLayoutKey = layoutKey;
+        syncMobileSortOptions();
         state.currentPage = 1;
         updateGallery();
     });
@@ -398,6 +415,8 @@ async function boot() {
 
     if (elements.search) elements.search.value = state.searchText;
     if (elements.sort) elements.sort.value = state.sortOrder;
+
+    syncMobileSortOptions();
 
     state.lastLayoutKey = getLayoutKey();
     attachEvents();
