@@ -10,8 +10,14 @@
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-FSNTTT6BC0"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
+        function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
+
+        const isOwner = localStorage.getItem('ga_owner') === '1';
+
+        gtag('set', 'user_properties', {
+            viewer_type: isOwner ? 'owner' : 'general'
+        });
 
         gtag('config', 'G-FSNTTT6BC0');
     </script>
