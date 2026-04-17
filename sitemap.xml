@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://eve.npaso.com/</loc>
-    <lastmod>2026-04-09</lastmod>
+    <lastmod>2026-04-16</lastmod>
   </url>
   <url>
     <loc>https://eve.npaso.com/en/</loc>
@@ -87,6 +87,14 @@
   <url>
     <loc>https://eve.npaso.com/cuts/eve-20260409-142537/</loc>
     <lastmod>2026-04-09</lastmod>
+  </url>
+  <url>
+    <loc>https://eve.npaso.com/cuts/eve-20260416-165556-01/</loc>
+    <lastmod>2026-04-16</lastmod>
+  </url>
+  <url>
+    <loc>https://eve.npaso.com/cuts/eve-20260416-165557/</loc>
+    <lastmod>2026-04-16</lastmod>
   </url>
   <url>
     <loc>https://eve.npaso.com/en/cuts/eve-20260323-152334/</loc>
