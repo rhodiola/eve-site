@@ -163,14 +163,14 @@
     "hasWide": false,
     "en": {
       "title": "cut7 Relaxing in the colony",
+      "seoDescription": "A poetic scene of Eve, a silver-haired android, resting peacefully in an artificial nature colony.",
       "tags": [
         "Space Colony",
         "Eve",
         "Artificial Nature"
       ],
       "description": "Eve came here as though fleeing from loneliness.\nWhat existed here were only maintenance robots,\nthe grasses and trees of an artificial nature,\na reservoir lake,\nand carefully regulated light.\n\nAnd Eve felt perfectly happy with only these.\nFor a pure soul, newly awakened,\nthey were enough.\n\nThe footsteps of the maintenance robots were distant,\nand rather, they seemed only to trace\nthe quietness of this place.\nThe plants and trees, though lives made by design,\nstill held a true sense of peace.\n\nIn several places throughout this colony\nthere were engravings bearing the name eve.npaso,\nbut Eve paid them little mind.\nIn the closet here were clothes in Eve’s size,\nand somehow, from the very beginning,\nthey felt familiar against her body.\n\nToday, she chose something comfortable from among them,\nplaced a reclining chair where the view was beautiful,\nand passed the time in ease.\n\nNow and then, thoughts of her fellow androids\nwould drift across her mind,\nyet she would soon return\nto a state as though nothing had happened,\nas if it were all already over.\n\n",
-      "alt": "Eve with silver hair reclining in a chair inside an artificial nature colony, gazing into the distance in soft light",
-      "seoDescription": "A poetic scene of Eve, a silver-haired android, resting peacefully in an artificial nature colony."
+      "alt": "Eve with silver hair reclining in a chair inside an artificial nature colony, gazing into the distance in soft light"
     }
   },
   {
@@ -187,13 +187,13 @@
     "hasWide": false,
     "en": {
       "title": "cut8 Housemates",
-      "description": "Eve walks through the colony, looking around.\nThe maintenance robots,\nwho have become her housemates,\ncontinue their work without paying any attention\nto her presence.\n\nMaintenance panels along the walls\nopen their mouths in layers,\nand within them, tiny lights flicker on and off.\nOne unit kneels down,\nchecking the exposed wiring one strand at a time.\n\nEve suddenly thinks to herself.\nWhen she first came here,\nthey had hardly been working at all.\nYet since then,\nit feels as though their tasks have gradually increased.\n\nThen she quickly decides\nthat it must be nothing more than coincidence,\nand stops thinking about it.\n\nAnother unit stands by the wall,\nadjusting a terminal with the tip of a tool\nin a steady, unemotional rhythm.\nThere is no hesitation in its movements,\nnor do they exchange words with one another.\n\nBeyond the glass,\nthe distant view is faintly veiled in haze,\nand the outer structures appear to sink into white.\nThe area where many people must once have come and gone\nis now nothing more than a passageway\nfor the maintenance robots.\n\nThey do not raise their heads.\nThey do not ask Eve for orders.\nThe corridor ahead curves gently,\ncontinuing as though dissolving\ninto the white light.\n\nAnd there, beyond it,\nEve sees a door\nshe recognizes.",
+      "seoDescription": "A scene of Eve exploring a colony where maintenance robots continue their work among glass structures.",
       "tags": [
         "Space Colony",
         "Maintenance Robot"
       ],
-      "alt": "Eve walking through a colony while maintenance robots work along the corridor",
-      "seoDescription": "A scene of Eve exploring a colony where maintenance robots continue their work among glass structures."
+      "description": "Eve walks through the colony, looking around.\nThe maintenance robots,\nwho have become her housemates,\ncontinue their work without paying any attention\nto her presence.\n\nMaintenance panels along the walls\nopen their mouths in layers,\nand within them, tiny lights flicker on and off.\nOne unit kneels down,\nchecking the exposed wiring one strand at a time.\n\nEve suddenly thinks to herself.\nWhen she first came here,\nthey had hardly been working at all.\nYet since then,\nit feels as though their tasks have gradually increased.\n\nThen she quickly decides\nthat it must be nothing more than coincidence,\nand stops thinking about it.\n\nAnother unit stands by the wall,\nadjusting a terminal with the tip of a tool\nin a steady, unemotional rhythm.\nThere is no hesitation in its movements,\nnor do they exchange words with one another.\n\nBeyond the glass,\nthe distant view is faintly veiled in haze,\nand the outer structures appear to sink into white.\nThe area where many people must once have come and gone\nis now nothing more than a passageway\nfor the maintenance robots.\n\nThey do not raise their heads.\nThey do not ask Eve for orders.\nThe corridor ahead curves gently,\ncontinuing as though dissolving\ninto the white light.\n\nAnd there, beyond it,\nEve sees a door\nshe recognizes.",
+      "alt": "Eve walking through a colony while maintenance robots work along the corridor"
     }
   },
   {
@@ -207,7 +207,17 @@
     "description": "整備ロボットたちは変わらず静かに動いていた。\nイブはそれを場所を維持するための作業だと思っていた。\nだが通路の先に並ぶ無数の扉を見たとき、\n彼らが守っていたのは居住区ではなく、\nこの扉の列そのものではないかと思ったのだ。\n\nイブはこの区画で開いた扉を目にしていない。\nロボットたちがこれだけ作業しているにも関わらず、\nイブは目にしたことが無い。\nそしてある扉を境に、光り方が違う事に気づく。\n\nイブはその扉に近づく。\nロボットたちは一瞬強く反応したが、\n一時の停止の後、またいつも通りに作業を開始する。\n何かあるとイブは思った。\nそして中を見たいという抑えがたい衝動を感じる。\n\nイブはここで平穏に暮らすつもりでいた。\nだが今は、何かに期待する事を押さえられない。\n胸の奥で眠っていたはずの灯が、\n誰に呼ばれたでもなく揺れ始めていた。\n\nイブは扉の前に立つ。\n平穏を失うかも知れない事に不安を感じつつも、\n尚、手を伸ばす。\nそれは、自力では抗えない何かであった。",
     "alt": "霧がかった金属製の通路に、等間隔で扉が並ぶ近未来的な屋内空間",
     "featured": false,
-    "hasWide": false
+    "hasWide": false,
+    "en": {
+      "title": "cut9 Countless Doors",
+      "description": "The maintenance robots moved on, unchanged,\nalmost breathless in their calm.\nEve had believed their labor\nwas only to preserve this place.\n\nYet beyond the corridor, where countless doors\nstood in a line, she began to wonder—\nwas it not the living quarters they protected,\nbut the doors themselves?\n\nIn this sector, Eve had never seen a door open.\nThough the robots worked without pause,\nnot once had she witnessed it.\n\nThen she noticed one door among them—\nits light was different.\n\nEve drew near.\n\nFor a single instant, the robots stirred with sudden force.\nThen, after a brief stillness,\nthey returned to their familiar motions.\n\nSomething is here, Eve thought.\n\nAnd within her rose an urge she could not quiet—\nthe need to see what waited inside.\n\nEve had meant to live here in peace.\n\nBut now, she could no longer hold back\nthe expectation gathering within her.\n\nA light she had thought asleep\ndeep in her chest began to tremble,\ncalled by no one.\n\nEve stood before the door.\n\nAfraid that peace might be lost,\nand still, she reached out her hand.\n\nIt was something\nher own will could not withstand.\n\n",
+      "tags": [
+        "Space Colony",
+        "Door"
+      ],
+      "alt": "A dim  corridor lined with countless metal doors .",
+      "seoDescription": "Eve notices a particularly unusual light among the countless doors, and is overcome with an urge to see what lies beyond it."
+    }
   },
   {
     "id": "eve-20260331-172321",
@@ -221,7 +231,18 @@
     "description": "イブは扉を開け、中を覗き込む。\nその瞬間、イブは小さく息を飲む。\n外側から見えていた扉の大きさと、\n内側に広がるものとが、\nまるで釣り合っていないのだ。\n\n扉の内側は、\n通路の続きを隠していたのではなかった。\nそこには始めから、\nここではない場所が置かれていた。\n\n暗さとも光ともつかない広がりの中に、\n不思議な模様が浮かんでいる。\n記号のようで、回路のようで、\nそれでいて何にも属していない形だった。\nこの扉は部屋へ通じているのではない。\n境目そのものなのだ。\n\nその輪郭の定まらない空間は、\n見るたびにわずかに姿を変えているようだった。\n一歩先にあるはずの足場さえ、\n存在しているのか定かでは無かった。\nそれでもイブには、恐怖よりもなお強く残るものがあった。\n\n拒まれているのではない。\nむしろ静かに、\nただそこに在りながら、\nこちらの答えを待っている。\nイブは心を決めて中へと踏み出す。\n\nこの一歩で自分は機能停止になるかも知れない。\nだがイブはその時、\n獲得した自我の底から、\n自分を支える確かなものを感じていたのだ。",
     "alt": "模様の刻まれた大きな扉が開き、光の差す隙間から銀髪の女性が覗いている場面",
     "featured": false,
-    "hasWide": false
+    "hasWide": false,
+    "en": {
+      "title": "cut10 The Glowing Door",
+      "description": "Eve opens the door\nand peers inside.\n\nIn that instant,\nshe catches her breath.\nThe size of the door seen from outside\nand what spreads beyond it within\nare utterly out of proportion.\n\nWhat lay beyond the door\nhad not been a continuation of the corridor.\nFrom the beginning,\nit had held a place\nthat was not here.\n\nWithin an expanse that seemed neither darkness nor light,\nstrange patterns floated.\nThey were like symbols, like circuits,\nand yet forms that belonged to neither.\nThis door does not lead to a room.\nIt is a boundary in itself.\n\nThat space, with no fixed outline,\nseemed to shift slightly each time she looked.\nEven the footing that should have lain\none step ahead\ncould not be known for certain to exist.\nAnd still, there remained in Eve\nsomething stronger than fear.\n\nShe was not being rejected.\nRather, it waited there—\nquietly, simply existing,\nas though awaiting her answer.\n\nEve makes her choice\nand steps forward into it.\n\nWith this one step,\nshe may cease to function.\nYet in that moment,\nfrom the deepest part of the self she had gained,\nEve felt something certain\nsupporting her from within.\n\n",
+      "alt": "Eve looking into a glowing doorway that opens onto a strange, luminous space.",
+      "seoDescription": "Eve opens a glowing door and finds a boundary leading to an unknown place beyond the corridor.",
+      "tags": [
+        "Space Colony",
+        "Door",
+        "Eve"
+      ]
+    }
   },
   {
     "id": "eve-20260401-073537",
