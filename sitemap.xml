@@ -6,7 +6,7 @@
   </url>
   <url>
     <loc>https://eve.npaso.com/en/</loc>
-    <lastmod>2026-03-29</lastmod>
+    <lastmod>2026-03-30</lastmod>
   </url>
   <url>
     <loc>https://eve.npaso.com/cuts/eve-20260323-152334/</loc>
@@ -123,5 +123,13 @@
   <url>
     <loc>https://eve.npaso.com/en/cuts/eve-20260329-185120/</loc>
     <lastmod>2026-03-29</lastmod>
+  </url>
+  <url>
+    <loc>https://eve.npaso.com/en/cuts/eve-20260330-135633/</loc>
+    <lastmod>2026-03-30</lastmod>
+  </url>
+  <url>
+    <loc>https://eve.npaso.com/en/cuts/eve-20260330-194411/</loc>
+    <lastmod>2026-03-30</lastmod>
   </url>
 </urlset>
