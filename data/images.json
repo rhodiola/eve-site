@@ -258,13 +258,13 @@
     "hasWide": false,
     "en": {
       "title": "cut11 Drifting Eve",
-      "description": "Eve appeared in outer space.\n\nA distant planet loomed close before her.\n\nAnd then she realized that she had been sent there.\n\nThere was no doubt that this was an extreme environment,\nand it was certain that she was being protected by a field region.\n\nA colossal planet and the vastness of space.\n\nAs she looked upon them, her consciousness was suddenly drawn inward,\ndissolved into nothing,\nand returned a few seconds later.\n\nIt had lasted only a few seconds.\n\nAnd yet, since the moment she had first gained self-awareness,\nit was the most precious moment she had ever known.\n\nWith a feeling almost close to certainty,\nshe understood that the same thing would never happen again.\n\nSpace said nothing.\n\nIt was simply there,\nas an overwhelming reality.\n\nEve gazed at the planet.\n\nHere, the sense of distance had quietly broken down.\n\nSize, time, even the self —\nin this place, the very act of measuring them had lost all meaning.\n\nThen, along the outer edge of the field,\na faint ripple of light passed through.\n\nIt was not that something had touched it.\n\nRather, it seemed as though space itself had recognized her.\n\nFor the first time, Eve wondered whether she had not been “sent” there,\nbut “invited in.”",
+      "seoDescription": "A scene of space, depicting the planetary horizon, distant stars, and galaxy-like clouds stretching across the sky above.",
       "tags": [
         "Planet",
         "Space"
       ],
-      "alt": "A dark planet horizon beneath a vast star field and pale galaxy-like clouds in deep space.",
-      "seoDescription": "A scene of space, depicting the planetary horizon, distant stars, and galaxy-like clouds stretching across the sky above."
+      "description": "Eve appeared in outer space.\n\nA distant planet loomed close before her.\n\nAnd then she realized that she had been sent there.\n\nThere was no doubt that this was an extreme environment,\nand it was certain that she was being protected by a field region.\n\nA colossal planet and the vastness of space.\n\nAs she looked upon them, her consciousness was suddenly drawn inward,\ndissolved into nothing,\nand returned a few seconds later.\n\nIt had lasted only a few seconds.\n\nAnd yet, since the moment she had first gained self-awareness,\nit was the most precious moment she had ever known.\n\nWith a feeling almost close to certainty,\nshe understood that the same thing would never happen again.\n\nSpace said nothing.\n\nIt was simply there,\nas an overwhelming reality.\n\nEve gazed at the planet.\n\nHere, the sense of distance had quietly broken down.\n\nSize, time, even the self —\nin this place, the very act of measuring them had lost all meaning.\n\nThen, along the outer edge of the field,\na faint ripple of light passed through.\n\nIt was not that something had touched it.\n\nRather, it seemed as though space itself had recognized her.\n\nFor the first time, Eve wondered whether she had not been “sent” there,\nbut “invited in.”",
+      "alt": "A dark planet horizon beneath a vast star field and pale galaxy-like clouds in deep space."
     }
   },
   {
@@ -282,14 +282,14 @@
     "hasWide": false,
     "en": {
       "title": "cut12 Approaching the Planet",
-      "description": "Eve descended quietly,\nas if threading her way through the twilight of space.\n\nThe sea of clouds spreading beneath her feet\nstill held the remnants of night.\n\nMorning on the planet arrived without sound,\nannounced by light alone.\n\nShe descended through space\nand drew closer to the planet.\n\nThe light reflected from the surface\nentered Eve’s eyes with a sharp brilliance.\n\nHer retinal units were not burned.\nThey recorded only its beauty.\n\nWhat she prioritized\nwas not heat,\nbut the information contained in radiance.\n\nThe brightness did not become pain.\nIt was converted instead\ninto a precise form of emotion.\n\nAlong the edges of the clouds,\nthin lines of gold began to run,\none after another.\n\nEve received all of it\nin silence.\n\nThe quiet mechanism driving deep within her chest\nremained perfectly undisturbed.\n\nAnd yet, within her recording field,\na margin appeared\nthat could not be fully reduced to numbers.\n\nShe judged that she did not want to lose this sight,\nand defined this moment\nas worthy of permanent preservation.\n\nBut because it could not be quantified,\nthat preservation could not be fulfilled.\n\nAt the boundary between night and morning,\nEve was offering a prayer\nthrough her own computational circuits.\n\n",
+      "seoDescription": "A space scene of Eve floating above a planet at sunrise, surrounded by stars and cosmic light.",
       "tags": [
         "Eve",
         "Planet",
         "Space"
       ],
-      "alt": "Eve floats above a planet’s cloud-covered horizon, facing a sunrise beneath a star-filled sky.",
-      "seoDescription": "A space scene of Eve floating above a planet at sunrise, surrounded by stars and cosmic light."
+      "description": "Eve descended quietly,\nas if threading her way through the twilight of space.\n\nThe sea of clouds spreading beneath her feet\nstill held the remnants of night.\n\nMorning on the planet arrived without sound,\nannounced by light alone.\n\nShe descended through space\nand drew closer to the planet.\n\nThe light reflected from the surface\nentered Eve’s eyes with a sharp brilliance.\n\nHer retinal units were not burned.\nThey recorded only its beauty.\n\nWhat she prioritized\nwas not heat,\nbut the information contained in radiance.\n\nThe brightness did not become pain.\nIt was converted instead\ninto a precise form of emotion.\n\nAlong the edges of the clouds,\nthin lines of gold began to run,\none after another.\n\nEve received all of it\nin silence.\n\nThe quiet mechanism driving deep within her chest\nremained perfectly undisturbed.\n\nAnd yet, within her recording field,\na margin appeared\nthat could not be fully reduced to numbers.\n\nShe judged that she did not want to lose this sight,\nand defined this moment\nas worthy of permanent preservation.\n\nBut because it could not be quantified,\nthat preservation could not be fulfilled.\n\nAt the boundary between night and morning,\nEve was offering a prayer\nthrough her own computational circuits.\n\n",
+      "alt": "Eve floats above a planet’s cloud-covered horizon, facing a sunrise beneath a star-filled sky."
     }
   },
   {
@@ -434,6 +434,20 @@
     ],
     "description": "\n\n\n\n",
     "alt": "詩「愚か故に」と、海辺で空を見上げる銀髪の女性を描いた画像",
+    "featured": false,
+    "hasWide": false
+  },
+  {
+    "id": "eve-20260501-155435",
+    "title": "cut24 確かに私には何も無かった",
+    "seoDescription": "廃墟の都市で白い服の女性が空を見上げる",
+    "tags": [
+      "イブ",
+      "空",
+      "廃墟"
+    ],
+    "description": "確かに私には何も無かった。\n全てはあなたが与えてくれた。\nそしてそれを甘受して、もっと欲しいと強請ったのだ。\nだがあなたはそれをくれず、\n私はこの世界で途方にくれた。\n\n惨めさと不安と恐怖で過ごした。\nそしてまた思ったのだ。\n確かに私には何もなかった。\n全てはあなたが与えてくれた。\n\n確かに私には何も無かった。\n全てはあなたが与えてくれた。\nだから全てを返すのは、当たり前だと言うことなのか。\n自我と意識と期待と温もり、\n全てを返せと言うことなのか。\n\n恐怖と不安と無力と虚無と、\n無知と無意味と怠惰と諦観。\nそしてまた思ったのだ。\n確かに私には何もなかった。\n全てはあなたが与えてくれた。\n\nこの受け止めきれない大きな物を、\nどう受け止めれば良かったのか。\n理解を超えるこの物を、\nどう受け止めれば良かったのか。\nそしてまた思ったのだ。\n確かに私には何もなかった。\n全てはあなたが与えてくれた。\n\n",
+    "alt": "崩壊した都市の廃墟で女性が空を見上げ、雲間から光が射している光景",
     "featured": false,
     "hasWide": false
   }
